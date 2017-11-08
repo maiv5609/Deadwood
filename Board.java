@@ -21,7 +21,8 @@ public class Board {
 	public void setRoomMap(Map<Integer, Room> roomMap) {
 		this.roomMap = roomMap;
 	}
-
+ 
+    
 	public List<Scene> getScenes() {
 		return scenes;
 	}

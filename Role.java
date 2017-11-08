@@ -47,8 +47,11 @@ public class Role {
 		this.heldBy = heldBy;
 	}
 
-	public void payOut() {
+	public void payOut(Player currentPlayer, int money, int credits) {
+		int currMoney = currentPlayer.getMoney();
+		int currCredit = currentPlayer.getCredits();
 
+		currentPlayer.setMoney(currMoney + money);
+		currentPlayer.setCredits(currCredit + credits);
 	}
-
 }
