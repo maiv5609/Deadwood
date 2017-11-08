@@ -4,11 +4,23 @@ public class Player {
 	int playerNum;
 	int money;
 	int credits;
-	int slot;
-	int roomNum;
 	int rehearsalNum;
-	Boolean turn;
 	int total;
+	Room currentRoom;
+	/* Constructors
+	 *
+	 */
+
+	//Default Constructor
+	player(int rank, int playerNumber, int money, int credits, Room currentRoom){
+		this.rank = rank;
+		this.playerNum = playerNumber;
+		this.money = money;
+		this.credits = credits;
+		this.rehearsalNum = 0;
+		this.total = 0;
+		this.currentRoom = currentRoom;
+	}
 
 	public int getRank() {
 		return rank;
@@ -105,4 +117,6 @@ public class Player {
 	public void handleAction(String action, String parameters) {
 
 	}
+
+
 }
