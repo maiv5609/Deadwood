@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +126,7 @@ public class Game {
         String playersNumStr = utility.inputReader();
         if(playersNumStr != null && !playersNumStr.isEmpty()){
             playersNum = Integer.parseInt(playersNumStr);
-            while(playersNum < 2 && playersNum > 8){
+            while(playersNum < 2 || playersNum > 8){
                 System.out.println("Please, set number of players between 2 and 8:");
             }
         } else{
@@ -133,14 +136,15 @@ public class Game {
         if(playersNum >=2 && playersNum <=3){
             maxDays = 3;
         }
+        
         switch (playersNum){
-            case 5: 
+            case 5:
                 credits = 2;
                 break;
             case 6:
                 credits = 4;
                 break;
-            case 7:		
+            case 7:
             case 8:
                 rank = 2;
         }
@@ -149,11 +153,27 @@ public class Game {
         //start game with initial params
         Game game = new Game();
         game.startGame(1, 1, 4, playersNum, maxDays, rank, credits);
-        
+        game.setTurn(1);
         //print players
         System.out.println("The game has just started!!");
         for(int i = 0; i < playersNum; i++){
             System.out.println("Player"+ game.getPlayers().get(i).getPlayerNUm());
+        }
+        String input = null;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            input = br.readLine();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String action = null;
+        while(input != null){
+            action = utility.inputReader();
+            System.out.println(action);
+            String parameters = null;
+            game.handleUserInput(action, parameters);
+            
         }
         
     }
