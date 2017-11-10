@@ -54,21 +54,6 @@ public class Player {
 	this.credits = credits;
     }
 
-    public int getSlot() {
-	    return slot;
-    }
-
-    public void setSlot(int slot) {
-	this.slot = slot;
-    }
-
-    public int getRoomNum() {
-	return roomNum;
-    }
-
-    public void setRoomNum(int roomNum) {
-	this.roomNum = roomNum;
-    }
 
     public int getRehearsalNum() {
 	    return rehearsalNum;
@@ -78,13 +63,6 @@ public class Player {
 	this.rehearsalNum = rehearsalNum;
     }
 
-    public Boolean getTurn() {
-	return turn;
-    }
-
-    public void setTurn(Boolean turn) {
-	this.turn = turn;
-    }
 
     public int getTotal() {
 		return total;
@@ -99,48 +77,48 @@ public class Player {
 	currency = currency.toUpperCase();
 
 	switch(rank){
-	case rank == 2:
-	    if(currency.equals("CREDITS"){
-		    this.credit = this.credit - 5;
-		    break;
-		}else{
-		    this.money = this.money - 5;
-		    break;
-		}
-	    case rank == 3:
-		if(currency.equals("CREDITS"){
-			this.credit = this.credit - 10;
-			break;
-		    }else{
-			this.money = this.money - 10;
-			break;
-		    }
-		case rank == 4:
-		    if(currency.equals("CREDITS"){
-			    this.credit = this.credit - 15;
+		case 2:
+		    if(currency.equals(Constants.CREDITS)){
+			    this.credits = this.credits - 5;
+			    break;
+			}else{
+			    this.money = this.money - 5;
+			    break;
+			}
+		case 3:
+			if(currency.equals(Constants.CREDITS)){
+				this.credits = this.credits - 10;
+				break;
+			 }else{
+				this.money = this.money - 10;
+				break;
+			 }
+		case 4:
+		    if(currency.equals(Constants.CREDITS)){
+			    this.credits = this.credits - 15;
 			    break;
 			}else{
 			    this.money = this.money - 18;
 			    break;
 			}
-		    case rank == 5:
-			if(currency.equals("CREDITS"){
-				this.credit = this.credit - 20;
+		case 5:
+			if(currency.equals(Constants.CREDITS)){
+				this.credits = this.credits - 20;
 				break;
-			    }else{
+			 }else{
 				this.money = this.money - 28;
 				break;
-			    }
-			case rank == 6:
-			    if(currency.equals("CREDITS"){
-				    this.credit = this.credit - 25;
+			 }
+		case 6:
+			if(currency.equals(Constants.CREDITS)){
+				    this.credits = this.credits - 25;
 				    break;
-				}else{
+			}else{
 				    this.money = this.money - 40;
 				    break;
-				}
-				}
-			    }
+			}
+	}
+}
 
 			private void move(String direction) {
 

@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
     int turn;
@@ -42,7 +44,7 @@ public class Game {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
-    }entry.getValue().
+    }
 
     public int getRoomsRemaining() {
         return roomsRemaining;
@@ -60,16 +62,17 @@ public class Game {
         this.totalRooms = totalRooms;
     }
 
-    private void nextDay(Map roomMap) {
+    private void nextDay(Map<Integer, Room> roomMap) {
         if (roomsRemaining == 1){
           Scene nextScene;
           Room currRoom;
-          for (roomMap.Entry<Integer, Room> entry : map.entrySet()){
+          for (Map.Entry<Integer, Room> entry : roomMap.entrySet()){
             //Currently having placeholder for scene until pool of scenes is implemented
+        	//Iterate through map and populate scenes if there is none
             nextScene = new Scene();
             currRoom = entry.getValue();
-            //Iterate through map and populate scenes if there is none
-            map.put(entry.getKey(), currRoom.setScene(Scene));
+            currRoom.setScene(nextScene);
+            
           }
           this.currDay++;
         }
