@@ -12,7 +12,7 @@ public class Player {
 	 */
 
 	//Default Constructor
-	player(int rank, int playerNumber, int money, int credits, Room currentRoom){
+	public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
 		this.rank = rank;
 		this.playerNum = playerNumber;
 		this.money = money;
@@ -95,7 +95,51 @@ public class Player {
 	}
 
 	private void upgradeRank(int rank, String currency) {
-
+	    this.rank = rank;
+	    currency = currency.toUpperCase();
+	    
+	    switch(rank){
+	    case rank == 2:
+		if(currency.equals("CREDITS"){
+			this.credit = this.credit - 5;
+			break;
+		    }else{
+			this.money = this.money - 5;
+			break;
+		    }
+		case rank == 3:
+		    if(currency.equals("CREDITS"){
+			    this.credit = this.credit - 10;
+			    break;
+			}else{
+			    this.money = this.money - 10;
+			    break;
+			}
+		    case rank == 4:
+			if(currency.equals("CREDITS"){
+				this.credit = this.credit - 15;
+				break;
+			    }else{
+				this.money = this.money - 18;
+				break;
+			    }
+			case rank == 5:
+			    if(currency.equals("CREDITS"){
+				    this.credit = this.credit - 20;
+				    break;
+				}else{
+				    this.money = this.money - 28;
+				    break;
+				}
+			    case rank == 6:
+				if(currency.equals("CREDITS"){
+					this.credit = this.credit - 25;
+					break;
+				    }else{
+					this.money = this.money - 40;
+					break;
+				    }
+				    }
 	}
 
 	private void move(String direction) {
