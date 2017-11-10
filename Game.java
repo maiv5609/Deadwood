@@ -61,6 +61,10 @@ public class Game {
     }
     
     private void nextDay() {
+        this.roomsRemaining--;
+        
+        
+        
         
     }
     
@@ -153,28 +157,38 @@ public class Game {
         //start game with initial params
         Game game = new Game();
         game.startGame(1, 1, 4, playersNum, maxDays, rank, credits);
-        game.setTurn(1);
         //print players
         System.out.println("The game has just started!!");
         for(int i = 0; i < playersNum; i++){
             System.out.println("Player"+ game.getPlayers().get(i).getPlayerNUm());
         }
-        String input = null;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            input = br.readLine();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        String action = null;
-        while(input != null){
-            action = utility.inputReader();
-            System.out.println(action);
-            String parameters = null;
-            game.handleUserInput(action, parameters);
-            
-        }
+        
+        
+        //		String input = null;
+        //		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        //		try {
+        //			input = br.readLine();
+        //		} catch (IOException e) {
+        //			// TODO Auto-generated catch block
+        //			e.printStackTrace();
+        //		}
+        //		String action = null;
+        //		String parameters = null;
+        //		while(input != null){
+        //			action = utility.inputReader();
+        //			System.out.println(action);
+        //			if(action == Constants.TAKE_ROLE ||
+        //			   action == Constants.UPGRADE_RANK || 
+        //			   action == Constants.MOVE){
+        //				
+        //			}
+        //				parameters = utility.parseParams(parameters);
+        //				game.handleUserInput(action, parameters);
+        //update view
+        //set turn ++
+        // 
+        
+        
         
     }
     
