@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +70,7 @@ public class Game {
         }
     }
     
-    private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays) {
+    private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays, int credits, int rank) {
         //create a Trailer
         Room currentRoom = new Room();
         currentRoom.setTrailer(true);
@@ -81,16 +78,18 @@ public class Game {
         //add players
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
+        
         for (int i = 0; i < 3; i++){
-            Player player = new Player(0,i,0,0,currentRoom);
+            Player player = new Player(rank,i,0,credits,currentRoom);
             this.players.add(player);
         }
+        
         //set Current day to 1
         this.currDay = currentDay;
         //set Current turn to 0
         this.turn = turn;
         //set Max Day to 0
-        this.maxDay = maxDay;
+        this.maxDay = 4;
         //set totalRooms
         this.totalRooms = 12;
     }
@@ -111,53 +110,51 @@ public class Game {
     }
     
     
-    private static String inputReader(){
-        String input = null;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            input = br.readLine();
-            //br.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return input;
-    }
-    
     public static void main(String[] args) {
         
         int playersNum = 0;
-        int maxDays = 0;
+        int maxDays = 4;
+        int credits = 0;
+        int rank = 0;
         
+        Utility utility = new Utility();
         
-        System.out.println("Please, set number of players:");
-        String playersNumStr = inputReader();
+        System.out.println("Please, set number of players between 2 and 8:");
+        String playersNumStr = utility.inputReader();
         if(playersNumStr != null && !playersNumStr.isEmpty()){
             playersNum = Integer.parseInt(playersNumStr);
+            while(playersNum < 2 && playersNum > 8){
+                System.out.println("Please, set number of players between 2 and 8:");
+            }
         } else{
             System.out.println("Please, set number of players:");
         }
-        //ask user for number of days
-        System.out.println("Please, set number of days:");
-        String maxDaysStr = inputReader();
-        if(maxDaysStr != null && !maxDaysStr.isEmpty()){
-            maxDays = Integer.parseInt(maxDaysStr);
-        } else{
-            System.out.println("Please, set number of days:");
+        //set maxDays and credits
+        if(playersNum >=2 && playersNum <=3){
+            maxDays = 3;
         }
+        switch (playersNum){
+            case 5: 
+                credits = 2;
+                break;
+            case 6:
+                credits = 4;
+                break;
+            case 7:		
+            case 8:
+                rank = 2;
+        }
+        
         
         //start game with initial params
         Game game = new Game();
-        game.startGame(1, 1, 4, playersNum, maxDays);
+        game.startGame(1, 1, 4, playersNum, maxDays, rank, credits);
         
         //print players
         System.out.println("The game has just started!!");
         for(int i = 0; i < playersNum; i++){
-            System.out.println("Player: "+ game.getPlayers().get(i).getPlayerNUm());
+            System.out.println("Player"+ game.getPlayers().get(i).getPlayerNUm());
         }
-        
-        
-        
         
     }
     
