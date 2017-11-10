@@ -21,7 +21,7 @@ public class Player {
 	this.total = 0;
 	this.currentRoom = currentRoom;
     }
-    
+
     public int getRank() {
 	return rank;
     }
@@ -35,7 +35,7 @@ public class Player {
     }
 
     public void setPlayerNUm(int playerNUm) {
-	this.playerNum = playerNUm;
+	this.playerNum = playerNum;
     }
 
     public int getMoney() {
@@ -45,11 +45,11 @@ public class Player {
     public void setMoney(int money) {
 	this.money = money;
     }
-    
+
     public int getCredits() {
 	return credits;
     }
-    
+
     public void setCredits(int credits) {
 	this.credits = credits;
     }
@@ -65,11 +65,11 @@ public class Player {
     public int getRoomNum() {
 	return roomNum;
     }
-    
+
     public void setRoomNum(int roomNum) {
 	this.roomNum = roomNum;
     }
-    
+
     public int getRehearsalNum() {
 	    return rehearsalNum;
     }
@@ -77,7 +77,7 @@ public class Player {
     public void setRehearsalNum(int rehearsalNum) {
 	this.rehearsalNum = rehearsalNum;
     }
-    
+
     public Boolean getTurn() {
 	return turn;
     }
@@ -85,7 +85,7 @@ public class Player {
     public void setTurn(Boolean turn) {
 	this.turn = turn;
     }
-    
+
     public int getTotal() {
 		return total;
     }
@@ -97,7 +97,7 @@ public class Player {
     private void upgradeRank(int rank, String currency) {
 	this.rank = rank;
 	currency = currency.toUpperCase();
-	
+
 	switch(rank){
 	case rank == 2:
 	    if(currency.equals("CREDITS"){
@@ -141,25 +141,25 @@ public class Player {
 				}
 				}
 			    }
-			
+
 			private void move(String direction) {
-			    
+
 			}
-			
+
 			private void takeRole(String roleName) {
-			    
+
 			}
-			
+
 			private void rehearse() {
-			    
+
 			}
-			
+
 			private void work() {
-			    
+
 			}
-			
+
 			public void handleAction(String action, String parameters) {
-			    
+
 			}
 
 
