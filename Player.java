@@ -7,6 +7,7 @@ public class Player {
     private int rehearsalNum;
     private int total;
     private Room currentRoom;
+
     /* Constructors
      *
      */
@@ -30,11 +31,11 @@ public class Player {
         this.rank = rank;
     }
     
-    public int getPlayerNUm() {
+    public int getPlayerNum() {
         return playerNum;
     }
     
-    public void setPlayerNUm(int playerNUm) {
+    public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
     }
     
@@ -129,13 +130,74 @@ public class Player {
     private void takeRole(String roleName) { // work
         
     }
-    
-    private void rehearse() {
-        
+
+    /* rehearse(int budget)
+     * Takes in budget number and increments player's rehearsalNum if doing so would not put them over 100% of success at working
+     * Returns true is rehearsal was successfully done, false otherwise
+     */
+    private boolean rehearse(int budget) {
+	int currentRehearsalNum;
+
+	currentRehearsalNum = this.getRehearsalNum();
+	//Lowest roll is 1 + rehearsalNum
+	currentRehearsalNum++;
+       
+	if (currentRehearsalNum == budget){
+	    //Working roll is already 100% of success
+	    return false;
+	}else if(currentRehearsalNum < budget){
+	    //Successful rehearsal
+	    this.setRehearsalNum(currentRehearsalNum);
+	    return true;
+	}else{
+	    //Error budget is less then rehearsal
+	    return false;
+	}
     }
-    
-    private void work() { //act() act
-        
+
+
+    /* work(Scene currScene)
+     * Takes in room, scene, and role that player is working in 
+     */
+    private void work(Room currentRoom,Scene currentScene, Role currentRole) { //act() act
+	//Will need rehearsal num and if role is oncard or not
+	int diceRoll, currentShots, budget, money, credits = 0;
+	boolean onCard = false;
+
+	budget = currScene.getBudget();
+	onCard = currRole.getOnCard();
+	//Roll dice, need to import Random class
+	diceRoll = Random.nextInt(6);
+	//Increment because nextInt returns from range starting at 0
+	diceRoll++;
+	diceRoll= diceRoll + this.getRehearsalNum();
+	
+	if(diceRoll >= budget){
+	    //Success, update shots
+	    currentShots = currentRoom.getCurrentShots();
+	    currentShots++;
+	    currentRoom.setCurrentShots(currentShots);
+	    if(onCard == true){
+		credits = this.getCredits();
+		credits = credits + 2;
+		this.setCredits(credits);
+	    }else{
+		credits = this.getCredits();
+		credits++;
+		money = this.getMoney();
+		money++;
+
+		this.setCredits(credits);
+		this.setMoney(money);
+	    }
+	}else{
+	    //Failure
+	    if(onCard == false){
+		money = this.getMoney();
+		money++;
+		this.setMoney(money);
+	    }
+	}
     }
     
     
