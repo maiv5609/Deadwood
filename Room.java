@@ -89,7 +89,7 @@ public class Room {
     }
     
     public void removePlayer(int playerNumber) {
-        this.playersInTheRoom.remove(playerNumber);
+        this.playersInTheRoom.remove(this.playersInTheRoom.indexOf(playerNumber));
     }
     
     
