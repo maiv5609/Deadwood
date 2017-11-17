@@ -3,31 +3,21 @@ import java.util.Map;
 
 public class Room {
     
-    private boolean isCastingOffice;
-    private boolean isTrailer;
+    private String name;
     private int maxShots;
     private int currentShots;
     private List<Integer> playersInTheRoom;
     private List<Role> roles;
     private Scene scene;
-    private Map<Integer, Room> connectedNodes;
-    private String roomType; // horizontal or vertical
     
-    public boolean isCastingOffice() {
-        return isCastingOffice;
+    public String getName() {
+        return name;
     }
     
-    public void setCastingOffice(boolean isCastingOffice) {
-        this.isCastingOffice = isCastingOffice;
+    public void setName(String name) {
+        this.name = name;
     }
-    
-    public boolean isTrailer() {
-        return isTrailer;
-    }
-    
-    public void setTrailer(boolean isTrailer) {
-        this.isTrailer = isTrailer;
-    }
+
     
     public int getMaxShots() {
         return maxShots;
