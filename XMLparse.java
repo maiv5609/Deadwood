@@ -71,12 +71,15 @@ public class XMLparse {
 	int length = roomList.getLength();
 	for (int i =0; i < length; i++){
 	    Room curr = new Room();
+	    String name;
 	    Node roomNode = roomList.item(i);
 	    if (roomNode.getNodeType() == Node.ELEMENT_NODE) {
 		Element room = (Element) roomNode;
-		// get and set shots
+		// get and set shots and name
 		curr.setMaxShots(room.getElementsByTagName("takes").item(0).getElementsByTagName("take").item(0).getAttribute("number"));
 		curr.setCurrentShots(curr.getMaxShots());
+		name = room.getAttribute("name");
+		curr.setName(name);
 		// get and set neighboring rooms
 		List<String> connectedRooms = new ArrayList<String>();
 		NodeList neighbors = room.getElementsByTagName("neighbors").item(0).getElementsByTagName("neighbor");
@@ -106,8 +109,11 @@ public class XMLparse {
 		}
 		curr.setRoles(roles);
 	    }
+	    rooms.put(name,curr);
 	}
 	// read and get the casting office
+	Node casting = doc.getElementsByTagName("office").items(0);
+	
 	//read and get the trailer
     } // end function
 
