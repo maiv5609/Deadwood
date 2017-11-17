@@ -1,4 +1,5 @@
-
+import java.util.Random;
+    
 public class Player {
     private int rank;
     private int playerNum;
@@ -126,9 +127,27 @@ public class Player {
     private void move(String direction) {
         
     }
-    
-    private void takeRole(String roleName) { // work
-        
+
+    /* takeRole
+     * Takes in roleName and checked it vs the roles in the room that the player is in
+     * If found and is empty it assigns the role to the player and returns true
+     * If fails, return false
+     */
+    private boolean takeRole(String roleName) { // work
+	Room currentRoom;
+	List<role>roomRoles;
+
+	roomRoles = this.getRoles();
+	currentRoom = this.getCurrentRoom();
+	
+	for(E element : roomRoles){
+	    if ((E.getName()).equals(roleName)){
+		E.setHeldBy(this.getPlayerNum);
+		return true;
+	    }
+	}
+	System.out.println("Taking role failed, Role not found or filled");
+	return false;
     }
 
     /* rehearse(int budget)
@@ -144,6 +163,7 @@ public class Player {
        
 	if (currentRehearsalNum == budget){
 	    //Working roll is already 100% of success
+	    System.out.println("Rehearsal failed, already 100% success rate");
 	    return false;
 	}else if(currentRehearsalNum < budget){
 	    //Successful rehearsal
