@@ -130,7 +130,7 @@ public class Player {
     }
     
     private boolean move(String roomName) {
-	// List<Room> neighbors = new ArrayList<Room>();
+	// cycles through connected nodes and sets appropriate data if it finds the correct room then returns true. It returns false if the room isn't connected
 	currentRoom.getConnectedNodes().forEach((k,v)->{
 		if(v.getName().equals(roomName)){
 		    currentRoom.removePlayer(playerNum);
