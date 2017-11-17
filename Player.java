@@ -11,8 +11,7 @@ public class Player {
     /* Constructors
      *
      */
-    
-    //Default Constructor
+
     public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
         this.rank = rank;
         this.playerNum = playerNumber;
@@ -73,7 +72,13 @@ public class Player {
         this.total = total;
     }
     
-    
+    public Room getCurrentRoom() {
+	return currentRoom;
+    }
+
+    public void setCurrentRoom(Room currentRoom) {
+	this.currentRoom = currentRoom;
+    }
     
     private void upgradeRank(int rank, String currency) {
         this.rank = rank;
@@ -123,8 +128,18 @@ public class Player {
         }
     }
     
-    private void move(String direction) {
-        
+    private boolean move(String roomName) {
+	// List<Room> neighbors = new ArrayList<Room>();
+	currentRoom.getConnectedNodes().forEach((k,v)->{
+		if(v.getName().equals(roomName)){
+		    currentRoom.removePlayer(playerNum);
+		    this.currentRoom = v;
+		    v.addPlayer(playerNum);
+		    return true;
+		}
+	    });
+	return false;
+	
     }
     
     private void takeRole(String roleName) { // work
