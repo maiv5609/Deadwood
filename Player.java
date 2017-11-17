@@ -1,5 +1,6 @@
+import java.util.List;
 import java.util.Random;
-    
+
 public class Player {
     private int rank;
     private int playerNum;
@@ -8,11 +9,13 @@ public class Player {
     private int rehearsalNum;
     private int total;
     private Room currentRoom;
-
-    /* Constructors
-     *
+    private Role currentRole;
+    
+    /*
+     * Constructors
      */
-
+    
+    
     public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
         this.rank = rank;
         this.playerNum = playerNumber;
@@ -74,11 +77,20 @@ public class Player {
     }
     
     public Room getCurrentRoom() {
-	return currentRoom;
+        return currentRoom;
     }
-
+    
     public void setCurrentRoom(Room currentRoom) {
-	this.currentRoom = currentRoom;
+        this.currentRoom = currentRoom;
+    }
+    
+    
+    public Role getCurrentRole() {
+        return currentRole;
+    }
+    
+    public void setCurrentRole(Role currentRole) {
+        this.currentRole = currentRole;
     }
     
     private void upgradeRank(int rank, String currency) {
@@ -130,131 +142,134 @@ public class Player {
     }
     
     private boolean move(String roomName) {
-	// cycles through connected nodes and sets appropriate data if it finds the correct room then returns true. It returns false if the room isn't connected
-	currentRoom.getConnectedNodes().forEach((k,v)->{
-		if(v.getName().equals(roomName)){
-		    currentRoom.removePlayer(playerNum);
-		    this.currentRoom = v;
-		    v.addPlayer(playerNum);
-		    return true;
-		}
-	    });
-	return false;
-	
+        // cycles through connected nodes and sets appropriate data if it finds the correct room then returns true.
+        // It returns false if the room isn't connected
+        
+        
+        currentRoom.getConnectedNodes().forEach((k,v)->{
+            if(v.getName().equals(roomName)){
+                currentRoom.removePlayer(playerNum);
+                this.currentRoom = v;
+                v.addPlayer(playerNum);
+                return true;
+            }
+        });
+        return false;
+        
     }
-
-    /* takeRole
+    
+    /* Work
      * Takes in roleName and checked it vs the roles in the room that the player is in
      * If found and is empty it assigns the role to the player and returns true
      * If fails, return false
      */
-    private boolean takeRole(String roleName) { // work
-	Room currentRoom;
-	List<role>roomRoles;
-
-	roomRoles = this.getRoles();
-	currentRoom = this.getCurrentRoom();
-	
-	for(E element : roomRoles){
-	    if ((E.getName()).equals(roleName)){
-		E.setHeldBy(this.getPlayerNum);
-		return true;
-	    }
-	}
-	System.out.println("Taking role failed, Role not found or filled");
-	return false;
+    private boolean work(String roleName) {
+        List<Role> roomRoles = this.currentRoom.getRoles();
+        
+        for(Role element : roomRoles){
+            if ((element.getName()).equals(roleName)){
+                element.setHeldBy(this.playerNum);
+                return true;
+            }
+        }
+        System.out.println("Taking role failed, Role not found or filled");
+        return false;
     }
-
+    
     /* rehearse(int budget)
      * Takes in budget number and increments player's rehearsalNum if doing so would not put them over 100% of success at working
      * Returns true is rehearsal was successfully done, false otherwise
      */
     private boolean rehearse(int budget) {
-	int currentRehearsalNum;
-
-	currentRehearsalNum = this.getRehearsalNum();
-	//Lowest roll is 1 + rehearsalNum
-	currentRehearsalNum++;
-       
-	if (currentRehearsalNum == budget){
-	    //Working roll is already 100% of success
-	    System.out.println("Rehearsal failed, already 100% success rate");
-	    return false;
-	}else if(currentRehearsalNum < budget){
-	    //Successful rehearsal
-	    this.setRehearsalNum(currentRehearsalNum);
-	    return true;
-	}else{
-	    //Error budget is less then rehearsal
-	    return false;
-	}
+        int currentRehearsalNum;
+        
+        currentRehearsalNum = this.getRehearsalNum();
+        //Lowest roll is 1 + rehearsalNum
+        currentRehearsalNum++;
+        
+        if (currentRehearsalNum == budget){
+            //Working roll is already 100% of success
+            System.out.println("Rehearsal failed, already 100% success rate");
+            return false;
+        }else if(currentRehearsalNum < budget){
+            //Successful rehearsal
+            this.setRehearsalNum(currentRehearsalNum);
+            return true;
+        }else{
+            //Error budget is less then rehearsal
+            return false;
+        }
     }
-
-
-    /* work(Scene currScene)
-     * Takes in room, scene, and role that player is working in 
+    
+    
+    /* Act(Scene currScene)
+     * Takes in room, scene, and role that player is working in
      */
-    private void work(Room currentRoom,Scene currentScene, Role currentRole) { //act() act
-	//Will need rehearsal num and if role is oncard or not
-	int diceRoll, currentShots, budget, money, credits = 0;
-	boolean onCard = false;
-
-	budget = currScene.getBudget();
-	onCard = currRole.getOnCard();
-	//Roll dice, need to import Random class
-	diceRoll = Random.nextInt(6);
-	//Increment because nextInt returns from range starting at 0
-	diceRoll++;
-	diceRoll= diceRoll + this.getRehearsalNum();
-	
-	if(diceRoll >= budget){
-	    //Success, update shots
-	    currentShots = currentRoom.getCurrentShots();
-	    currentShots++;
-	    currentRoom.setCurrentShots(currentShots);
-	    if(onCard == true){
-		credits = this.getCredits();
-		credits = credits + 2;
-		this.setCredits(credits);
-	    }else{
-		credits = this.getCredits();
-		credits++;
-		money = this.getMoney();
-		money++;
-
-		this.setCredits(credits);
-		this.setMoney(money);
-	    }
-	}else{
-	    //Failure
-	    if(onCard == false){
-		money = this.getMoney();
-		money++;
-		this.setMoney(money);
-	    }
-	}
+    private void act(Room currentRoom,Scene currentScene, Role currentRole) { //act() act
+        //Will need rehearsal num and if role is oncard or not
+        int diceRoll, currentShots, budget, money, credits = 0;
+        boolean onCard = false;
+        
+        budget = currentScene.getBudget();
+        onCard = currentRole.getOnCard();
+        //Roll dice, need to import Random class
+        diceRoll = new Random().nextInt(6);
+        //Increment because nextInt returns from range starting at 0
+        diceRoll++;
+        diceRoll= diceRoll + this.getRehearsalNum();
+        
+        if(diceRoll >= budget){
+            //Success, update shots
+            currentShots = currentRoom.getCurrentShots();
+            currentShots++;
+            currentRoom.setCurrentShots(currentShots);
+            if(onCard == true){
+                credits = this.getCredits();
+                credits = credits + 2;
+                this.setCredits(credits);
+            }else{
+                credits = this.getCredits();
+                credits++;
+                money = this.getMoney();
+                money++;
+                
+                this.setCredits(credits);
+                this.setMoney(money);
+            }
+        }else{
+            //Failure
+            if(onCard == false){
+                money = this.getMoney();
+                money++;
+                this.setMoney(money);
+            }
+        }
     }
     
     
     
     
     /** Handles action of the player depending on name of the action.
-     */ 
+     */
     public void handleAction(String action, String[] parameters) {
         if(Constants.MOVE.equals(action)){
             String direction = parameters[1];
-            this.move(direction);	
-        } else if(Constants.TAKE_ROLE.equals(action)){
+            this.move(direction);
+        } else if(Constants.WORK.equals(action)){
             String roleName = parameters[1];
-            this.takeRole(roleName);
+            this.work(roleName);
         } else if(Constants.UPGRADE.equals(action)){
             int rank = Integer.parseInt(parameters[1]);
             String currency = parameters[2];
             this.upgradeRank(rank, currency);
         } else if(Constants.REHEARSE.equals(action)){
-            this.rehearse();
-        } else if(Constants.WORK.equals(action)){
-            this.work();
+            int credits = Integer.parseInt(parameters[1]);
+            this.rehearse(credits);
+        } else if(Constants.ACT.equals(action)){
+            Room currRoom = this.currentRoom;
+            Scene currScene = currRoom.getScene();
+            Role currRole = this.currentRole;
+            this.act(currRoom, currScene, currRole);
         } else if(Constants.WHO.equals(action)){
             System.out.println("Current player is :" + this.playerNum);
         }
