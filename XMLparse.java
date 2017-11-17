@@ -18,6 +18,10 @@ public class XMLparse {
 	dBuilder = dbFactory.newDocumentBuilder();
     }
 
+    public Map<String, List<String>> getRoomNeighbors(){
+	return roomNeighbors;
+    }
+
     public void load (File XMLfile) {
 	doc = dBuilder.parse(XMLfile);
 	doc.getDocumentElement().normalize();
@@ -60,5 +64,51 @@ public class XMLparse {
 	return listOfScenes;
     }
 
+    public Map<String,Room> getAllRooms(){
+	Map<String,Room> rooms = new HashMap();
+	// Read and add all normal rooms
+	NodeList roomList = doc.getElementsByTagName("set");
+	int length = roomList.getLength();
+	for (int i =0; i < length; i++){
+	    Room curr = new Room();
+	    Node roomNode = roomList.item(i);
+	    if (roomNode.getNodeType() == Node.ELEMENT_NODE) {
+		Element room = (Element) roomNode;
+		// get and set shots
+		curr.setMaxShots(room.getElementsByTagName("takes").item(0).getElementsByTagName("take").item(0).getAttribute("number"));
+		curr.setCurrentShots(curr.getMaxShots());
+		// get and set neighboring rooms
+		List<String> connectedRooms = new ArrayList<String>();
+		NodeList neighbors = room.getElementsByTagName("neighbors").item(0).getElementsByTagName("neighbor");
+		int numOfNeighbors = neighbors.getLength();
+		for (int j = 0; j < numOfNeighbors; j++){
+		    Node neighborNode = neighbors.item(j);
+		    if (neighborNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element nElement = (Element) neighborNode;
+			connectedRooms.add(nElement.getAttribute("name"));
+		    }
+		}
+		curr.setConnectedNodes(connectedRooms);
+		// get and set all roles
+		List<Role> roles = new ArrayList<Role>();
+		NodeList parts = room.getElementsByTagName("part");
+		int numOfParts = parts.getLength();
+		for (int j = 0; j < numOfParts; j++) {
+		    Role newRole = new Role();
+		    Node partNode = parts.item(j);
+		    if (partNode.getNodeType() == Node.ELEMENT_NODE){
+			Element pElement = (Element) partNode;
+			newRole.setName(pElement.getAttribute("name"));
+			newRole.setRank(pElement.getAttribute("level"));
+			newRole.setLine(pElement.getElementsByTagName("line").item(0).getTextContent());
+		    }
+		    roles.add(newRole);
+		}
+		curr.setRoles(roles);
+	    }
+	}
+	// read and get the casting office
+	//read and get the trailer
+    } // end function
 
 }
