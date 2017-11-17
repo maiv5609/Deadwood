@@ -174,15 +174,16 @@ public class Game {
         //print players
         System.out.println("The game has just started!!");
         for(int i = 0; i < playersNum; i++){
-            System.out.println("Player"+ game.getPlayers().get(i).getPlayerNUm());
+            System.out.println("Player"+ game.getPlayers().get(i).getPlayerNum());
         }
         
         
         /** Parse params (action name + additional parameters for action)
          *   from user input and pass it to Player to handle
          */
-        String input = utility.inputReader();
+        String input = Constants.END_TURN;
         while(!input.equals(Constants.END_TURN)){
+            input = utility.inputReader();
             String[] parameters = utility.parseParams(input);
             String action = parameters[0];
             game.handleUserInput(action, parameters);
