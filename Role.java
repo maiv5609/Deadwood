@@ -15,6 +15,14 @@ public class Role {
     public void setName(String name) {
 	this.name = name;
     }
+
+    public String getLine() {
+	return line;
+    }
+
+    public void setLine(String line) {
+	this.line = line;
+    }
     
     public int getWorkable() {
 	return workable;
