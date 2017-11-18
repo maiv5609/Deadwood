@@ -13,18 +13,18 @@ public class Board {
         File file1 = new File(boardXml);
         File file2 = new File(cardsXML);
         String type1 = xmlParse.getTagName(file1);
-        //if(type1.equals("board")){
+       if(type1.equals("board")){
             roomMap = xmlParse.getAllRooms();
-        /*} else {
+       } else {
             scenes = xmlParse.getScenesAsList();
-        }*/
+        }
         
         String type2 = xmlParse.getTagName(file2);
-        /*if(type2.equals("board")){
+        if(type2.equals("board")){
             roomMap = xmlParse.getAllRooms();
-        } else {*/
+        } else {
             scenes = xmlParse.getScenesAsList();
-        //}
+        }
 	topOfDeck = 0;
     }
     
@@ -65,10 +65,16 @@ public class Board {
 
     public void populateRooms() {
 	for (Room curr: roomMap.values()){
+<<<<<<< HEAD
 	    if (curr.getScene() != null){
 		curr.setScene(scenes.get(topOfDeck));
 		curr.addAll(curr.getScene().getRole());
 		topOfDeck++;
+=======
+	    if (curr.getScene() == null){
+	    	curr.setScene(scenes.get(topOfDeck));
+	    	topOfDeck++;
+>>>>>>> ed20e592869e907a469904f5e1d11ab709407a1e
 	    }
 	}
     }
