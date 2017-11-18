@@ -1,8 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +58,10 @@ public class Game {
         this.totalRooms = totalRooms;
     }
     
+    
+    /** nextDay
+     *  sets necessary configuration for the next day
+     */
     private void nextDay(Map<Integer, Room> roomMap) {
         if (roomsRemaining == 1){
             Scene nextScene;
@@ -78,6 +78,12 @@ public class Game {
         }
     }
     
+    
+    
+    
+    /** scoring
+     *  sets total amount of money, credits and fame to each player in the game
+     */
     private void scoring() {
         List<Player> players = this.players;
         if(players != null & !players.isEmpty()){
@@ -87,12 +93,21 @@ public class Game {
         }
     }
     
-    private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays, int credits, int rank) {
-        //create a Trailer
-        Room currentRoom = new Room();
-        currentRoom.setTrailer(true);
+    /** startGame
+     *  starts the game
+     *  params: currentDay: int
+     *  		turn : int
+     *  		maxDay : int
+     *  		playersNum: int
+     *  		maxDays : int
+     *  		credits : int
+     *  		rank : int
+     */
+    private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays, int credits, int rank, String boardXml, String cardsXml) {
         
-        //add players
+        Board board = Board.getInstance(boardXml, cardsXml);
+        Room currentRoom = new Room();
+        currentRoom.setName("Trailer");
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
         
@@ -111,17 +126,30 @@ public class Game {
         this.totalRooms = 12;
     }
     
+    
+    
+    /**
+     * endGame
+     * ends the game (== scoring)
+     */
     private void endGame() {
         this.scoring();
     }
     
+    /**
+     * handleUserInput
+     * handles user's input (gets the name of the action from the input and
+     * specific parameters, needed for this action)
+     * params:  action: String
+     * 			parameters: Array String
+     */
     public void handleUserInput(String action, String[] parameters) {
         Player currentPlayer = getPlayers().get(getTurn());
         currentPlayer.handleAction(action, parameters);
     }
     
     
-    
+    // to be implemented
     public void updateView(){
         
     }
@@ -130,9 +158,7 @@ public class Game {
     /**
      * Controller for the "Deadwood" game
      */
-    
     public static void main(String[] args) {
-        
         int playersNum = 0;
         int maxDays = 4;
         int credits = 0;
@@ -170,7 +196,9 @@ public class Game {
         
         //start game with initial params
         Game game = new Game();
-        game.startGame(1, 1, 4, playersNum, maxDays, rank, credits);
+        String boardXml = Constants.BOARD_XML;
+        String cardsXml = Constants.BOARD_XML;
+        game.startGame(1, 1, 4, playersNum, maxDays, rank, credits,boardXml,cardsXml);
         //print players
         System.out.println("The game has just started!!");
         for(int i = 0; i < playersNum; i++){
@@ -181,7 +209,7 @@ public class Game {
         /** Parse params (action name + additional parameters for action)
          *   from user input and pass it to Player to handle
          */
-        String input = Constants.END_TURN;
+        String input = utility.inputReader();
         while(!input.equals(Constants.END_TURN)){
             input = utility.inputReader();
             String[] parameters = utility.parseParams(input);

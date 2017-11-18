@@ -261,7 +261,10 @@ public class Player {
     
     
     
-    /** Handles action of the player depending on name of the action.
+    /** handleAction
+     *  Handles action of the player depending on name of the action.
+     *  params: action : String
+     *  		parameters: String[]
      */
     public void handleAction(String action, String[] parameters) {
         if(Constants.MOVE.equals(action)){

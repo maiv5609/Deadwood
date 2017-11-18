@@ -1,20 +1,32 @@
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 public class Board {
     private static Board instance = null;
-    Map<String, Room> roomMap;
-    List<Scene> scenes;
-    Integer topOfDeck;
+    private static Map<String, Room> roomMap;
+    private List<Scene> scenes;
+    private Integer topOfDeck;
     
-    private Board() {
-        topOfDeck = 0;
-        for (Integer i = 0; i < 4; i++){
-            Room curr = new Room();
-            roomMap.put(i, curr);
+    private Board(String boardXml, String cardsXML) {
+        XMLparse xmlParse = new XMLparse();
+        File file1 = new File(boardXml);
+        File file2 = new File(cardsXML);
+        String type1 = xmlParse.getTagName(file1);
+        if(type1.equals("board")){
+            roomMap = xmlParse.getAllRooms();
+        } else {
+            scenes = xmlParse.getScenesAsList();
         }
-        // Setup scene list
+        
+        String type2 = xmlParse.getTagName(file2);
+        if(type2.equals("board")){
+            roomMap = xmlParse.getAllRooms();
+        } else {
+            scenes = xmlParse.getScenesAsList();
+        }
     }
+    
     public Map<String, Room> getRoomMap() {
         return roomMap;
     }
@@ -35,21 +47,19 @@ public class Board {
      * Makes sure that there is no more than one instance is created
      * 		returns : instance : Board
      */
-    public static Board getInstance(){
+    public static Board getInstance(String boardXml, String cardsXML){
         if(instance == null){
-            instance = new Board();
+            instance = new Board(boardXml, cardsXML);
         }
         return instance;
     }
-
-    /* getRoom 
+    
+    /* getRoom
      * takes in name of room and looks through hashmap to find room value
      */
-    public Room getRoom(String roomName){
-	Room returnRoom;
-	returnRoom = roomMap.get(roomName);
-	
-	return returnRoom;
+    public static Room getRoomNode(String roomName){
+        Room returnRoom = roomMap.get(roomName);
+        return returnRoom;
     }
     
     
