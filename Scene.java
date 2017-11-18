@@ -35,7 +35,6 @@ public class Scene {
     }
     
     public List<Role> getRole() {
-	List<Role> role = null;
 	return role;
     }
     

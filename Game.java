@@ -214,9 +214,7 @@ public class Game {
         System.out.println("Players:");
         for(int i = 0; i < playersNum; i++){
             System.out.println("Player "+ (game.getPlayers().get(i).getPlayerNum() + 1));
-        }
-        
-        
+        }      
         /** Parse params (action name + additional parameters for action)
          *   from user input and pass it to Player to handle
          */

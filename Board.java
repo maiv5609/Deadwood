@@ -65,9 +65,13 @@ public class Board {
 
     public void populateRooms() {
 	for (Room curr: roomMap.values()){
-	    if ((curr.getScene() == null) && (!curr.getName().equals("office")) && (!curr.getName().equals("trailer")){
+	    if ((curr.getScene() == null) && (!curr.getName().equals("office")) && (!curr.getName().equals("trailer"))){
 	    	curr.setScene(scenes.get(topOfDeck));
-		curr.addAll(scene.getRole());
+	    	List<Role> roles = curr.getRoles();
+	    	List<Role> rolesToAdd = curr.getScene().getRole();
+	    	for (Role rToAdd: rolesToAdd){
+	    		roles.add(rToAdd);
+	    	}
 	    	topOfDeck++;
 	    }
 	}
