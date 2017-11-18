@@ -14,8 +14,6 @@ public class Player {
     /*
      * Constructors
      */
-    
-    
     public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
         this.rank = rank;
         this.playerNum = playerNumber;
@@ -146,16 +144,28 @@ public class Player {
         // It returns false if the room isn't connected
         
         
-        currentRoom.getConnectedNodes().forEach((k,v)->{
-            if(v.getName().equals(roomName)){
+        //	currentRoom.getConnectedNodes().forEach((k,v)->{
+        //		if(v.getName().equals(roomName)){
+        //		    currentRoom.removePlayer(playerNum);
+        //		    this.currentRoom = v;
+        //		    v.addPlayer(playerNum);
+        //		    return true;
+        //		}
+        //	    });
+        //	return false;
+        
+        Boolean found = false;
+        List<String> connectedRooms = currentRoom.getConnectedRooms();
+        for(String connectedRoomName : connectedRooms){
+            if(connectedRoomName.equals(roomName)){
+                Room connectedRoom = Board.getRoomNode(connectedRoomName);
                 currentRoom.removePlayer(playerNum);
-                this.currentRoom = v;
-                v.addPlayer(playerNum);
+                this.currentRoom = connectedRoom;
+                currentRoom.addPlayer(playerNum);
                 return true;
             }
-        });
+        }
         return false;
-        
     }
     
     /* Work
@@ -200,6 +210,7 @@ public class Player {
             return false;
         }
     }
+    
     
     
     /* Act(Scene currScene)
@@ -266,10 +277,7 @@ public class Player {
             int credits = Integer.parseInt(parameters[1]);
             this.rehearse(credits);
         } else if(Constants.ACT.equals(action)){
-            Room currRoom = this.currentRoom;
-            Scene currScene = currRoom.getScene();
-            Role currRole = this.currentRole;
-            this.act(currRoom, currScene, currRole);
+            this.act(currentRoom, currentRoom.getScene(), currentRole);
         } else if(Constants.WHO.equals(action)){
             System.out.println("Current player is :" + this.playerNum);
         }
