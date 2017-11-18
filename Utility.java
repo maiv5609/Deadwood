@@ -14,7 +14,6 @@ public class Utility {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             input = br.readLine();
-            //br.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

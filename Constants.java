@@ -9,5 +9,9 @@ public class Constants {
     public static final String CREDITS = "CREDITS";
     public static final String END_TURN = "end";
     public static final String WHO = "who";
-    
+    public static final String WHERE = "where";
+    public static final String BOARD_XML = "board.xml";
+    public static final String CARDS_XML = "cards.xml";
+    public static final String CASTING_OFFICE = "office";
+    public static final String TRAILER = "trailer";
 }

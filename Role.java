@@ -3,18 +3,19 @@ public class Role {
     
     String name;
     String line;
-    int workable;
+    boolean workable;
     int rank;
     Boolean onCard;
-    int heldBy;
-    
-    public Role(){
-        name = null;
-        line = null;
-        workable = 0;
-        rank = 0;
-        onCard = false;
-        heldBy = 0;
+    Player heldBy;
+
+   
+	public Role(){
+    	name = null;
+    	line = null;
+    	workable = false;
+    	rank = 0;
+		onCard = false;
+		heldBy = null;
     }
     
     public String getName() {
@@ -33,11 +34,11 @@ public class Role {
         this.line = line;
     }
     
-    public int getWorkable() {
+    public boolean getWorkable() {
         return workable;
     }
     
-    public void setWorkable(int workable) {
+    public void setWorkable(boolean workable) {
         this.workable = workable;
     }
     
@@ -56,14 +57,14 @@ public class Role {
     public void setOnCard(Boolean onCard) {
         this.onCard = onCard;
     }
-    
-    public int getHeldBy() {
-        return heldBy;
-    }
-    
-    public void setHeldBy(int heldBy) {
-        this.heldBy = heldBy;
-    }
+    public Player getHeldBy() {
+		return heldBy;
+	}
+
+	public void setHeldBy(Player heldBy) {
+		this.heldBy = heldBy;
+	}
+
     
     
     /* PayOut
