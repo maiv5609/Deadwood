@@ -113,8 +113,12 @@ public class Room {
 	    curr.setHeldBy(null);
 	}
 
+	int budget = scene.getBudget();
+	List<Int> rolls = new ArrayList<int>();
+	for (int i = 0; i < budget; i++){
+	    
+	}
 	if (payout){
-	  //  for ()
 	}
 
     }
