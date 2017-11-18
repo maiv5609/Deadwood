@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Map;
 
 public class Room {
     
@@ -9,6 +8,8 @@ public class Room {
     private List<Integer> playersInTheRoom;
     private List<Role> roles;
     private Scene scene;
+    private List<String> connectedRooms;
+    
     
     public String getName() {
         return name;
@@ -17,7 +18,6 @@ public class Room {
     public void setName(String name) {
         this.name = name;
     }
-
     
     public int getMaxShots() {
         return maxShots;
@@ -58,26 +58,27 @@ public class Room {
     public void setScene(Scene scene) {
         this.scene = scene;
     }
-    
-    public Map<Integer, Room> getConnectedNodes() {
-        return connectedNodes;
+    public List<String> getConnectedRooms() {
+        return connectedRooms;
     }
     
-    public void setConnectedNodes(Map<Integer, Room> connectedNodes) {
-        this.connectedNodes = connectedNodes;
+    public void setConnectedRooms(List<String> connectedRooms) {
+        this.connectedRooms = connectedRooms;
     }
     
-    public String getRoomType() {
-        return roomType;
-    }
     
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
-    }
+    /* addPlayer
+     * adds player to the room
+     * params : playerNumber : int
+     */
     public void addPlayer(int playerNumber) {
         this.playersInTheRoom.add(playerNumber);
     }
     
+    /* removePlayer
+     * remove Player from the room
+     * params : playerNumber : int
+     */
     public void removePlayer(int playerNumber) {
         this.playersInTheRoom.remove(this.playersInTheRoom.indexOf(playerNumber));
     }

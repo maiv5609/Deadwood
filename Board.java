@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class Board {
     private static Board instance = null;
-    Map<Integer, Room> roomMap;
+    Map<String, Room> roomMap;
     List<Scene> scenes;
     Integer topOfDeck;
     
@@ -15,11 +15,11 @@ public class Board {
         }
         // Setup scene list
     }
-    public Map<Integer, Room> getRoomMap() {
+    public Map<String, Room> getRoomMap() {
         return roomMap;
     }
     
-    public void setRoomMap(Map<Integer, Room> roomMap) {
+    public void setRoomMap(Map<String, Room> roomMap) {
         this.roomMap = roomMap;
     }
     
@@ -41,7 +41,16 @@ public class Board {
         }
         return instance;
     }
-    
+
+    /* getRoom 
+     * takes in name of room and looks through hashmap to find room value
+     */
+    public Room getRoom(String roomName){
+	Room returnRoom;
+	returnRoom = roomMap.get(roomName);
+	
+	return returnRoom;
+    }
     
     
 }

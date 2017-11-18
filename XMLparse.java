@@ -22,9 +22,20 @@ public class XMLparse {
 	return roomNeighbors;
     }
 
-    public void load (File XMLfile) {
+    public <T> T parse (File XMLfile) {
 	doc = dBuilder.parse(XMLfile);
 	doc.getDocumentElement().normalize();
+
+	string root;
+	root = doc.getDocumentElement();
+
+	if(root.equals("board")){
+	    return getAllRooms();
+	}else if(root.equals("cards")){
+	    return getScenesAsList();
+	}else{
+	    return null;
+	}
     }
 
     private List<Scene> getScenesAsList() {
@@ -34,24 +45,28 @@ public class XMLparse {
 	for (int i = 0; i < length; i++){
 	    Node nNode = nList.item(i);
 	    Scene curr = new Scene();
+	    int budget;
 	    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 		Element eElement = (Element) nNode;
+		budget = Integer.parseInt(nNode.getAttribute("budget"));
 		// Grab and set non-role data
 		curr.setName(nNode.getAttribute("name"));
-		curr.setBudget(nNode.getAttribute("budget"));
+		curr.setBudget(budget);
 		curr.setDescription(curr.getElementsByTagName("scene").item(0).getTextContent());
 		// Aggregate role data and add it to scene
 		List<Role> roles = new ArrayList<Role>();
 		NodeList rList = curr.getElementsByTagName("part");
 		int numOfRoles = rList.getLength();
+		int rank;
 		for (int j = 0; j < numOfRoles; j++){
 		    Role currRole = new Role();
 		    Node rNode = rList.item(j);
 		    if (rNode.getNodeType() == Node.ELEMENT_NODE) {
 			Element rElement = (Element) rNode;
+			rank = Integer.parseInt(rElement.getAttribute("level"));
 			// Grabs and sets relevant role data
 			currRole.setName(rElement.getAttribute("name"));
-			currRole.setRank(rElement.getAttribute("level"));
+			currRole.setRank(rank);
 			currRole.setLine(rElement.getElementsByTagName("line").item(0).getTextContent());
 			roles.add(currRole);
 		    }
@@ -72,11 +87,13 @@ public class XMLparse {
 	for (int i =0; i < length; i++){
 	    Room curr = new Room();
 	    String name;
+	    int maxShots
 	    Node roomNode = roomList.item(i);
 	    if (roomNode.getNodeType() == Node.ELEMENT_NODE) {
 		Element room = (Element) roomNode;
 		// get and set shots and name
-		curr.setMaxShots(room.getElementsByTagName("takes").item(0).getElementsByTagName("take").item(0).getAttribute("number"));
+		maxShots = Integer.parseInt( room.getElementsByTagName("takes").item(0).getElementsByTagName("take").item(0).getAttribute("number"));
+		curr.setMaxShots(maxShots);
 		curr.setCurrentShots(curr.getMaxShots());
 		name = room.getAttribute("name");
 		curr.setName(name);
@@ -96,13 +113,16 @@ public class XMLparse {
 		List<Role> roles = new ArrayList<Role>();
 		NodeList parts = room.getElementsByTagName("part");
 		int numOfParts = parts.getLength();
+		int rank;
 		for (int j = 0; j < numOfParts; j++) {
 		    Role newRole = new Role();
 		    Node partNode = parts.item(j);
 		    if (partNode.getNodeType() == Node.ELEMENT_NODE){
 			Element pElement = (Element) partNode;
+			rank = Integer.parseInt(pElement.getAttribute("level"));
+			
 			newRole.setName(pElement.getAttribute("name"));
-			newRole.setRank(pElement.getAttribute("level"));
+			newRole.setRank(rank);
 			newRole.setLine(pElement.getElementsByTagName("line").item(0).getTextContent());
 		    }
 		    roles.add(newRole);
