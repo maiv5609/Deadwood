@@ -7,8 +7,7 @@ public class Game {
     int currDay;
     int maxDay;
     List<Player> players;
-    //int roomsRemaining;
-    //int totalRooms;
+    int roomsRemaining;
     
     public int getTurn() {
         return turn;
@@ -49,14 +48,7 @@ public class Game {
     public void setRoomsRemaining(int roomsRemaining) {
         this.roomsRemaining = roomsRemaining;
     }
-    
-    public int getTotalRooms() {
-        return totalRooms;
-    }
-    
-    public void setTotalRooms(int totalRooms) {
-        this.totalRooms = totalRooms;
-    }
+
     
     
     /** nextDay
@@ -106,14 +98,14 @@ public class Game {
     private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays, int credits, int rank, String boardXml, String cardsXml) {
         
         Board board = Board.getInstance(boardXml, cardsXml);
-	board.populateRooms();
+        board.populateRooms();
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
         
         for (int i = 0; i < 3; i++){
             Player player = new Player(rank,i,0,credits,board.getRoomNode("trailer"));
             this.players.add(player);
-            board.getRoomNode("trailer").addPlayer(i);
+            board.getRoomNode(Constants.TRAILER).addPlayer(i);
         }
         
         //set Current day to 1
@@ -197,7 +189,7 @@ public class Game {
         //start game with initial params
         Game game = new Game();
         String boardXml = Constants.BOARD_XML;
-        String cardsXml = Constants.BOARD_XML;
+        String cardsXml = Constants.CARDS_XML;
         game.startGame(1, 1, 4, playersNum, maxDays, rank, credits,boardXml,cardsXml);
         //print players
         System.out.println("The game has just started!!");
@@ -213,8 +205,10 @@ public class Game {
         int turn = 1;
         int player = 0;
         while(true){
-	    if (players.get(player).getCurrentRole() != null){
-		players.get(player).getCurrentRole().setWorkable(true);
+	    if(game.getPlayers().get(player).getCurrentRole() != null){
+	    	game.getPlayers().get(player).getCurrentRole().setWorkable(true);
+	    } else{
+	    	game.getPlayers().get(player).setCanMove(true);
 	    }
             while(!input.equals(Constants.END_TURN)){
                 input = utility.inputReader();
