@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Room {
     
@@ -117,17 +117,16 @@ public class Room {
 	int budget = scene.getBudget();
 	List<Integer> rolls = new ArrayList<Integer>();
 	for (int i = 0; i < budget; i++){
-	    rolls.add(ThreadLocalRandom.current().nextInt(1,7))
+	    rolls.add(ThreadLocalRandom.current().nextInt(1,7));
 	}
-	System.out.println(rolls); // for testing
-	Arrays.sort(rolls);
+	Collections.sort(rolls);
 	int length = rolls.size();
-	int startValue = scene.getRole().size()-1);
+	int startValue = scene.getRole().size()-1;
 	if (payout){
 	    for (int i = 0; i < length; i++){
 		for (int j = startValue; j >= 0; j--){
 		    Role curr = scene.getRole().get(j);
-		    If (curr.getHeldBy != null){
+		    if (curr.getHeldBy() != null){
 			curr.payOut(rolls.get(i),0);
 			startValue = j-1;
 			j = -1;
@@ -138,6 +137,12 @@ public class Room {
 		    
 		}
 	    }
+	}
+	for (Role curr: scene.getRole()){
+		if (curr.getHeldBy() != null){
+		curr.getHeldBy().setRehearsalNum(0);
+		curr.getHeldBy().setCurrentRole(null);
+		}
 	}
 
     }

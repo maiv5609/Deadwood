@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Game {
     int turn;
@@ -9,11 +8,6 @@ public class Game {
     List<Player> players;
     static int roomsRemaining;
     Board board;
-    
-    /* WORK NOTE: 
-     * To Do:
-     * 	Scoring
-     */
     
     public int getTurn() {
         return turn;
@@ -82,6 +76,7 @@ public class Game {
         if(players != null & !players.isEmpty()){
             for (Player player : players){
                 player.setTotal(player.getCredits() + player.getMoney() + 5*player.getRank());
+                System.out.println("Player " + player.getPlayerNum() + " has " + player.getTotal());
             }
         }
     }
@@ -120,6 +115,7 @@ public class Game {
         }else{
         	this.maxDay = 4;
         }
+        
         //set roomsRemaining with number of rooms
         this.roomsRemaining = board.getRoomMap().size();
         
@@ -148,8 +144,10 @@ public class Game {
      * 			parameters: Array String
      */
     public void handleUserInput(String action, String[] parameters, int playerNum) {
-        Player currentPlayer = this.getPlayers().get(playerNum);
-        currentPlayer.handleAction(action, parameters);
+    	if(!action.equals(Constants.END_TURN)){
+    		Player currentPlayer = this.getPlayers().get(playerNum);
+            currentPlayer.handleAction(action, parameters);
+    	}
     }
     
     
@@ -202,7 +200,7 @@ public class Game {
         Game game = new Game();
         String boardXml = Constants.BOARD_XML;
         String cardsXml = Constants.CARDS_XML;
-        game.startGame(1, 1, 4, playersNum, maxDays, rank, credits,boardXml,cardsXml);
+        game.startGame(1, 1, 4, playersNum, maxDays, credits, rank, boardXml,cardsXml);
         //print players
         System.out.println("The game has just started!!");
         System.out.println("Players:");
@@ -259,7 +257,7 @@ public class Game {
             game.nextDay();
         }
         //Last day has ended, start scoring
-        
+        game.endGame();
     }
     
 }

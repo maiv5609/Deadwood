@@ -194,9 +194,11 @@ public class Player {
      */
     private boolean work(String roleName) {
         List<Role> roomRoles = this.currentRoom.getRoles();
-        
+        if(currentRoom.getName().equals(Constants.TRAILER) || currentRoom.getName().equals(Constants.CASTING_OFFICE)){
+        	return false;
+        }
         for(Role element : roomRoles){
-            if ((element.getName().toLowerCase()).equals(roleName.toLowerCase())){
+            if ((element.getName().toLowerCase()).equals(roleName.toLowerCase()) && (element.getRank() <= this.rank)){
             	if(element.heldBy != null || this.currentRole != null){
             		System.out.println("You failed taking the role " + roleName);
                 	return false;
@@ -311,8 +313,7 @@ public class Player {
                 	 * 
                 	 */
                 	//Start payouts
-                	
-                	
+                	currentRoom.closeScene();
                 	Game.roomsRemaining--;
                 }
                 return true;
@@ -364,7 +365,9 @@ public class Player {
                  		roleName +=" " + parameters[i];
                  	}
                  }
-                 this.work(roleName);
+                 if(this.work(roleName) == false){
+                	 System.out.println("Unable to work role");
+                 }
         	}
            
         } else if(Constants.UPGRADE.equals(action)){
