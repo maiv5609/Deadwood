@@ -114,7 +114,7 @@ public class Room {
 	}
 
 	if (payout){
-	    for
+	    for ()
 	}
 
     }
