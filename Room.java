@@ -9,7 +9,16 @@ public class Room {
     private List<Role> roles;
     private Scene scene;
     private List<String> connectedRooms;
-    
+
+    public Room(){
+	name = null;
+	maxShots = 0;
+	currentShots = 0;
+	playersInTheRoom = null;
+	rols = null;
+	scene = null;
+	connectedRoom = null;
+    }
     
     public String getName() {
         return name;

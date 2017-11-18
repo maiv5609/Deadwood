@@ -14,7 +14,7 @@ public class Player {
     /*
      * Constructors
      */
-    public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
+    public Player(int rank, int playerNumber, int money, int credits, Room currentRoom Role currentRole){
         this.rank = rank;
         this.playerNum = playerNumber;
         this.money = money;
@@ -22,6 +22,7 @@ public class Player {
         this.rehearsalNum = 0;
         this.total = 0;
         this.currentRoom = currentRoom;
+	this.currentRole = currentRole;
     }
     
     public int getRank() {

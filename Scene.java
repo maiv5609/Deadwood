@@ -8,6 +8,15 @@ public class Scene {
     List<Role> role;
     Boolean isClosed;
     Boolean isOccupied;
+
+    public Scene(){
+	name = null;
+	description = null;
+	budget = 0;
+	role = null;
+	isClosed = false;
+	isOccupied = false;
+    }
     
     public String getName() {
 	return name;
