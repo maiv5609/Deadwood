@@ -76,10 +76,10 @@ public class Role {
 	 * "Off-card roles receive money equal to the role"
 	 * payout handles paying off role and room takes care of on-card payout?
 	 */
-    public void payOut(Player currentPlayer, int money, int credits) {
-        int currMoney = currentPlayer.getMoney();
-        int currCredit = currentPlayer.getCredits();
-        currentPlayer.setMoney(currMoney + money);
-        currentPlayer.setCredits(currCredit + credits);
+    public void payOut(int money, int credits) {
+        int currMoney = heldBy.getMoney();
+        int currCredit = heldBy.getCredits();
+        heldBy.setMoney(currMoney + money);
+        heldBy.setCredits(currCredit + credits);
     }
 }
