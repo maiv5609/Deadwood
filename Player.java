@@ -392,16 +392,21 @@ public class Player {
             System.out.println("Adjacent rooms are " + adjacentRooms);
             System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
             		+ ". It has a bugdet of " + currentRoom.getScene().getBudget() + ".");
-            if(!currentRoom.getName().equals(Constants.TRAILER) || !currentRoom.getName().equals(Constants.CASTING_OFFICE) ){
+            if(!currentRoom.getName().equals(Constants.TRAILER) && !currentRoom.getName().equals(Constants.CASTING_OFFICE) ){
             	 String rolesOnCard = "";
-                 List<Role> roles = currentRoom.getRoles();
-                 for (Role role: roles){
+            	 String roles = " ";
+                 List<Role> allRoles = currentRoom.getRoles();
+                 for (Role role: allRoles){
                  	if (role.onCard){
-                 		System.out.println(role);
-                 		rolesOnCard+= " " + role;
+                 		System.out.println(role.getName());
+                 		rolesOnCard+=role.getName() +  ", ";
                  	}
+                 	roles +=role.getName() +  ", ";                 	
                  }
-                 System.out.println("On card roles:  " + rolesOnCard);    
+                 System.out.println("All roles:" + roles);
+                 if(!rolesOnCard.equals("")){
+                	 System.out.println("On card roles:" + rolesOnCard); 
+                 }     
             }
            
             
