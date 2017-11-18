@@ -108,17 +108,36 @@ public class Room {
 		if (payout){
 		    curr.payOut(curr.getRank(),0);
 		}
+		curr.getHeldBy().setRehearsalNum(0);
 		curr.getHeldBy().setCurrentRole(null);
 	    }
 	    curr.setHeldBy(null);
 	}
 
 	int budget = scene.getBudget();
-	// List<Int> rolls = new ArrayList<int>();
+	List<Integer> rolls = new ArrayList<Integer>();
 	for (int i = 0; i < budget; i++){
-	    
+	    rolls.add(ThreadLocalRandom.current().nextInt(1,7))
 	}
+	System.out.println(rolls); // for testing
+	Arrays.sort(rolls);
+	int length = rolls.size();
+	int startValue = scene.getRole().size()-1);
 	if (payout){
+	    for (int i = 0; i < length; i++){
+		for (int j = startValue; j >= 0; j--){
+		    Role curr = scene.getRole().get(j);
+		    If (curr.getHeldBy != null){
+			curr.payOut(rolls.get(i),0);
+			startValue = j-1;
+			j = -1;
+		    }
+		    if (startValue < 0) {
+			startValue = (scene.getRole().size()-1);
+		    }
+		    
+		}
+	    }
 	}
 
     }
