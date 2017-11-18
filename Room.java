@@ -92,7 +92,32 @@ public class Room {
     public void removePlayer(int playerNumber) {
         this.playersInTheRoom.remove(this.playersInTheRoom.indexOf(playerNumber));
     }
-    
+
+    public void closeScene() {
+	boolean payout = false;
+	for (Role curr: scene.getRole()){
+	    if (curr.getHeldBy() != null){
+		payout = true;
+	    }
+	}
+	for (Role curr: scene.getRole()){
+	    roles.remove(curr);
+	}
+	for (Role curr: roles){
+	    if (curr.getHeldBy() != null){
+		if (payout){
+		    curr.payOut(curr.getRank(),0);
+		}
+		curr.getHeldby().setCurrentRole(null);
+	    }
+	    curr.setHeldBy(null);
+	}
+
+	if (payout){
+	    for
+	}
+
+    }
     
     
 }
