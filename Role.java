@@ -1,6 +1,6 @@
 
 public class Role {
-
+    
     String name;
     String line;
     int workable;
@@ -9,58 +9,63 @@ public class Role {
     int heldBy;
     
     public String getName() {
-	return name;
+        return name;
     }
     
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
-
+    
     public String getLine() {
-	return line;
+        return line;
     }
-
+    
     public void setLine(String line) {
-	this.line = line;
+        this.line = line;
     }
     
     public int getWorkable() {
-	return workable;
+        return workable;
     }
     
     public void setWorkable(int workable) {
-	this.workable = workable;
+        this.workable = workable;
     }
     
     public int getRank() {
-	return rank;
+        return rank;
     }
     
     public void setRank(int rank) {
-	this.rank = rank;
+        this.rank = rank;
     }
     
     public Boolean getOnCard() {
-	return onCard;
+        return onCard;
     }
     
     public void setOnCard(Boolean onCard) {
-	this.onCard = onCard;
+        this.onCard = onCard;
     }
     
     public int getHeldBy() {
-	return heldBy;
+        return heldBy;
     }
     
     public void setHeldBy(int heldBy) {
-	this.heldBy = heldBy;
+        this.heldBy = heldBy;
     }
     
+    
+    /* PayOut
+     * params : currentPlayer : Player
+     * 			money : int
+     * 			credits : int
+     */
     public void payOut(Player currentPlayer, int money, int credits) {
-	int currMoney = currentPlayer.getMoney();
-	int currCredit = currentPlayer.getCredits();
-	
-	currentPlayer.setMoney(currMoney + money);
-	currentPlayer.setCredits(currCredit + credits);
+        int currMoney = currentPlayer.getMoney();
+        int currCredit = currentPlayer.getCredits();
+        currentPlayer.setMoney(currMoney + money);
+        currentPlayer.setCredits(currCredit + credits);
     }
 }

@@ -67,11 +67,18 @@ public class Room {
     }
     
     
-    
+    /* addPlayer
+     * adds player to the room
+     * params : playerNumber : int
+     */
     public void addPlayer(int playerNumber) {
         this.playersInTheRoom.add(playerNumber);
     }
     
+    /* removePlayer
+     * remove Player from the room
+     * params : playerNumber : int
+     */
     public void removePlayer(int playerNumber) {
         this.playersInTheRoom.remove(this.playersInTheRoom.indexOf(playerNumber));
     }
