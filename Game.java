@@ -142,8 +142,8 @@ public class Game {
      * params:  action: String
      * 			parameters: Array String
      */
-    public void handleUserInput(String action, String[] parameters) {
-        Player currentPlayer = getPlayers().get(getTurn());
+    public void handleUserInput(String action, String[] parameters, int playerNum) {
+        Player currentPlayer = this.getPlayers().get(playerNum);
         currentPlayer.handleAction(action, parameters);
     }
     
@@ -201,23 +201,38 @@ public class Game {
         //print players
         System.out.println("The game has just started!!");
         for(int i = 0; i < playersNum; i++){
-            System.out.println("Player"+ game.getPlayers().get(i).getPlayerNum());
+            System.out.println("Player"+ (game.getPlayers().get(i).getPlayerNum() + 1));
         }
         
         
         /** Parse params (action name + additional parameters for action)
          *   from user input and pass it to Player to handle
          */
-        String input = utility.inputReader();
-        while(!input.equals(Constants.END_TURN)){
-            String[] parameters = utility.parseParams(input);
-            String action = parameters[0];
-            game.handleUserInput(action, parameters);
-            game.setTurn(game.getTurn() + 1);
+        String input = "";
+        int turn = 1;
+        int player = 0;
+        while(true){
+            while(!input.equals(Constants.END_TURN)){
+                input = utility.inputReader();
+                String[] parameters = utility.parseParams(input);
+                String action = parameters[0];
+                game.handleUserInput(action, parameters, player);
+                
+                System.out.println(input);
+                //update view
+            }
+            input = "";
+            if(player == game.getPlayers().size()-1){
+                player = 0;
+            } else {
+                player++;
+            }
+            turn++;
+            game.setTurn(turn);
+            System.out.println("Player: " + (player+1));
             System.out.println("Turn: " + game.getTurn());
-            input = utility.inputReader();
-            //update view
         }
+        
         
     }
     

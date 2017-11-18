@@ -10,6 +10,7 @@ public class Player {
     private int total;
     private Room currentRoom;
     private Role currentRole;
+    private boolean canMove;
     
     /*
      * Constructors
@@ -21,6 +22,7 @@ public class Player {
         this.credits = credits;
         this.rehearsalNum = 0;
         this.total = 0;
+        this.canMove = true;
         this.currentRoom = currentRoom;
     }
     
@@ -153,16 +155,20 @@ public class Player {
      * It returns false if the room isn't connected
      */
     private boolean move(String roomName) {
-        
-        List<String> connectedRooms = currentRoom.getConnectedRooms();
-        for(String connectedRoomName : connectedRooms){
-            if(connectedRoomName.toLowerCase().equals(roomName)){
-                Room connectedRoom = Board.getRoomNode(connectedRoomName);
-                currentRoom.removePlayer(playerNum);
-                this.currentRoom = connectedRoom;
-                currentRoom.addPlayer(playerNum);
-                System.out.println("The player is in the " + roomName + " room");
-                return true;
+        if(canMove == false){
+            System.out.println("You are unable to move at this time");
+            return false;
+        }else{
+            List<String> connectedRooms = currentRoom.getConnectedRooms();
+            for(String connectedRoomName : connectedRooms){
+                if(connectedRoomName.toLowerCase().equals(roomName)){
+                    Room connectedRoom = Board.getRoomNode(connectedRoomName);
+                    currentRoom.removePlayer(playerNum);
+                    this.currentRoom = connectedRoom;
+                    currentRoom.addPlayer(playerNum);
+                    System.out.println("The player is in the " + roomName + " room");
+                    return true;
+                }
             }
         }
         return false;
@@ -270,9 +276,22 @@ public class Player {
     public void handleAction(String action, String[] parameters) {
         if(Constants.MOVE.equals(action)){
             String direction = parameters[1];
-            this.move(direction);
+            if(parameters.length > 2){
+                direction  = direction + " " + parameters[2];
+            }
+            if ((!this.move(direction)) && canMove) {
+                System.out.println("Please select a valid room to move to.");
+            } else {
+                canMove = false;
+            }
         } else if(Constants.WORK.equals(action)){
             String roleName = parameters[1];
+            if(parameters.length > 2){
+                for(int i = 2; i < parameters.length;i++){
+                    roleName+=" " + parameters[i];
+                }
+            }
+            
             this.work(roleName);
         } else if(Constants.UPGRADE.equals(action)){
             int rank = Integer.parseInt(parameters[1]);
