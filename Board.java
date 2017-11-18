@@ -65,16 +65,10 @@ public class Board {
 
     public void populateRooms() {
 	for (Room curr: roomMap.values()){
-<<<<<<< HEAD
 	    if (curr.getScene() != null){
 		curr.setScene(scenes.get(topOfDeck));
 		curr.addAll(curr.getScene().getRole());
 		topOfDeck++;
-=======
-	    if (curr.getScene() == null){
-	    	curr.setScene(scenes.get(topOfDeck));
-	    	topOfDeck++;
->>>>>>> ed20e592869e907a469904f5e1d11ab709407a1e
 	    }
 	}
     }
