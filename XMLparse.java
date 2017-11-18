@@ -22,9 +22,20 @@ public class XMLparse {
 	return roomNeighbors;
     }
 
-    public void load (File XMLfile) {
+    public <T> T parse (File XMLfile) {
 	doc = dBuilder.parse(XMLfile);
 	doc.getDocumentElement().normalize();
+
+	string root;
+	root = doc.getDocumentElement();
+
+	if(root.equals("board")){
+	    return getAllRooms();
+	}else if(root.equals("cards")){
+	    return getScenesAsList();
+	}else{
+	    return null;
+	}
     }
 
     public List<Scene> getScenesAsList() {
