@@ -91,6 +91,13 @@ public class Player {
         this.currentRole = currentRole;
     }
     
+    
+    
+    /*
+     ** Upgrades rank of the player
+     *	params: rank : int
+     *			currency : String
+     */
     private void upgradeRank(int rank, String currency) {
         this.rank = rank;
         currency = currency.toUpperCase();
@@ -139,22 +146,14 @@ public class Player {
         }
     }
     
+    
+    
+    /* Move
+     * cycles through connected nodes and sets appropriate data if it finds the correct room then returns true.
+     * It returns false if the room isn't connected
+     */
     private boolean move(String roomName) {
-        // cycles through connected nodes and sets appropriate data if it finds the correct room then returns true.
-        // It returns false if the room isn't connected
         
-        
-        //	currentRoom.getConnectedNodes().forEach((k,v)->{
-        //		if(v.getName().equals(roomName)){
-        //		    currentRoom.removePlayer(playerNum);
-        //		    this.currentRoom = v;
-        //		    v.addPlayer(playerNum);
-        //		    return true;
-        //		}
-        //	    });
-        //	return false;
-        
-        Boolean found = false;
         List<String> connectedRooms = currentRoom.getConnectedRooms();
         for(String connectedRoomName : connectedRooms){
             if(connectedRoomName.equals(roomName)){
@@ -167,6 +166,8 @@ public class Player {
         }
         return false;
     }
+    
+    
     
     /* Work
      * Takes in roleName and checked it vs the roles in the room that the player is in
@@ -186,7 +187,7 @@ public class Player {
         return false;
     }
     
-    /* rehearse(int budget)
+    /* Rehearse(int budget)
      * Takes in budget number and increments player's rehearsalNum if doing so would not put them over 100% of success at working
      * Returns true is rehearsal was successfully done, false otherwise
      */
@@ -213,7 +214,7 @@ public class Player {
     
     
     
-    /* Act(Scene currScene)
+    /* Act
      * Takes in room, scene, and role that player is working in
      */
     private void act(Room currentRoom,Scene currentScene, Role currentRole) { //act() act
