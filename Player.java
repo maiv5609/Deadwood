@@ -194,7 +194,7 @@ public class Player {
      */
     private boolean work(String roleName) {
         List<Role> roomRoles = this.currentRoom.getRoles();
-        if(currentRoom.getName().equals(Constants.TRAILER) || currentRoom.getName().equals(Constants.CASTING_OFFICE)){
+        if(currentRoom.getScene() == null){
         	return false;
         }
         for(Role element : roomRoles){
@@ -212,7 +212,7 @@ public class Player {
   
             }
         }
-        System.out.println("The role " + roleName + " does not exist in this room.");
+        System.out.println("Unable to take role");
         return false;
     }
     
@@ -275,6 +275,7 @@ public class Player {
             
             budget = currentScene.getBudget();
             onCard = currentRole.getOnCard();
+            currentRole.setWorkable(false);
             //Roll dice
             diceRoll = new Random().nextInt(6);
             //Increment because nextInt returns from range starting at 0
@@ -323,6 +324,7 @@ public class Player {
                     money = this.getMoney();
                     money++;
                     this.setMoney(money);
+                    
                     System.out.println("You failed acting!");
                 }
                 return true;
@@ -349,6 +351,8 @@ public class Player {
                 if(parameters.length > 2){
                 	direction  = direction + " " + parameters[2];
                 } 
+               // direction.replace(direction.substring(direction.length()-1), "");
+                
                 if ((!this.move(direction)) && canMove) {
                 	System.out.println("Please select a valid room to move to.");
                 } else {
@@ -358,11 +362,11 @@ public class Player {
         } else if(Constants.WORK.equals(action)){
         	if(parameters.length < 2){
         		System.out.println("Please, specify the role");
-        	} else{
+        	}else{
         		 String roleName = parameters[1];
                  if(parameters.length > 2){
                  	for(int i = 2; i < parameters.length;i++){
-                 		roleName +=" " + parameters[i];
+                 		roleName += " " + parameters[i];
                  	}
                  }
                  if(this.work(roleName) == false){
@@ -404,7 +408,7 @@ public class Player {
             }
             System.out.println("Adjacent rooms are " + adjacentRooms);
            
-            if(!currentRoom.getName().equals(Constants.TRAILER) && !currentRoom.getName().equals(Constants.CASTING_OFFICE) ){
+            if(currentRoom.getScene() != null){
             	 System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
                  		+ ". It has a budget of " + currentRoom.getScene().getBudget() + ".");
             	 String rolesOnCard = "";
@@ -413,9 +417,9 @@ public class Player {
                  for (Role role: allRoles){
                  	if (role.onCard){
                  		System.out.println(role.getName());
-                 		rolesOnCard+=role.getName() +  ", ";
+                 		rolesOnCard+=role.getName() + " [rank:" + role.getRank() + "], ";
                  	}
-                 	roles +=role.getName() +  ", ";                 	
+                 	roles +=role.getName() +  " [rank:" + role.getRank() + "], ";                 	
                  }
                  System.out.println("All roles:" + roles);
                  if(!rolesOnCard.equals("")){

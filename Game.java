@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Game {
     int turn;
     int currDay;
@@ -8,6 +9,8 @@ public class Game {
     List<Player> players;
     static int roomsRemaining;
     Board board;
+    
+
     
     public int getTurn() {
         return turn;
@@ -46,7 +49,7 @@ public class Game {
     }
     
     public void setRoomsRemaining(int roomsRemaining) {
-        this.roomsRemaining = roomsRemaining;
+        Game.roomsRemaining = roomsRemaining;
     }
 
     
@@ -58,15 +61,12 @@ public class Game {
     	board.populateRooms();
     	for (Player curr: players){
     		curr.getCurrentRoom().removePlayer(curr.getPlayerNum());
-    		curr.setCurrentRoom(board.getRoomNode("trailer"));
-    		board.getRoomNode("trailer").addPlayer(curr.getPlayerNum());
+    		curr.setCurrentRoom(Board.getRoomNode("trailer"));
+    		Board.getRoomNode("trailer").addPlayer(curr.getPlayerNum());
     	}
+        roomsRemaining = Board.getRoomMap().size();
         this.currDay++;
      }
-    
-    
-    
-    
     
     /** scoring
      *  sets total amount of money, credits and fame to each player in the game
@@ -99,9 +99,9 @@ public class Game {
         this.setPlayers(players);
         
         for (int i = 0; i < playersNum; i++){
-            Player player = new Player(rank,i,0,credits,board.getRoomNode("trailer"));
+            Player player = new Player(rank,i,0,credits,Board.getRoomNode("trailer"));
             this.players.add(player);
-            board.getRoomNode(Constants.TRAILER).addPlayer(i);
+            Board.getRoomNode(Constants.TRAILER).addPlayer(i);
         }
  
         //set Current day to 1
@@ -117,13 +117,7 @@ public class Game {
         }
         
         //set roomsRemaining with number of rooms
-        this.roomsRemaining = board.getRoomMap().size();
-        
-        /* WORK NOTE: I think we need totalRooms to reset the room counter when a day ends
-         * 
-         */
-        //set totalRooms
-        //this.totalRooms = 12;
+        Game.roomsRemaining = Board.getRoomMap().size();
 
     }
     
@@ -214,7 +208,6 @@ public class Game {
         String input = "";
         int turn = 1;
         int player = 0;
-        boolean workAct = true;
         
         System.out.println("Please type your next action");
         System.out.println("Player: " + (player+1));
@@ -227,6 +220,7 @@ public class Game {
             System.out.println("Rooms left: " + roomsRemaining);
     	    if(game.getPlayers().get(player).getCurrentRole() != null){
     	    	game.getPlayers().get(player).getCurrentRole().setWorkable(true);
+    	    	game.getPlayers().get(player).setCanMove(false);
     	    } else{
     	    	game.getPlayers().get(player).setCanMove(true);
     	    }
@@ -252,7 +246,6 @@ public class Game {
                 System.out.println("Please type your next action");
                 System.out.println("Player: " + (player+1));
                 System.out.println("Turn: " + game.getTurn());
-                workAct = true;
             }
             game.nextDay();
         }

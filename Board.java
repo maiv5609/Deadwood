@@ -28,12 +28,12 @@ public class Board {
 	topOfDeck = 0;
     }
     
-    public Map<String, Room> getRoomMap() {
+    public static Map<String, Room> getRoomMap() {
         return roomMap;
     }
     
     public void setRoomMap(Map<String, Room> roomMap) {
-        this.roomMap = roomMap;
+        Board.roomMap = roomMap;
     }
     
     public List<Scene> getScenes() {

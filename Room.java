@@ -95,14 +95,17 @@ public class Room {
 
     public void closeScene() {
 	boolean payout = false;
+	// Check to see if extra payment is necessary
 	for (Role curr: scene.getRole()){
 	    if (curr.getHeldBy() != null){
 		payout = true;
 	    }
 	}
+	// remove roles that are on the card from the room's list of roles
 	for (Role curr: scene.getRole()){
 	    roles.remove(curr);
 	}
+	// pay extras if necessary
 	for (Role curr: roles){
 	    if (curr.getHeldBy() != null){
 		if (payout){
@@ -113,7 +116,7 @@ public class Room {
 	    }
 	    curr.setHeldBy(null);
 	}
-
+	// pay people on the card 
 	int budget = scene.getBudget();
 	List<Integer> rolls = new ArrayList<Integer>();
 	for (int i = 0; i < budget; i++){
@@ -138,13 +141,15 @@ public class Room {
 		}
 	    }
 	}
+	// free players from roles and vice versa
 	for (Role curr: scene.getRole()){
 		if (curr.getHeldBy() != null){
 		curr.getHeldBy().setRehearsalNum(0);
 		curr.getHeldBy().setCurrentRole(null);
 		}
 	}
-
+	// remove scene from room
+	scene = null;
     }
     
     
