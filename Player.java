@@ -11,8 +11,10 @@ public class Player {
     private Room currentRoom;
     private Role currentRole;
 	private boolean canMove;
-    
-    /*
+	private String diceColor;
+
+
+	/*
      * Constructors
      */
     public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
@@ -24,6 +26,8 @@ public class Player {
         this.total = 0;
         this.canMove = true;
         this.currentRoom = currentRoom;
+        this.currentRole = null;
+        this.diceColor = new Utility().getColorArray().get(playerNumber);
     }
     
     public int getRank() {
@@ -99,7 +103,14 @@ public class Player {
 	public void setCanMove(boolean canMove) {
 		this.canMove = canMove;
 	}
+    
+    public String getDiceColor() {
+		return diceColor;
+	}
 
+	public void setDiceColor(String diceColor) {
+		this.diceColor = diceColor;
+	}
     
     
     /*
@@ -241,29 +252,40 @@ public class Player {
     
     /* Act
      * Takes in room, scene, and role that player is working in
+     * returns true acting was attempted, false otherwise
      */
-    private void act(Room currentRoom,Scene currentScene, Role currentRole) { 
+    private boolean act(Room currentRoom, Scene currentScene, Role currentRole) { 
     	
     	if(currentRole == null){
     		System.out.println("The player does not have a role");
+    		return false;
     	} else{
-    		//Will need rehearsal num and if role is oncard or not
+    		if (!currentRole.getWorkable()){
+    			System.out.println("Unable to act");
+    			return false;
+    		}
             int diceRoll, currentShots, budget, money, credits = 0;
             boolean onCard = false;
             
             budget = currentScene.getBudget();
             onCard = currentRole.getOnCard();
-            //Roll dice, need to import Random class
+            //Roll dice
             diceRoll = new Random().nextInt(6);
             //Increment because nextInt returns from range starting at 0
             diceRoll++;
             diceRoll= diceRoll + this.getRehearsalNum();
             
             if(diceRoll >= budget){
+            	
                 //Success, update shots
                 currentShots = currentRoom.getCurrentShots();
-                currentShots++;
+                currentShots--;
                 currentRoom.setCurrentShots(currentShots);
+                
+                System.out.println("Shots for scene to close: " + currentRoom.getMaxShots());
+                System.out.println("Current shots: " + currentShots);
+                
+                
                 if(onCard == true){
                     credits = this.getCredits();
                     credits = credits + 2;
@@ -278,6 +300,19 @@ public class Player {
                     this.setMoney(money);
                     System.out.println("You have succeded in the role. You've gained one credit and one dollar!");
                 }
+                
+             	//Check if scene is finished
+                if(currentShots == 0){
+                	/* WORK NOTE: might need to change how payout works 
+                	 * 
+                	 */
+                	//Start payouts
+                	currentRole.payOut(this, this.money, credits);
+                	
+                	
+                	Game.roomsRemaining--;
+                }
+                return true;
             }else{
                 //Failure
                 if(onCard == false){
@@ -286,6 +321,7 @@ public class Player {
                     this.setMoney(money);
                     System.out.println("You failed acting!");
                 }
+                return true;
             }
             
     	}
@@ -302,15 +338,19 @@ public class Player {
      */
     public void handleAction(String action, String[] parameters) {
         if(Constants.MOVE.equals(action)){
-            String direction = parameters[1];
-            if(parameters.length > 2){
-            	direction  = direction + " " + parameters[2];
-            } 
-            if ((!this.move(direction)) && canMove) {
-            	System.out.println("Please select a valid room to move to.");
-            } else {
-               canMove = false;
-            }
+        	if(parameters.length == 1){
+        		System.out.println("Please also input the room you would like to move to.");
+        	}else{
+        		String direction = parameters[1];
+                if(parameters.length > 2){
+                	direction  = direction + " " + parameters[2];
+                } 
+                if ((!this.move(direction)) && canMove) {
+                	System.out.println("Please select a valid room to move to.");
+                } else {
+                   canMove = false;
+                }
+        	}
         } else if(Constants.WORK.equals(action)){
             String roleName = parameters[1];
             if(parameters.length > 2){
@@ -329,9 +369,16 @@ public class Player {
             this.act(currentRoom, currentRoom.getScene(), currentRole);
         } else if(Constants.WHO.equals(action)){
             System.out.println("Current player is player #" + (this.playerNum + 1));
+            System.out.println("Current player has dice color: " + (this.diceColor));
             System.out.println("Current player has " + (this.money) + "$");
             System.out.println("Current player has " + (this.credits) + "cr");
             System.out.println("Current player has rank #" + (this.rank));
+            if(this.currentRole != null){
+            	System.out.println("Current player is working this role: " + (this.currentRole.getName()));
+            }else{
+            	System.out.println("Player does not have a role yet");
+            }
+            
         } else if(Constants.WHERE.equals(action)){
             System.out.println("Current player is in the room: " + this.currentRoom.getName());
             String adjacentRooms = "";
@@ -344,6 +391,24 @@ public class Player {
             	i++;
             }
             System.out.println("Adjacent rooms are " + adjacentRooms);
+            System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
+            		+ ". It has a bugdet of " + currentRoom.getScene().getBudget() + ".");
+            
+            String rolesOnCard = "";
+            List<Role> roles = currentRoom.getRoles();
+            for (Role role: roles){
+            	if (role.onCard){
+            		System.out.println(role);
+            		rolesOnCard+= " " + role;
+            	}
+            }
+            System.out.println("On card roles:  " + rolesOnCard);
+            
+            
+            
+            /* WORK NOTE: 
+             * We might want to display what roles are available in the current room
+             */
         }
         
     }

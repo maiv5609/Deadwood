@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utility {
     
@@ -36,6 +38,20 @@ public class Utility {
             params[i] = params[i].toLowerCase();
         }
         return params;	
+    }
+    
+    public List<String> getColorArray(){
+    	List<String> colors = new ArrayList<String>();
+    	colors.add(Constants.WHITE_COLOR);
+    	colors.add(Constants.BLACK_COLOR);
+    	colors.add(Constants.RED_COLOR);
+    	colors.add(Constants.ORANGE_COLOR);
+    	colors.add(Constants.BLUE_COLOR);
+    	colors.add(Constants.GREEN_COLOR);
+    	colors.add(Constants.PEACH_COLOR);
+    	colors.add(Constants.YELLOW_COLOR);
+    	
+    	return colors;
     }
     
 }
