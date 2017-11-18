@@ -7,7 +7,18 @@ public class Game {
     int currDay;
     int maxDay;
     List<Player> players;
-    int roomsRemaining;
+    static int roomsRemaining;
+    
+    /* WORK NOTE: 
+     * To Do:
+     * 	Act, need to handle payouts 
+     * 	Next day, need to handle repopulating scenes and resetting roomsRemaining
+     * 	Scoring
+     * 
+     * Work notes in:
+     * 	Player.java
+     * 	Role.java
+     */
     
     public int getTurn() {
         return turn;
@@ -102,25 +113,36 @@ public class Game {
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
         
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < playersNum; i++){
             Player player = new Player(rank,i,0,credits,board.getRoomNode("trailer"));
             this.players.add(player);
             board.getRoomNode(Constants.TRAILER).addPlayer(i);
         }
-        
+ 
         //set Current day to 1
         this.currDay = currentDay;
         //set Current turn to 0
         this.turn = turn;
-        //set Max Day to 0
-        this.maxDay = 4;
+        
+        //set Max Day
+        if(playersNum <= 3){
+        	this.maxDay = 3;
+        }else{
+        	this.maxDay = 4;
+        }
+        //set roomsRemaining with number of rooms
+        this.roomsRemaining = board.getRoomMap().size();
+        
+        /* WORK NOTE: I think we need totalRooms to reset the room counter when a day ends
+         * 
+         */
         //set totalRooms
         //this.totalRooms = 12;
+
     }
     
-    
-    
-    /**
+
+	/**
      * endGame
      * ends the game (== scoring)
      */
@@ -163,8 +185,10 @@ public class Game {
         if(playersNumStr != null && !playersNumStr.isEmpty()){
             playersNum = Integer.parseInt(playersNumStr);
             while(playersNum < 2 || playersNum > 8){
-                System.out.println("Please, set number of players between 2 and 8:");
-            }
+            	System.out.println("Please, set number of players between 2 and 8:");
+            	playersNumStr = utility.inputReader();
+            	playersNum = Integer.parseInt(playersNumStr);                
+            } 
         } else{
             System.out.println("Please, set number of players:");
         }
@@ -185,7 +209,6 @@ public class Game {
                 rank = 2;
         }
         
-        
         //start game with initial params
         Game game = new Game();
         String boardXml = Constants.BOARD_XML;
@@ -193,8 +216,9 @@ public class Game {
         game.startGame(1, 1, 4, playersNum, maxDays, rank, credits,boardXml,cardsXml);
         //print players
         System.out.println("The game has just started!!");
+        System.out.println("Players:");
         for(int i = 0; i < playersNum; i++){
-            System.out.println("Player"+ (game.getPlayers().get(i).getPlayerNum() + 1));
+            System.out.println("Player "+ (game.getPlayers().get(i).getPlayerNum() + 1));
         }
         
         
@@ -204,34 +228,57 @@ public class Game {
         String input = "";
         int turn = 1;
         int player = 0;
-        while(true){
-	    if(game.getPlayers().get(player).getCurrentRole() != null){
-	    	game.getPlayers().get(player).getCurrentRole().setWorkable(true);
-	    } else{
-	    	game.getPlayers().get(player).setCanMove(true);
-	    }
-            while(!input.equals(Constants.END_TURN)){
-                input = utility.inputReader();
-                String[] parameters = utility.parseParams(input);
-                String action = parameters[0];
-                game.handleUserInput(action, parameters, player);
-                
-                System.out.println(input);
-                //update view
+        boolean workAct = true;
+        
+        System.out.println("Please type your next action");
+        System.out.println("Player: " + (player+1));
+        System.out.println("Turn: " + game.getTurn());
+        
+        //General Game Loop
+        while(game.currDay <= game.maxDay){
+        	//Day Loop 
+            while(roomsRemaining != 1){
+            System.out.println("Rooms left: " + roomsRemaining);
+    	    if(game.getPlayers().get(player).getCurrentRole() != null){
+    	    	game.getPlayers().get(player).getCurrentRole().setWorkable(true);
+    	    } else{
+    	    	game.getPlayers().get(player).setCanMove(true);
+    	    }
+    	    	//Turn loop
+                while(!input.equals(Constants.END_TURN)){
+                    input = utility.inputReader();
+                    String[] parameters = utility.parseParams(input);
+                    String action = parameters[0];
+                   // if(workAct == false && (action.equals(Constants.WORK) || action.equals(Constants.ACT)) ){
+                   // 	System.out.println("Please wait until next turn to do action");
+                    //}else{
+                    	game.handleUserInput(action, parameters, player);
+                    //	if (action.equals(Constants.WORK) || action.equals(Constants.ACT)){
+                        	//Flag, Cannot work / act in same turn
+                      //  	workAct = false;
+                        //}
+                    //}
+                    
+                    System.out.println(input);
+                    System.out.print("Next command: ");
+                    //update view
+                }
+                input = "";
+                if(player == game.getPlayers().size()-1){
+                    player = 0;
+                } else {
+                    player++;
+                }
+                turn++;
+                game.setTurn(turn);
+                System.out.println("Please type your next action");
+                System.out.println("Player: " + (player+1));
+                System.out.println("Turn: " + game.getTurn());
+                workAct = true;
             }
-            input = "";
-            if(player == game.getPlayers().size()-1){
-                player = 0;
-            } else {
-                player++;
-            }
-            turn++;
-            game.setTurn(turn);
-            System.out.println("Player: " + (player+1));
-            System.out.println("Turn: " + game.getTurn());
+            game.currDay++;
         }
-        
-        
+        //Last day has ended, start scoring
     }
     
 }
