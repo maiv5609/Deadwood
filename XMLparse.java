@@ -27,7 +27,7 @@ public class XMLparse {
 	doc.getDocumentElement().normalize();
     }
 
-    public List<Scene> getScenesAsList() {
+    private List<Scene> getScenesAsList() {
 	List<Scene> listOfScenes = new ArrayList<Scene>();
 	NodeList nList = doc.getElementsByTagName("card");
 	int length = nList.getLength();
@@ -64,7 +64,7 @@ public class XMLparse {
 	return listOfScenes;
     }
 
-    public Map<String,Room> getAllRooms(){
+    private Map<String,Room> getAllRooms(){
 	Map<String,Room> rooms = new HashMap();
 	// Read and add all normal rooms
 	NodeList roomList = doc.getElementsByTagName("set");
@@ -91,7 +91,7 @@ public class XMLparse {
 			connectedRooms.add(nElement.getAttribute("name"));
 		    }
 		}
-		curr.setConnectedNodes(connectedRooms);
+		curr.setConnectedRooms(connectedRooms);
 		// get and set all roles
 		List<Role> roles = new ArrayList<Role>();
 		NodeList parts = room.getElementsByTagName("part");
@@ -112,9 +112,44 @@ public class XMLparse {
 	    rooms.put(name,curr);
 	}
 	// read and get the casting office
-	Node casting = doc.getElementsByTagName("office").items(0);
-	
+	Room castingOffice = new Room();
+	Node castingNode = doc.getElementsByTagName("office").items(0);
+	if (castingNode.getNodeType() == Node.ELEMENT_NODE) {
+	    Element castingElement = (Element) castingNode;
+	    castingOffice.setName("office");
+	    List<String> connRooms = new ArrayList<String>();
+	    NodeList neighbors = castingElement.getElementsByTagName("neighbors").item(0).getElementsByTagName("neighbor");
+	    length = neighbors.getLength();
+	    for (int i = 0; i < length; i++){
+		Node neighborNode = neighbors.item(i);
+		if (neighborNode.getNodeType() == Node.ELEMENT_NODE){
+		    Element nElement = (Element) neighborNode;
+		    connRooms.add(nElement.getAttribute("name"));
+		}
+	    }
+	    castingOffice.setConnectedRooms(connRooms);
+	}
+	rooms.put("office",castingOffice);
 	//read and get the trailer
+	Room trailer = new Room();
+	Node trailNode = doc.getElementsByTagName("trailer").item(0);
+	if (trailNode.getNodeType() == Node.ELEMENT_NODE) {
+	    Element trailElement = (Element) trailNode;
+	    trailer.setName("trailer");
+	    List<String> connRooms = new ArrayList<String>();
+	    NodeList neighbors = trailElement.getElementsByTagName("neighbors").item(0).getElementsByTagName("neighbor");
+	    length = neighbors.getLength();
+	    for (int i = 0; i < length; i++) {
+		Node neighborNode = neighbors.item(i);
+		if (neighborNode.getNodeType() == Node.ELEMENT_NODE) {
+		    Element nElement = (Element) neighborNode;
+		    connRooms.add(nElement.getAttribute("name"));
+		}
+	    }
+	    trailer.setConnectedRooms(connRooms);
+	}
+	rooms.put("trailer",trailer);
+	return rooms;
     } // end function
 
 }
