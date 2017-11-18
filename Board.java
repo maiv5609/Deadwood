@@ -25,6 +25,7 @@ public class Board {
         } else {
             scenes = xmlParse.getScenesAsList();
         }
+	topOfDeck = 0;
     }
     
     public Map<String, Room> getRoomMap() {
@@ -43,7 +44,7 @@ public class Board {
         this.scenes = scenes;
     }
     
-    /**
+    /*
      * Makes sure that there is no more than one instance is created
      * 		returns : instance : Board
      */
@@ -60,6 +61,15 @@ public class Board {
     public static Room getRoomNode(String roomName){
         Room returnRoom = roomMap.get(roomName);
         return returnRoom;
+    }
+
+    public populateRooms() {
+	for (Room curr: roomMap.values()){
+	    if (curr.getScene() != null){
+		curr.setScene(scenes.get(topOfDeck));
+		topOfDeck++;
+	    }
+	}
     }
     
     

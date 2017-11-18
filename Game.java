@@ -106,6 +106,7 @@ public class Game {
     private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays, int credits, int rank, String boardXml, String cardsXml) {
         
         Board board = Board.getInstance(boardXml, cardsXml);
+	board.populateRooms();
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
         
