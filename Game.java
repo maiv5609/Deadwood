@@ -8,6 +8,7 @@ public class Game {
     int maxDay;
     List<Player> players;
     static int roomsRemaining;
+    Board board;
     
     /* WORK NOTE: 
      * To Do:
@@ -65,21 +66,16 @@ public class Game {
     /** nextDay
      *  sets necessary configuration for the next day
      */
-    private void nextDay(Map<Integer, Room> roomMap) {
-        if (roomsRemaining == 1){
-            Scene nextScene;
-            Room currRoom;
-            for (Map.Entry<Integer, Room> entry : roomMap.entrySet()){
-                //Currently having placeholder for scene until pool of scenes is implemented
-                //Iterate through map and populate scenes if there is none
-                nextScene = new Scene();
-                currRoom = entry.getValue();
-                currRoom.setScene(nextScene);
-                
-            }
-            this.currDay++;
-        }
-    }
+    private void nextDay() {
+    	board.populateRooms();
+    	for (Player curr: players){
+    		curr.getCurrentRoom().removePlayer(curr.getPlayerNum());
+    		curr.setCurrentRoom(board.getRoomNode("trailer"));
+    		board.getRoomNode("trailer").addPlayer(curr.getPlayerNum());
+    	}
+        this.currDay++;
+     }
+    
     
     
     
@@ -108,7 +104,7 @@ public class Game {
      */
     private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays, int credits, int rank, String boardXml, String cardsXml) {
         
-        Board board = Board.getInstance(boardXml, cardsXml);
+        board = Board.getInstance(boardXml, cardsXml);
         board.populateRooms();
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
@@ -180,18 +176,17 @@ public class Game {
         
         Utility utility = new Utility();
         
-        System.out.println("Please, set number of players between 2 and 8:");
-        String playersNumStr = utility.inputReader();
-        if(playersNumStr != null && !playersNumStr.isEmpty()){
-            playersNum = Integer.parseInt(playersNumStr);
-            while(playersNum < 2 || playersNum > 8){
-            	System.out.println("Please, set number of players between 2 and 8:");
-            	playersNumStr = utility.inputReader();
-            	playersNum = Integer.parseInt(playersNumStr);                
-            } 
-        } else{
-            System.out.println("Please, set number of players:");
+        
+        while(true){
+        	System.out.println("Please, set number of players between 2 and 8:");
+	        String playersNumStr = utility.inputReader();
+	        String regex = "[2-8]";
+	        if (playersNumStr.matches(regex)){
+	        	playersNum = Integer.parseInt(playersNumStr);
+	        	break;
+	        }
         }
+
         //set maxDays and credits
         if(playersNum >=2 && playersNum <=3){
             maxDays = 3;
@@ -249,15 +244,7 @@ public class Game {
                     input = utility.inputReader();
                     String[] parameters = utility.parseParams(input);
                     String action = parameters[0];
-                   // if(workAct == false && (action.equals(Constants.WORK) || action.equals(Constants.ACT)) ){
-                   // 	System.out.println("Please wait until next turn to do action");
-                    //}else{
-                    	game.handleUserInput(action, parameters, player);
-                    //	if (action.equals(Constants.WORK) || action.equals(Constants.ACT)){
-                        	//Flag, Cannot work / act in same turn
-                      //  	workAct = false;
-                        //}
-                    //}
+                    game.handleUserInput(action, parameters, player);
                     
                     System.out.println(input);
                     System.out.print("Next command: ");
@@ -276,7 +263,7 @@ public class Game {
                 System.out.println("Turn: " + game.getTurn());
                 workAct = true;
             }
-            game.currDay++;
+            game.nextDay();
         }
         //Last day has ended, start scoring
     }

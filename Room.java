@@ -108,13 +108,13 @@ public class Room {
 		if (payout){
 		    curr.payOut(curr.getRank(),0);
 		}
-		curr.getHeldby().setCurrentRole(null);
+		curr.getHeldBy().setCurrentRole(null);
 	    }
 	    curr.setHeldBy(null);
 	}
 
 	if (payout){
-	    for ()
+	  //  for ()
 	}
 
     }

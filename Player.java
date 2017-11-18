@@ -307,7 +307,6 @@ public class Player {
                 	 * 
                 	 */
                 	//Start payouts
-                	currentRole.payOut(this.money, credits);
                 	
                 	
                 	Game.roomsRemaining--;
@@ -393,18 +392,18 @@ public class Player {
             System.out.println("Adjacent rooms are " + adjacentRooms);
             System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
             		+ ". It has a bugdet of " + currentRoom.getScene().getBudget() + ".");
-            
-            String rolesOnCard = "";
-            List<Role> roles = currentRoom.getRoles();
-            for (Role role: roles){
-            	if (role.onCard){
-            		System.out.println(role);
-            		rolesOnCard+= " " + role;
-            	}
+            if(!currentRoom.getName().equals(Constants.TRAILER) || !currentRoom.getName().equals(Constants.CASTING_OFFICE) ){
+            	 String rolesOnCard = "";
+                 List<Role> roles = currentRoom.getRoles();
+                 for (Role role: roles){
+                 	if (role.onCard){
+                 		System.out.println(role);
+                 		rolesOnCard+= " " + role;
+                 	}
+                 }
+                 System.out.println("On card roles:  " + rolesOnCard);    
             }
-            System.out.println("On card roles:  " + rolesOnCard);
-            
-            
+           
             
             /* WORK NOTE: 
              * We might want to display what roles are available in the current room
