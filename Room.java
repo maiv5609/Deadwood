@@ -114,7 +114,7 @@ public class Room {
 	}
 
 	int budget = scene.getBudget();
-	List<Int> rolls = new ArrayList<int>();
+	// List<Int> rolls = new ArrayList<int>();
 	for (int i = 0; i < budget; i++){
 	    
 	}

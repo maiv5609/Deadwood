@@ -12,13 +12,7 @@ public class Game {
     
     /* WORK NOTE: 
      * To Do:
-     * 	Act, need to handle payouts 
-     * 	Next day, need to handle repopulating scenes and resetting roomsRemaining
      * 	Scoring
-     * 
-     * Work notes in:
-     * 	Player.java
-     * 	Role.java
      */
     
     public int getTurn() {
@@ -172,7 +166,7 @@ public class Game {
         int playersNum = 0;
         int maxDays = 4;
         int credits = 0;
-        int rank = 0;
+        int rank = 1;
         
         Utility utility = new Utility();
         
@@ -215,6 +209,7 @@ public class Game {
         for(int i = 0; i < playersNum; i++){
             System.out.println("Player "+ (game.getPlayers().get(i).getPlayerNum() + 1));
         }      
+        System.out.println();
         /** Parse params (action name + additional parameters for action)
          *   from user input and pass it to Player to handle
          */
@@ -264,6 +259,7 @@ public class Game {
             game.nextDay();
         }
         //Last day has ended, start scoring
+        
     }
     
 }

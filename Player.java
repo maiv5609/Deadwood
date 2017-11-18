@@ -219,8 +219,8 @@ public class Player {
      * Returns true is rehearsal was successfully done, false otherwise
      */
     private boolean rehearse() {
-    	int budget = this.currentRoom.getScene().getBudget();
     	if (currentRole != null){
+    		int budget = this.currentRoom.getScene().getBudget();
     		if (!currentRole.getWorkable()){
     			System.out.println("Unable to rehearse");
     			return false;
@@ -238,13 +238,17 @@ public class Player {
 	        }else if(currentRehearsalNum < budget){
 	            //Successful rehearsal
 	            this.setRehearsalNum(currentRehearsalNum);
-	            System.out.println("Rehearsal counts increased by 1");
+	            System.out.println("Budget for role: " + budget);
+	            System.out.println("Rehearsal count increased by 1");
+	            System.out.println("Total Number of Rehearsals: " + currentRehearsalNum);
+	            currentRole.setWorkable(false);
 	            return true;
 	        }else{
 	            //Error budget is less then rehearsal
 	            return false;
 	        }
-	    	}
+	    }
+    	System.out.println("Rehearsal Failed");
     	return false;
     }
     
@@ -351,13 +355,18 @@ public class Player {
                 }
         	}
         } else if(Constants.WORK.equals(action)){
-            String roleName = parameters[1];
-            if(parameters.length > 2){
-            	for(int i = 2; i < parameters.length;i++){
-            		roleName +=" " + parameters[i];
-            	}
-            }
-            this.work(roleName);
+        	if(parameters.length < 2){
+        		System.out.println("Please, specify the role");
+        	} else{
+        		 String roleName = parameters[1];
+                 if(parameters.length > 2){
+                 	for(int i = 2; i < parameters.length;i++){
+                 		roleName +=" " + parameters[i];
+                 	}
+                 }
+                 this.work(roleName);
+        	}
+           
         } else if(Constants.UPGRADE.equals(action)){
             int rank = Integer.parseInt(parameters[2]);
             String currency = parameters[1];
@@ -369,6 +378,7 @@ public class Player {
         } else if(Constants.WHO.equals(action)){
             System.out.println("Current player is player #" + (this.playerNum + 1));
             System.out.println("Current player has dice color: " + (this.diceColor));
+            System.out.println("Current number of rehearsals: " + (this.rehearsalNum));
             System.out.println("Current player has " + (this.money) + "$");
             System.out.println("Current player has " + (this.credits) + "cr");
             System.out.println("Current player has rank #" + (this.rank));
@@ -390,9 +400,10 @@ public class Player {
             	i++;
             }
             System.out.println("Adjacent rooms are " + adjacentRooms);
-            System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
-            		+ ". It has a bugdet of " + currentRoom.getScene().getBudget() + ".");
+           
             if(!currentRoom.getName().equals(Constants.TRAILER) && !currentRoom.getName().equals(Constants.CASTING_OFFICE) ){
+            	 System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
+                 		+ ". It has a budget of " + currentRoom.getScene().getBudget() + ".");
             	 String rolesOnCard = "";
             	 String roles = " ";
                  List<Role> allRoles = currentRoom.getRoles();
@@ -405,14 +416,11 @@ public class Player {
                  }
                  System.out.println("All roles:" + roles);
                  if(!rolesOnCard.equals("")){
-                	 System.out.println("On card roles:" + rolesOnCard); 
+                	 System.out.println("On card roles: " + rolesOnCard); 
                  }     
             }
-           
-            
-            /* WORK NOTE: 
-             * We might want to display what roles are available in the current room
-             */
+        }else{
+        	System.out.println("Command not found please reinput");
         }
         
     }
