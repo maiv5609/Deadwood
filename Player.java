@@ -14,7 +14,7 @@ public class Player {
     /*
      * Constructors
      */
-    public Player(int rank, int playerNumber, int money, int credits, Room currentRoom Role currentRole){
+    public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
         this.rank = rank;
         this.playerNum = playerNumber;
         this.money = money;
@@ -22,7 +22,6 @@ public class Player {
         this.rehearsalNum = 0;
         this.total = 0;
         this.currentRoom = currentRoom;
-	this.currentRole = currentRole;
     }
     
     public int getRank() {
@@ -157,11 +156,12 @@ public class Player {
         
         List<String> connectedRooms = currentRoom.getConnectedRooms();
         for(String connectedRoomName : connectedRooms){
-            if(connectedRoomName.equals(roomName)){
+            if(connectedRoomName.toLowerCase().equals(roomName)){
                 Room connectedRoom = Board.getRoomNode(connectedRoomName);
                 currentRoom.removePlayer(playerNum);
                 this.currentRoom = connectedRoom;
                 currentRoom.addPlayer(playerNum);
+                System.out.println("The player is in the " + roomName + " room");
                 return true;
             }
         }

@@ -7,14 +7,14 @@ public class Role {
     int rank;
     Boolean onCard;
     int heldBy;
-
+    
     public Role(){
-	name = null;
-	line = null;
-	workable = 0;
-	rank = 0;
-	boolean = false;
-	heldBy = 0;
+        name = null;
+        line = null;
+        workable = 0;
+        rank = 0;
+        onCard = false;
+        heldBy = 0;
     }
     
     public String getName() {

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
@@ -9,15 +10,15 @@ public class Room {
     private List<Role> roles;
     private Scene scene;
     private List<String> connectedRooms;
-
+    
     public Room(){
-	name = null;
-	maxShots = 0;
-	currentShots = 0;
-	playersInTheRoom = null;
-	rols = null;
-	scene = null;
-	connectedRoom = null;
+        name = null;
+        maxShots = 0;
+        currentShots = 0;
+        playersInTheRoom = new ArrayList<Integer>();
+        roles = null;
+        scene = null;
+        connectedRooms = new ArrayList<String>();
     }
     
     public String getName() {

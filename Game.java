@@ -106,14 +106,13 @@ public class Game {
     private void startGame(int currentDay, int turn, int maxDay, int playersNum, int maxDays, int credits, int rank, String boardXml, String cardsXml) {
         
         Board board = Board.getInstance(boardXml, cardsXml);
-        Room currentRoom = new Room();
-        currentRoom.setName("Trailer");
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
         
         for (int i = 0; i < 3; i++){
-            Player player = new Player(rank,i,0,credits,currentRoom);
+            Player player = new Player(rank,i,0,credits,board.getRoomNode("trailer"));
             this.players.add(player);
+            board.getRoomNode("trailer").addPlayer(i);
         }
         
         //set Current day to 1
@@ -211,11 +210,12 @@ public class Game {
          */
         String input = utility.inputReader();
         while(!input.equals(Constants.END_TURN)){
-            input = utility.inputReader();
             String[] parameters = utility.parseParams(input);
             String action = parameters[0];
             game.handleUserInput(action, parameters);
             game.setTurn(game.getTurn() + 1);
+            System.out.println("Turn: " + game.getTurn());
+            input = utility.inputReader();
             //update view
         }
         
