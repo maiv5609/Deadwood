@@ -67,6 +67,7 @@ public class Board {
 	for (Room curr: roomMap.values()){
 	    if (curr.getScene() != null){
 		curr.setScene(scenes.get(topOfDeck));
+		curr.addAll(curr.getScene().getRole())
 		topOfDeck++;
 	    }
 	}
