@@ -307,7 +307,7 @@ public class Player {
                 	 * 
                 	 */
                 	//Start payouts
-                	currentRole.payOut(this, this.money, credits);
+                	currentRole.payOut(this.money, credits);
                 	
                 	
                 	Game.roomsRemaining--;
