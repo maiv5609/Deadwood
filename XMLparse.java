@@ -70,6 +70,7 @@ public class XMLparse {
 		int rank;
 		for (int j = 0; j < numOfRoles; j++){
 		    Role currRole = new Role();
+		    currRole.setOnCard(true);
 		    Node rNode = rList.item(j);
 		    if (rNode.getNodeType() == Node.ELEMENT_NODE) {
 			Element rElement = (Element) rNode;
