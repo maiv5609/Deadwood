@@ -7,8 +7,8 @@ public class Game {
     int currDay;
     int maxDay;
     List<Player> players;
-    int roomsRemaining;
-    int totalRooms;
+    //int roomsRemaining;
+    //int totalRooms;
     
     public int getTurn() {
         return turn;
@@ -123,7 +123,7 @@ public class Game {
         //set Max Day to 0
         this.maxDay = 4;
         //set totalRooms
-        this.totalRooms = 12;
+        //this.totalRooms = 12;
     }
     
     
@@ -213,6 +213,9 @@ public class Game {
         int turn = 1;
         int player = 0;
         while(true){
+	    if (players.get(player).getCurrentRole() != null){
+		players.get(player).getCurrentRole().setWorkable(true);
+	    }
             while(!input.equals(Constants.END_TURN)){
                 input = utility.inputReader();
                 String[] parameters = utility.parseParams(input);
