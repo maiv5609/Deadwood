@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +6,9 @@ public class Game {
     int turn;
     int currDay;
     int maxDay;
-    static List<Player> players;
+    List<Player> players;
     static int roomsRemaining;
     Board board;
-    static int currentPlayerNum = 0;
-    static boolean isEndTurn = false;
     
 
     
@@ -140,16 +137,10 @@ public class Game {
      * params:  action: String
      * 			parameters: Array String
      */
-    public static void handleUserInput(ActionEvent e) {
-    	String action = e.getActionCommand();
+    public void handleUserInput(String action, String[] parameters, int playerNum) {
     	if(!action.equals(Constants.END_TURN)){
-    		Player currentPlayer = players.get(currentPlayerNum);
-    		String[] parameters = {"par_A", "par_B"};
+    		Player currentPlayer = this.getPlayers().get(playerNum);
             currentPlayer.handleAction(action, parameters);
-            isEndTurn = false;
-    	}
-    	else{
-    		isEndTurn = true;
     	}
     }
     
@@ -171,27 +162,11 @@ public class Game {
         
         Utility utility = new Utility();
         
-        /* GUI Testing
-         * 
-         */
-        /* This example uses the View class
-        View board = new View();
-		board.setVisible(true);
-		*/
-        FrameBorder GUI = new FrameBorder();
-        GUI.setVisible(true);
-        
-
         
         while(true){
-        	TextArea text = new TextArea();
-        	text.setVisible(true);
-        	//System.out.println("Please, set number of players between 2 and 8:");
-	        //String playersNumStr = utility.inputReader();
-	        
-	        
+        	System.out.println("Please, set number of players between 2 and 8:");
+	        String playersNumStr = utility.inputReader();
 	        String regex = "[2-8]";
-	        String playersNumStr = "3";
 	        if (playersNumStr.matches(regex)){
 	        	playersNum = Integer.parseInt(playersNumStr);
 	        	break;
@@ -230,11 +205,12 @@ public class Game {
         /** Parse params (action name + additional parameters for action)
          *   from user input and pass it to Player to handle
          */
+        String input = "";
         int turn = 1;
-        currentPlayerNum = 0;
+        int player = 0;
         
         System.out.println("Please type your next action");
-        System.out.println("Player: " + (currentPlayerNum+1));
+        System.out.println("Player: " + (player+1));
         System.out.println("Turn: " + game.getTurn());
         
         //General Game Loop
@@ -242,34 +218,33 @@ public class Game {
         	//Day Loop 
             while(roomsRemaining != 1){
             System.out.println("Rooms left: " + roomsRemaining);
-    	    if(game.getPlayers().get(currentPlayerNum).getCurrentRole() != null){
-    	    	game.getPlayers().get(currentPlayerNum).getCurrentRole().setWorkable(true);
-    	    	game.getPlayers().get(currentPlayerNum).setCanMove(false);
+    	    if(game.getPlayers().get(player).getCurrentRole() != null){
+    	    	game.getPlayers().get(player).getCurrentRole().setWorkable(true);
+    	    	game.getPlayers().get(player).setCanMove(false);
     	    } else{
-    	    	game.getPlayers().get(currentPlayerNum).setCanMove(true);
+    	    	game.getPlayers().get(player).setCanMove(true);
     	    }
     	    	//Turn loop
-              //  while(!input.equals(Constants.END_TURN)){
-    	    while(!isEndTurn){
-//                    input = utility.inputReader();
-//                    String[] parameters = utility.parseParams(input);
-//                    String action = parameters[0];
-//                    game.handleUserInput(action, parameters, player);
-//                    
-//                    System.out.println(input);
-//                    System.out.print("Next command: ");
-//                    //update view
-               }
- 
-                if(currentPlayerNum == game.getPlayers().size()-1){
-                    currentPlayerNum = 0;
+                while(!input.equals(Constants.END_TURN)){
+                    input = utility.inputReader();
+                    String[] parameters = utility.parseParams(input);
+                    String action = parameters[0];
+                    game.handleUserInput(action, parameters, player);
+                    
+                    System.out.println(input);
+                    System.out.print("Next command: ");
+                    //update view
+                }
+                input = "";
+                if(player == game.getPlayers().size()-1){
+                    player = 0;
                 } else {
-                    currentPlayerNum++;
+                    player++;
                 }
                 turn++;
                 game.setTurn(turn);
                 System.out.println("Please type your next action");
-                System.out.println("Player: " + (currentPlayerNum+1));
+                System.out.println("Player: " + (player+1));
                 System.out.println("Turn: " + game.getTurn());
             }
             game.nextDay();
