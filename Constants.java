@@ -1,6 +1,10 @@
 
 public class Constants {
     
+	
+	
+    public static final String DEADWOOD = "Deadwood";
+    
     public static final String ACT = "act";
     public static final String MOVE = "move";
     public static final String WORK = "work";
