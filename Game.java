@@ -184,8 +184,8 @@ public class Game {
 
         
         while(true){
-        	TextArea text = new TextArea();
-        	text.setVisible(true);
+        	CustomDialog dialog = new CustomDialog();
+        	dialog.setVisible(true);
         	//System.out.println("Please, set number of players between 2 and 8:");
 	        //String playersNumStr = utility.inputReader();
 	        
