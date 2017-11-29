@@ -1,0 +1,1 @@
+Should not need extra steps to compile. Our Main() is in the Game class. The game class is our controller, the view class will be implemented later, and the rest of the classes are our model. 
