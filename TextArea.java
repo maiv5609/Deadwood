@@ -28,4 +28,5 @@ public class TextArea extends JFrame{
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+	
 }

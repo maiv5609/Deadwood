@@ -1,9 +1,13 @@
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Game {
+public class Game implements PropertyChangeListener{
     int turn;
     int currDay;
     int maxDay;
@@ -13,6 +17,11 @@ public class Game {
     static int currentPlayerNum = 0;
     static boolean isEndTurn = false;
     
+    //GUI TESTING
+    private String name;
+    
+    private static PropertyChangeSupport pcs = null;
+    		//new PropertyChangeSupport(this);
 
     
     public int getTurn() {
@@ -54,6 +63,12 @@ public class Game {
     public void setRoomsRemaining(int roomsRemaining) {
         Game.roomsRemaining = roomsRemaining;
     }
+    
+//    public Game() {
+//    	
+//    	//Property Listener
+//        pcs.addPropertyChangeListener(this);
+//    }
 
     
     
@@ -100,6 +115,9 @@ public class Game {
         board.populateRooms();
         List<Player> players = new ArrayList<Player>();
         this.setPlayers(players);
+        
+        
+        
         
         for (int i = 0; i < playersNum; i++){
             Player player = new Player(rank,i,0,credits,Board.getRoomNode("trailer"));
@@ -174,18 +192,27 @@ public class Game {
         /* GUI Testing
          * 
          */
-        /* This example uses the View class
+        // This example uses the View class
+        
         View board = new View();
 		board.setVisible(true);
-		*/
+		
+		//figure out a way to report action listeners
+		
+        /*
         FrameBorder GUI = new FrameBorder();
         GUI.setVisible(true);
-        
-
-        
+        */
+		/*
+		PropertyChangeListener[] listeners = board.getPropertyChangeListeners();
+		board.addPropertyChangeListener("who", null);
+        for(PropertyChangeListener lis: listeners) {
+        	System.out.print(lis);
+        }
+		*/
         while(true){
-        	CustomDialog dialog = new CustomDialog();
-        	dialog.setVisible(true);
+        	//CustomDialog dialog = new CustomDialog();
+        	//dialog.setVisible(true);
         	//System.out.println("Please, set number of players between 2 and 8:");
 	        //String playersNumStr = utility.inputReader();
 	        
@@ -217,9 +244,19 @@ public class Game {
         
         //start game with initial params
         Game game = new Game();
+      //GUI TESTING
+        pcs = new PropertyChangeSupport(game);
+      //Property Listener
+      pcs.addPropertyChangeListener(game);
+        game.setName("test");
+        
         String boardXml = Constants.BOARD_XML;
         String cardsXml = Constants.CARDS_XML;
         game.startGame(1, 1, 4, playersNum, maxDays, credits, rank, boardXml,cardsXml);
+        
+        
+        
+        
         //print players
         System.out.println("The game has just started!!");
         System.out.println("Players:");
@@ -277,5 +314,20 @@ public class Game {
         //Last day has ended, start scoring
         game.endGame();
     }
-    
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		System.out.print("Name = " + evt.getPropertyName());
+	}
+	
+	public static void setName(String name) {
+//		String oldValue = this.name;
+//        this.name = name;
+
+        //
+        // Fires a property change event
+        //
+        pcs.firePropertyChange("name", false, name);
+    }
 }
