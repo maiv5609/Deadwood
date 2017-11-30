@@ -59,7 +59,7 @@ class FrameBorder extends JFrame{
 		bottom.add(Box.createRigidArea(new Dimension(5, 0)));
 		Move.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 				JTextField field = new JTextField();
 				field.setBounds(30, 50, 150, 25);
 				add(field);
@@ -75,7 +75,7 @@ class FrameBorder extends JFrame{
 		Work.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				//Need to figure out how to call action here
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 			}
 		});
 		
@@ -83,7 +83,7 @@ class FrameBorder extends JFrame{
 		bottom.add(Box.createRigidArea(new Dimension(5, 0)));
 		Upgrade.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 				//Need to figure out how to call action here
 				//Bring up text box to tell them to input what rank they would like
 			}
@@ -93,7 +93,7 @@ class FrameBorder extends JFrame{
 		bottom.add(Box.createRigidArea(new Dimension(5, 0)));
 		Rehearse.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 				//Need to figure out how to call action here
 			}
 		});
@@ -102,7 +102,7 @@ class FrameBorder extends JFrame{
 		bottom.add(Box.createRigidArea(new Dimension(5, 0)));
 		Act.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 				//Need to figure out how to call action here
 			}
 		});
@@ -111,7 +111,7 @@ class FrameBorder extends JFrame{
 		bottom.add(Box.createRigidArea(new Dimension(5, 0)));
 		Who.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 				//Need to figure out how to call action here
 			}
 		});
@@ -120,7 +120,7 @@ class FrameBorder extends JFrame{
 		bottom.add(Box.createRigidArea(new Dimension(15, 0)));
 		Where.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 				//Need to figure out how to call action here
 			}
 		});
@@ -129,7 +129,7 @@ class FrameBorder extends JFrame{
 		bottom.add(Box.createRigidArea(new Dimension(15, 0)));
 		End.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Game.handleUserInput(e);
+				//Game.handleUserInput(e);
 				//Need to figure out how to call action here
 			}
 		});

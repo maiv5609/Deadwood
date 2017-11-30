@@ -18,14 +18,13 @@ public class Game implements PropertyChangeListener{
     static List<Player> players;
     static int roomsRemaining;
     Board board;
-    static int currentPlayerNum = 0;
+    int currentPlayerNum = 0;
     static boolean isEndTurn = false;
     
     //GUI TESTING
     private String name;
     
     private static PropertyChangeSupport pcs = null;
-    		//new PropertyChangeSupport(this);
 
     
     public int getTurn() {
@@ -162,7 +161,7 @@ public class Game implements PropertyChangeListener{
      * params:  action: String
      * 			parameters: Array String
      */
-    public static void handleUserInput(ActionEvent e) {
+    public void handleUserInput(ActionEvent e) {
     	String action = e.getActionCommand();
     	if(!action.equals(Constants.END_TURN)){
     		Player currentPlayer = players.get(currentPlayerNum);
@@ -278,10 +277,10 @@ public class Game implements PropertyChangeListener{
          *   from user input and pass it to Player to handle
          */
         int turn = 1;
-        currentPlayerNum = 0;
+        game.currentPlayerNum = 0;
         
         System.out.println("Please type your next action");
-        System.out.println("Player: " + (currentPlayerNum+1));
+        System.out.println("Player: " + (game.currentPlayerNum+1));
         System.out.println("Turn: " + game.getTurn());
         
         //General Game Loop
@@ -289,11 +288,11 @@ public class Game implements PropertyChangeListener{
         	//Day Loop 
             while(roomsRemaining != 1){
             System.out.println("Rooms left: " + roomsRemaining);
-    	    if(game.getPlayers().get(currentPlayerNum).getCurrentRole() != null){
-    	    	game.getPlayers().get(currentPlayerNum).getCurrentRole().setWorkable(true);
-    	    	game.getPlayers().get(currentPlayerNum).setCanMove(false);
+    	    if(game.getPlayers().get(game.currentPlayerNum).getCurrentRole() != null){
+    	    	game.getPlayers().get(game.currentPlayerNum).getCurrentRole().setWorkable(true);
+    	    	game.getPlayers().get(game.currentPlayerNum).setCanMove(false);
     	    } else{
-    	    	game.getPlayers().get(currentPlayerNum).setCanMove(true);
+    	    	game.getPlayers().get(game.currentPlayerNum).setCanMove(true);
     	    }
     	    	//Turn loop
               //  while(!input.equals(Constants.END_TURN)){
@@ -309,15 +308,15 @@ public class Game implements PropertyChangeListener{
 //                    //update view
                }
  
-                if(currentPlayerNum == game.getPlayers().size()-1){
-                    currentPlayerNum = 0;
+                if(game.currentPlayerNum == game.getPlayers().size()-1){
+                	game.currentPlayerNum = 0;
                 } else {
-                    currentPlayerNum++;
+                	game.currentPlayerNum++;
                 }
                 turn++;
                 game.setTurn(turn);
                 System.out.println("Please type your next action");
-                System.out.println("Player: " + (currentPlayerNum+1));
+                System.out.println("Player: " + (game.currentPlayerNum+1));
                 System.out.println("Turn: " + game.getTurn());
             }
             game.nextDay();
