@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,6 +23,9 @@ public class View extends JFrame{
 		setTitle("Deadwood");
 		
 		toolkit = getToolkit();
+		
+		TextArea area = new TextArea();
+		area.setVisible(true);
 		//Sets size to the size of screen and opens in center of screen
 		Dimension size = toolkit.getScreenSize();
 		setLocation((size.width - getWidth())/2, (size.height - getHeight())/2);
@@ -55,40 +59,15 @@ public class View extends JFrame{
 		panel.add(who);
 		panel.add(close);
 		
-		
+
+		FrameBorder frameBorder = new FrameBorder();
+		frameBorder.setVisible(true);
+
 		
 		//Closes window when user presses exit
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
-	public class TextArea extends JFrame{
-		
-		private JLabel hint;
-		
-		public TextArea(){
-			JPanel panel = new JPanel();
-			panel.setLayout(new BorderLayout());
-			panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-			JScrollPane pane = new JScrollPane();
-			JTextArea area = new JTextArea();
-			area.setLineWrap(true);
-			area.setWrapStyleWord(true);
-			area.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-			pane.getViewport().add(area);
-			panel.add(pane);
-			add(panel);
-			hint = new JLabel("Please, set number of players between 2 and 8:");
-			panel.add(hint);
-			setSize(new Dimension(350, 300));
-			setLocationRelativeTo(null);
-			setVisible(true);
-		}
-		
-		public void changeText(String changeTo, JPanel panel) {
-			hint = new JLabel(changeTo);
-			panel.add(hint);
-		}
-	}
+
 	
 }
 
