@@ -2,8 +2,12 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.EventListenerList;
 
-public class Game {
+
+public class Game extends EventListenerList{
+	
     int turn;
     int currDay;
     int maxDay;
@@ -174,18 +178,13 @@ public class Game {
         /* GUI Testing
          * 
          */
-        /* This example uses the View class
-        View board = new View();
-		board.setVisible(true);
-		*/
-        FrameBorder GUI = new FrameBorder();
-        GUI.setVisible(true);
+
         
 
         
         while(true){
-        	TextArea dialog = new TextArea();
-        	dialog.setVisible(true);
+        	View view = new View();
+
         	//System.out.println("Please, set number of players between 2 and 8:");
 	        //String playersNumStr = utility.inputReader();
 	        
@@ -251,6 +250,7 @@ public class Game {
     	    	//Turn loop
               //  while(!input.equals(Constants.END_TURN)){
     	    while(!isEndTurn){
+    	    
 //                    input = utility.inputReader();
 //                    String[] parameters = utility.parseParams(input);
 //                    String action = parameters[0];

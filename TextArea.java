@@ -40,6 +40,6 @@ public class TextArea extends JFrame{
 		                    possibilities,
 		                    "2");
 
-		    return;
+		return;
 	}
 }

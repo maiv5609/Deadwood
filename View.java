@@ -2,6 +2,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,6 +18,9 @@ public class View extends JFrame{
 		setTitle("Deadwood");
 		
 		toolkit = getToolkit();
+		
+		TextArea area = new TextArea();
+		area.setVisible(true);
 		//Sets size to the size of screen and opens in center of screen
 		Dimension size = toolkit.getScreenSize();
 		setLocation((size.width - getWidth())/2, (size.height - getHeight())/2);
@@ -46,6 +50,10 @@ public class View extends JFrame{
 		//adding buttons
 		panel.add(who);
 		panel.add(close);
+		
+		
+		FrameBorder frameBorder = new FrameBorder();
+		frameBorder.setVisible(true);
 		
 		//Closes window when user presses exit
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
