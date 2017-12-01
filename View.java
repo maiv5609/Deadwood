@@ -24,7 +24,7 @@ public class View extends JFrame{
 		
 		toolkit = getToolkit();
 		
-
+		// Select the number of players
 		Dialog dialog = new Dialog();
 		dialog.setVisible(true);
 
@@ -45,7 +45,10 @@ public class View extends JFrame{
 				//who.addPropertyChangeListener(new );
 				//who.firePropertyChange("who", false, true);
 				System.out.println("who fired");
-				Game.receiveEvent("who");
+				MyEvent myEvent = new MyEvent();
+				myEvent.setActionName(Constants.SET_NUMBER_OF_PLAYERS);
+				
+				Game.receiveEvent(myEvent);
 			}
 		});
 		

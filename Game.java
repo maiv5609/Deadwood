@@ -1,16 +1,9 @@
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.EventListenerList;
 
-
-public class Game implements PropertyChangeListener{
+public class Game{
 
     int turn;
     int currDay;
@@ -18,14 +11,9 @@ public class Game implements PropertyChangeListener{
     static List<Player> players;
     static int roomsRemaining;
     Board board;
-    int currentPlayerNum = 0;
+    static int currentPlayerNum = 0;
     static boolean isEndTurn = false;
-    
-    //GUI TESTING
-    private String name;
-    
-    private static PropertyChangeSupport pcs = null;
-
+    int numberOfPlayers = 0;
     
     public int getTurn() {
         return turn;
@@ -192,32 +180,6 @@ public class Game implements PropertyChangeListener{
         
        // Utility utility = new Utility();
         
-        /* GUI Testing
-         * 
-         */
-
-        // This example uses the View class
-        
-//        View board = new View();
-//		board.setVisible(true);
-		
-		//figure out a way to report action listeners
-		
-        /*
-        FrameBorder GUI = new FrameBorder();
-        GUI.setVisible(true);
-        */
-		/*
-		PropertyChangeListener[] listeners = board.getPropertyChangeListeners();
-		board.addPropertyChangeListener("who", null);
-        for(PropertyChangeListener lis: listeners) {
-        	System.out.print(lis);
-        }
-		*/
-
-        
-
-        
         while(true){
 	        
 	        
@@ -249,20 +211,17 @@ public class Game implements PropertyChangeListener{
         //start game with initial params
         Game game = new Game();
 
-        //GUI TESTING
-        pcs = new PropertyChangeSupport(game);
-        //Property Listener
-        pcs.addPropertyChangeListener(game);
-
         
         
        // create View
         View view = new View();
         view.setVisible(true);
-
+        
+        
         
         String boardXml = Constants.BOARD_XML;
         String cardsXml = Constants.CARDS_XML;
+        
         game.startGame(1, 1, 4, playersNum, maxDays, credits, rank, boardXml,cardsXml);
         
         
@@ -328,23 +287,19 @@ public class Game implements PropertyChangeListener{
        }
     }
 
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		System.out.print("Name = " + evt.getPropertyName());
-	}
 	
 	
 	/* Event listener for game, will get events fired from View
 	 * 
 	 */
-	public static void receiveEvent(String name) {
-//		String oldValue = this.name;
-//        this.name = name;
+	public static void receiveEvent(MyEvent myEvent) {   
+		if(myEvent.getActionName().equals(Constants.SET_NUMBER_OF_PLAYERS)){
+			currentPlayerNum = Integer.parseInt(myEvent.getParameters().get(0));
+		}
+		else{
+			
+		}
 
-        
-        // Fires a property change event
 
-        pcs.firePropertyChange(name, false, true);
     }
 }

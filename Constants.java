@@ -5,6 +5,8 @@ public class Constants {
 	
     public static final String DEADWOOD = "Deadwood";
     
+    
+    public static final String SET_NUMBER_OF_PLAYERS = "set_number_of_players";
     public static final String ACT = "act";
     public static final String MOVE = "move";
     public static final String WORK = "work";
