@@ -190,7 +190,7 @@ public class Game implements PropertyChangeListener{
         int credits = 0;
         int rank = 1;
         
-        Utility utility = new Utility();
+       // Utility utility = new Utility();
         
         /* GUI Testing
          * 
@@ -198,8 +198,8 @@ public class Game implements PropertyChangeListener{
 
         // This example uses the View class
         
-        View board = new View();
-		board.setVisible(true);
+//        View board = new View();
+//		board.setVisible(true);
 		
 		//figure out a way to report action listeners
 		
@@ -219,45 +219,45 @@ public class Game implements PropertyChangeListener{
 
         
         while(true){
-        	View view = new View();
-
-
-        	//System.out.println("Please, set number of players between 2 and 8:");
-	        //String playersNumStr = utility.inputReader();
 	        
 	        
-	        String regex = "[2-8]";
-	        String playersNumStr = "3";
-	        if (playersNumStr.matches(regex)){
-	        	playersNum = Integer.parseInt(playersNumStr);
-	        	break;
-	        }
-        }
-
-        //set maxDays and credits
-        if(playersNum >=2 && playersNum <=3){
-            maxDays = 3;
-        }
-        
-        switch (playersNum){
-            case 5:
-                credits = 2;
-                break;
-            case 6:
-                credits = 4;
-                break;
-            case 7:
-            case 8:
-                rank = 2;
-        }
+//	        String regex = "[2-8]";
+//	        String playersNumStr = "3";
+//	        if (playersNumStr.matches(regex)){
+//	        	playersNum = Integer.parseInt(playersNumStr);
+//	        	break;
+//	        }
+//        }
+//
+//        //set maxDays and credits
+//        if(playersNum >=2 && playersNum <=3){
+//            maxDays = 3;
+//        }
+//        
+//        switch (playersNum){
+//            case 5:
+//                credits = 2;
+//                break;
+//            case 6:
+//                credits = 4;
+//                break;
+//            case 7:
+//            case 8:
+//                rank = 2;
+//        }
         
         //start game with initial params
         Game game = new Game();
-      //GUI TESTING
+        
+        //GUI TESTING
         pcs = new PropertyChangeSupport(game);
-      //Property Listener
-      pcs.addPropertyChangeListener(game);
-        game.setName("test");
+        //Property Listener
+        pcs.addPropertyChangeListener(game);
+        
+        
+       // create View
+        View view = new View();
+        view.setVisible(true);
         
         String boardXml = Constants.BOARD_XML;
         String cardsXml = Constants.CARDS_XML;
@@ -323,6 +323,7 @@ public class Game implements PropertyChangeListener{
         }
         //Last day has ended, start scoring
         game.endGame();
+       }
     }
 
 	@Override
@@ -338,6 +339,6 @@ public class Game implements PropertyChangeListener{
         //
         // Fires a property change event
         //
-        pcs.firePropertyChange("name", false, name);
+        pcs.firePropertyChange(name, false, true);
     }
 }

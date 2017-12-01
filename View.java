@@ -24,8 +24,11 @@ public class View extends JFrame{
 		
 		toolkit = getToolkit();
 		
-		TextArea area = new TextArea();
-		area.setVisible(true);
+		Dialog dialog = new Dialog();
+		dialog.setVisible(true);
+		//area.selectOptions();
+
+		
 		//Sets size to the size of screen and opens in center of screen
 		Dimension size = toolkit.getScreenSize();
 		setLocation((size.width - getWidth())/2, (size.height - getHeight())/2);
@@ -33,7 +36,7 @@ public class View extends JFrame{
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		panel.setLayout(null);
-		TextArea test = new TextArea();
+		//TextArea test = new TextArea();
 		//Closure that performs an action, can probably use this to call our other commands
 		JButton who = new JButton("Who");
 		//Setting size of button
