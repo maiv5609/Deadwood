@@ -248,16 +248,18 @@ public class Game implements PropertyChangeListener{
         
         //start game with initial params
         Game game = new Game();
-        
+
         //GUI TESTING
         pcs = new PropertyChangeSupport(game);
         //Property Listener
         pcs.addPropertyChangeListener(game);
+
         
         
        // create View
         View view = new View();
         view.setVisible(true);
+
         
         String boardXml = Constants.BOARD_XML;
         String cardsXml = Constants.CARDS_XML;
@@ -332,13 +334,17 @@ public class Game implements PropertyChangeListener{
 		System.out.print("Name = " + evt.getPropertyName());
 	}
 	
-	public static void setName(String name) {
+	
+	/* Event listener for game, will get events fired from View
+	 * 
+	 */
+	public static void receiveEvent(String name) {
 //		String oldValue = this.name;
 //        this.name = name;
 
-        //
+        
         // Fires a property change event
-        //
+
         pcs.firePropertyChange(name, false, true);
     }
 }

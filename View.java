@@ -24,11 +24,10 @@ public class View extends JFrame{
 		
 		toolkit = getToolkit();
 		
+
 		Dialog dialog = new Dialog();
 		dialog.setVisible(true);
-		//area.selectOptions();
 
-		
 		//Sets size to the size of screen and opens in center of screen
 		Dimension size = toolkit.getScreenSize();
 		setLocation((size.width - getWidth())/2, (size.height - getHeight())/2);
@@ -43,10 +42,10 @@ public class View extends JFrame{
 		who.setBounds(150, 60, 80, 30);
 		who.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event){
-//				who.addPropertyChangeListener(new );
-//				who.firePropertyChange("who", false, true);
+				//who.addPropertyChangeListener(new );
+				//who.firePropertyChange("who", false, true);
 				System.out.println("who fired");
-				Game.setName("who");
+				Game.receiveEvent("who");
 			}
 		});
 		

@@ -36,7 +36,7 @@ public class Dialog extends JFrame{
 		                    possibilities,
 		                    "2");
 			System.out.println(s);
-			Game.setName(s.toString());
+			Game.receiveEvent(s.toString());
 //			if(s == JOptionPane.OK_OPTION){
 //				final int numberOfPlayers = s;
 //				JButton jButton = getButton(optionPane, "OK", icon);
