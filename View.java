@@ -4,16 +4,14 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EventListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 //This is mostly an example class
 
@@ -21,6 +19,7 @@ public class View extends JFrame{
 	private Toolkit toolkit;
 	
 	public View() {
+
 		setSize(1500, 1000);
 		setTitle(Constants.DEADWOOD);
 		setLayout(new GridBagLayout());
@@ -39,6 +38,7 @@ public class View extends JFrame{
 		
 		//JFrame frame = new JFrame("Deadwood");
 		
+
 		//Sets size to the size of screen and opens in center of screen
 		Dimension size = toolkit.getScreenSize();
 		setLocation((size.width - getWidth())/2, (size.height - getHeight())/2);
@@ -50,7 +50,7 @@ public class View extends JFrame{
 //		JPanel controls = new JPanel();
 //		JPanel Scoreboard = new JPanel();
 //		JLabel console = new JLabel();
-		
+
 		//Setting up buttons preferred size
 //		JButton b = new JButton("fake button");
 //		Dimension buttonSize = b.getPreferredSize();
@@ -137,7 +137,7 @@ public class View extends JFrame{
 		//adding buttons
 //		panel.add(who);
 //		panel.add(close);
-		
+
 
 //		FrameBorder frameBorder = new FrameBorder();
 //		frameBorder.setVisible(true);
@@ -145,7 +145,29 @@ public class View extends JFrame{
 		
 		
 	}
-
+	public int getPlayers(){
+		Dialog dialog = new Dialog();
+		dialog.setVisible(true);
+		List<Object> options = new ArrayList<Object>();
+		for (int i = 2; i < 9; i++){
+			options.add(i);
+		}
+		String message =  "Please, select the number of employees between 2 and 8:\n";
+		String dialogName = "Game setup";
+		// fill an inputbuffer with an event 
+		MyEvent myEvent = new MyEvent();
+		myEvent.setActionName(Constants.SET_NUMBER_OF_PLAYERS);
+		Game.addToBuffer(myEvent);
+		
+		return (Integer)dialog.getResult(options, message, dialogName);
+	}
+	
+	public void sendEvent(String action, List<String> params ){
+		MyEvent myEvent = new MyEvent();
+		myEvent.setActionName(action);
+		myEvent.setParameters(params);
+		Game.addToBuffer(myEvent);
+	}
 	
 }
 
