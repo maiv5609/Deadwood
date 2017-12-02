@@ -220,16 +220,11 @@ public class View extends JFrame{
 //		FrameBorder frameBorder = new FrameBorder();
 //		frameBorder.setVisible(true);
 	}
-	public static int getPlayers(){
+    public static Object getDialogResult(String dialogName, String message, List<Object> options){
 		Dialog dialog = new Dialog();
 		dialog.setVisible(true);
-		List<Object> options = new ArrayList<Object>();
-		for (int i = 2; i < 9; i++){
-			options.add(i);
-		}
-		String message =  "Please, select the number of employees between 2 and 8:\n";
-		String dialogName = "Game setup";
-		return (Integer)dialog.getResult(options, message, dialogName);
+		
+		return dialog.getResult(options, message, dialogName);
 	}
 	
 	public void sendEvent(String action, ArrayList<String> params ){
