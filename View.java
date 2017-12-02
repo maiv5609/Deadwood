@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,8 +33,6 @@ public class View extends JFrame{
 
 		c.weightx = 0.5;
 		
-		
-		
 		toolkit = getToolkit();
 		
 		//JFrame frame = new JFrame("Deadwood");
@@ -61,34 +60,87 @@ public class View extends JFrame{
 		//Image of board
 		ImageIcon boardImage = new ImageIcon("board.jpg");
 		JLabel boardLabel = new JLabel("", boardImage, JLabel.CENTER);
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.ipady = 40;
 		c.weightx = 0.0;
 		c.gridwidth = 3;
 		c.gridx = 0;
 		c.gridy = 0;
-		add(boardLabel);
+		add(boardLabel, c);
 		
 		//ScoreBoard
 		JLabel scoreboard = new JLabel("Scoreboard");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 2.0;
 		c.gridwidth = 1;
-		c.gridx = 1;
+		c.gridx = 0;
+		c.gridy = 1;
+		//Button Panel
+		
+		JPanel controls = new JPanel();
+		
+		
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
+		c.gridx = 4;
 		c.gridy = 0;
-		add(scoreboard);
+		add(scoreboard, c);
 		
 		//Controls
-
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 2.0;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
 		
-		add(new JButton(Constants.MOVE));
-		add(new JButton(Constants.UPGRADE));
-		add(new JButton(Constants.REHEARSE));
-		add(new JButton(Constants.ACT));
-		add(new JButton(Constants.WHO));
-		add(new JButton(Constants.WHERE));
-		add(new JButton(Constants.END_TURN));
+		controls.add(new JButton(Constants.MOVE));
+		controls.add(new JButton(Constants.UPGRADE));
+		controls.add(new JButton(Constants.REHEARSE));
+		controls.add(new JButton(Constants.ACT));
+		controls.add(new JButton(Constants.WHO));
+		controls.add(new JButton(Constants.WHERE));
+		controls.add(new JButton(Constants.END_TURN));
+		
+		add(controls,c);
+//		
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.gridwidth = 1;
+//		c.gridx = 1;
+//		c.gridy = 1;
+//		add(new JButton(Constants.UPGRADE), c);
+//		
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.gridwidth = 1;
+//		c.gridx = 2;
+//		c.gridy = 1;
+//		add(new JButton(Constants.REHEARSE), c);
+//		
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.gridwidth = 1;
+//		c.gridx = 3;
+//		c.gridy = 1;
+//		add(new JButton(Constants.ACT), c);
+//
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.gridwidth = 1;
+//		c.gridx = 4;
+//		c.gridy = 1;
+//		add(new JButton(Constants.WHO), c);
+//
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.gridwidth = 1;
+//		c.gridx = 5;
+//		c.gridy = 1;
+//		add(new JButton(Constants.WHERE), c);
+//		
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.gridwidth = 1;
+//		c.gridx = 6;
+//		c.gridy = 1;
+//		add(new JButton(Constants.END_TURN), c);
+//		
+		
 		
 		
 		//Creating Scoreboard
