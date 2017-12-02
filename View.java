@@ -107,49 +107,49 @@ public class View extends JFrame{
 		
 		moveBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 		
 		workBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 		
 		upgradeBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 	
 		rehearseBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 
 		actBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 
 		whoBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 
 		whereBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 		
 		endBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				sendEvent(e.getActionCommand(), new String[0]);
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 
@@ -232,7 +232,7 @@ public class View extends JFrame{
 		return (Integer)dialog.getResult(options, message, dialogName);
 	}
 	
-	public void sendEvent(String action, String[] params ){
+	public void sendEvent(String action, ArrayList<String> params ){
 	    System.out.println(action);
 	    Game.handleEvent(action,params);
 	}

@@ -325,7 +325,7 @@ public class Game{
 	/* Event listener for game, will get events fired from View
 	 * 
 	 */
-    public static void handleEvent(String action, String[] params) {   
+    public static void handleEvent(String action, ArrayList<String> params) {   
 	/**
 	 * handleUserInput
 	 * handles user's input (gets the name of the action from the input and
@@ -336,8 +336,14 @@ public class Game{
 	if(Constants.END_TURN.equals(action)){
 	    Game.endTurn();
 	} else {
+	    String[] parameters = new String[params.size()];
+	    for (int i = 0; i < params.size(); i++){
+		parameters[i] = params.get(i);
+		i++;
+	    }
+	    
 	    Player currentPlayer = players.get(currentPlayerNum);
-	    currentPlayer.handleAction(action, params);
+	    currentPlayer.handleAction(action, parameters);
 	}
 	System.out.println("turn: "+turn);
 	System.out.println("player: "+currentPlayerNum);
