@@ -30,7 +30,7 @@ public class View extends JFrame{
 		who.setBounds(150, 60, 80, 30);
 		who.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event){
-				sendEvent("who",new ArrayList<String>());
+				sendEvent("who",new String[0] );
 			}
 		});
 		
@@ -66,11 +66,8 @@ public class View extends JFrame{
 		return (Integer)dialog.getResult(options, message, dialogName);
 	}
 	
-	public void sendEvent(String action, List<String> params ){
-		MyEvent myEvent = new MyEvent();
-		myEvent.setActionName(action);
-		myEvent.setParameters(params);
-		Game.addToBuffer(myEvent);
+	public void sendEvent(String action, String[] params ){
+		Game.handleEvent(action,params);
 	}
 	
 }

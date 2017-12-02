@@ -53,12 +53,7 @@ public class Game{
     }
     
     public void setRoomsRemaining(int roomsRemaining) {
-        Game.roomsRemaining = roomsRemaining;
-    }
-    
-    
-    public void addToBuffer(MyEvent input){
-    	this.inputBuffer.add(input);
+        this.roomsRemaining = roomsRemaining;
     }
     
 //    public Game() {
@@ -73,21 +68,24 @@ public class Game{
      *  sets necessary configuration for the next day
      */
     public void nextDay() {
-    	board.populateRooms();
-    	for (Player curr: players){
+	if (currDay >= maxDay){
+	    endGame();
+	} else {
+	    board.populateRooms();
+	    for (Player curr: players){
     		curr.getCurrentRoom().removePlayer(curr.getPlayerNum());
     		curr.setCurrentRoom(Board.getRoomNode("trailer"));
     		Board.getRoomNode("trailer").addPlayer(curr.getPlayerNum());
-    	}
-        roomsRemaining = Board.getRoomMap().size();
-        this.currDay++;
-     }
+	    }
+	    roomsRemaining = Board.getRoomMap().size();
+	    currDay++;
+	}
+    }
     
     /** scoring
      *  sets total amount of money, credits and fame to each player in the game
      */
     public void scoring() {
-        List<Player> players = this.players;
         if(players != null & !players.isEmpty()){
             for (Player player : players){
                 player.setTotal(player.getCredits() + player.getMoney() + 5*player.getRank());
@@ -127,28 +125,28 @@ public class Game{
         case 8:
             rank = 2;
     }
-    	this.turn= 1;
-    	this.currentPlayerNum = 0;
+    	turn= 1;
+    	currentPlayerNum = 0;
     
         board = Board.getInstance(boardXml, cardsXml);
         board.populateRooms();
         List<Player> players = new ArrayList<Player>();
-        this.setPlayers(players);
+        setPlayers(players);
         
         for (int i = 0; i < numberOfPlayers; i++){
             Player player = new Player(rank,i,0,credits,Board.getRoomNode("trailer"));
-            this.players.add(player);
+            players.add(player);
             Board.getRoomNode(Constants.TRAILER).addPlayer(i);
         }
  
         //set Current day to 1
-        this.currDay = 1;
+        currDay = 1;
         
         //set Max Day
         if(numberOfPlayers <= 3){
-        	this.maxDay = 3;
+        	maxDay = 3;
         }else{
-        	this.maxDay = 4;
+        	maxDay = 4;
         }
         
         //set roomsRemaining with number of rooms
@@ -162,7 +160,7 @@ public class Game{
      * ends the game (== scoring)
      */
     public void endGame() {
-        this.scoring();
+        scoring();
     }
     
     /**
@@ -312,28 +310,40 @@ public class Game{
 //       }
 //    }
 
+
+    public void endTurn(){
+	if (getPlayers().get(currentPlayerNum).getCurrentRole() != null){
+	    getPlayers().get(currentPlayerNum).getCurrentRole().setWorkable(true);
+	    getPlayers().get(currentPlayerNum).setCanMove(false);
+	} else {
+	    getPlayers().get(currentPlayerNum).setCanMove(true);
+	}
+	if (currentPlayerNum == getPlayers().size()-1){
+	    currentPlayerNum = 0;
+	} else {
+	    currentPlayerNum++;
+	}
+	turn++;
+	if (Game.roomsRemaining <= 1){
+	    nextDay();
+	}
+	// updateView?
+    }
 	
 	
 	/* Event listener for game, will get events fired from View
 	 * 
 	 */
-	public static void receiveEvent(MyEvent myEvent) {   
-			 /**
-		     * handleUserInput
-		     * handles user's input (gets the name of the action from the input and
-		     * specific parameters, needed for this action)
-		     * params:  action: String
-		     * 			parameters: Array String
-		     */
-		
-			Player currentPlayer = players.get(currentPlayerNum);
-			List<String> params = myEvent.getParameters();
-			String [] parameters = new String [params.size()];
-			int i = 0;
-			for(String param : params){
-				parameters[i] = param;
-				i++;
-			}
-            currentPlayer.handleAction(myEvent.getActionName(), parameters);
-		}
+    public static void handleEvent(String action, String[] params) {   
+	/**
+	 * handleUserInput
+	 * handles user's input (gets the name of the action from the input and
+	 * specific parameters, needed for this action)
+	 * params:  action: String
+	 * 			parameters: Array String
+	 */
+
+	Player currentPlayer = players.get(currentPlayerNum);
+	currentPlayer.handleAction(action, params);
+    }
 }
