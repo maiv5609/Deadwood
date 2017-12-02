@@ -222,14 +222,6 @@ public class Game{
 	 * 
 	 */
 	public static void receiveEvent(MyEvent myEvent) {   
-			 /**
-		     * handleUserInput
-		     * handles user's input (gets the name of the action from the input and
-		     * specific parameters, needed for this action)
-		     * params:  action: String
-		     * 			parameters: Array String
-		     */
-		
 			Player currentPlayer = players.get(currentPlayerNum);
 			List<String> params = myEvent.getParameters();
 			String [] parameters = new String [params.size()];

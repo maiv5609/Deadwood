@@ -351,7 +351,6 @@ public class Player {
                 if(parameters.length > 2){
                 	direction  = direction + " " + parameters[2];
                 } 
-               // direction.replace(direction.substring(direction.length()-1), "");
                 
                 if ((!this.move(direction)) && canMove) {
                 	System.out.println("Please select a valid room to move to.");

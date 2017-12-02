@@ -7,11 +7,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 //This is mostly an example class
 
@@ -82,13 +83,86 @@ public class View extends JFrame{
 		c.gridx = 0;
 		c.gridy = 1;
 		
-		add(new JButton(Constants.MOVE));
-		add(new JButton(Constants.UPGRADE));
-		add(new JButton(Constants.REHEARSE));
-		add(new JButton(Constants.ACT));
-		add(new JButton(Constants.WHO));
-		add(new JButton(Constants.WHERE));
-		add(new JButton(Constants.END_TURN));
+		JButton moveBtn = new JButton(Constants.MOVE);
+		JButton workBtn = new JButton(Constants.WORK);
+		JButton upgradeBtn = new JButton(Constants.UPGRADE);
+		JButton rehearseBtn = new JButton(Constants.REHEARSE);
+		JButton actBtn = new JButton(Constants.ACT);
+		JButton whoBtn = new JButton(Constants.WHO);
+		JButton whereBtn = new JButton(Constants.WHERE);
+		JButton endBtn = new JButton(Constants.END_TURN);
+		
+		add(moveBtn);
+		add(Box.createRigidArea(new Dimension(5, 0)));
+		moveBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+				
+				
+				
+				
+				
+				
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(workBtn);
+		workBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		workBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(upgradeBtn);
+		upgradeBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		upgradeBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(rehearseBtn);
+		rehearseBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		rehearseBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(actBtn);
+		actBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		actBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(whoBtn);
+		whoBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		whoBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(whereBtn);
+		whereBtn.add(Box.createRigidArea(new Dimension(15, 0)));
+		whereBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(endBtn);
+		endBtn.add(Box.createRigidArea(new Dimension(15, 0)));
+		endBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+
 		
 		
 		//Creating Scoreboard
