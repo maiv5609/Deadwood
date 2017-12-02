@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -193,6 +192,7 @@ public class Game{
             	    		}
             	    		Player player = players.get(currentPlayerNum);
             	    		player.handleAction(actionName, parameters);
+            	    		//View.update();
     	    		    } else if(event.getActionName().equals(Constants.END_TURN)){
     	    		    	isEndTurn = true;   	
     	    		    }

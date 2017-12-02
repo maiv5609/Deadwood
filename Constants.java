@@ -20,6 +20,9 @@ public class Constants {
     public static final String CARDS_XML = "cards.xml";
     public static final String CASTING_OFFICE = "office";
     public static final String TRAILER = "trailer";
+    public static final String SETUP_MSG = "Please, select the number of employees between 2 and 8:\n";
+    public static final String SETUP_DIALOG_NAME = "Game setup";
+    
     //----------------------------- end-------------------->
     
     // --------------------------------------------- colors

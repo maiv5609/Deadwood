@@ -229,8 +229,8 @@ public class View extends JFrame{
 		for (int i = 2; i < 9; i++){
 			options.add(i);
 		}
-		String message =  "Please, select the number of employees between 2 and 8:\n";
-		String dialogName = "Game setup";
+		String message =  Constants.SETUP_MSG;
+		String dialogName = Constants.SETUP_DIALOG_NAME;
 		// fill an inputbuffer with an event 
 		MyEvent myEvent = new MyEvent();
 		myEvent.setActionName(Constants.SET_NUMBER_OF_PLAYERS);
@@ -243,7 +243,6 @@ public class View extends JFrame{
 		MyEvent myEvent = new MyEvent();
 		myEvent.setActionName(action);
 		myEvent.setParameters(params);
-		System.out.println(action);
 		Game.addToBuffer(myEvent);
 	}
 	
