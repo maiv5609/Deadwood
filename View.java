@@ -30,7 +30,7 @@ public class View extends JFrame{
 		who.setBounds(150, 60, 80, 30);
 		who.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event){
-				sendEvent("who",new String[0] );
+				sendEvent(Constants.WHO,new String[0] );
 			}
 		});
 		
@@ -46,9 +46,6 @@ public class View extends JFrame{
 		panel.add(who);
 		panel.add(close);
 		
-
-		FrameBorder frameBorder = new FrameBorder();
-		frameBorder.setVisible(true);
 
 		
 		//Closes window when user presses exit
@@ -67,7 +64,8 @@ public class View extends JFrame{
 	}
 	
 	public void sendEvent(String action, String[] params ){
-		Game.handleEvent(action,params);
+	    System.out.println(action);
+	    Game.handleEvent(action,params);
 	}
 	
 }

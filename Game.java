@@ -5,55 +5,54 @@ import java.util.List;
 
 public class Game{
 
-    int turn;
-    int currDay;
-    int maxDay;
+    static int turn;
+    static int currDay;
+    static int maxDay;
     static List<Player> players;
     static int roomsRemaining;
-    Board board;
+    static Board board;
     static int currentPlayerNum = 0;
     static boolean isEndTurn = false;
-    int numberOfPlayers = 0;
-    List<MyEvent> inputBuffer;
+    static int numberOfPlayers = 0;
     
     public int getTurn() {
-        return turn;
+        return Game.turn;
     }
     
     public void setTurn(int turn) {
-        this.turn = turn;
+        Game.turn = turn;
     }
     
     public int getCurrDay() {
-        return currDay;
+        return Game.currDay;
     }
     
     public void setCurrDay(int currDay) {
-        this.currDay = currDay;
+        Game.currDay = currDay;
     }
     
     public int getMaxDay() {
-        return maxDay;
+        return Game.maxDay;
     }
     
     public void setMaxDay(int maxDay) {
-        this.maxDay = maxDay;
+        Game.maxDay = maxDay;
     }
     
     public List<Player> getPlayers() {
-        return players;
+        return Game.players;
     }
     
     public void setPlayers(List<Player> players) {
-        this.players = players;
+        Game.players = Game.players;
     }
     
     public int getRoomsRemaining() {
-        return roomsRemaining;
+        return Game.roomsRemaining;
     }
     
     public void setRoomsRemaining(int roomsRemaining) {
-        this.roomsRemaining = roomsRemaining;
+        Game.roomsRemaining = roomsRemaining;
     }
     
 //    public Game() {
@@ -67,27 +66,27 @@ public class Game{
     /** nextDay
      *  sets necessary configuration for the next day
      */
-    public void nextDay() {
-	if (currDay >= maxDay){
-	    endGame();
+    public static void nextDay() {
+	if (Game.currDay >= Game.maxDay){
+	    Game.endGame();
 	} else {
-	    board.populateRooms();
-	    for (Player curr: players){
+	    Game.board.populateRooms();
+	    for (Player curr: Game.players){
     		curr.getCurrentRoom().removePlayer(curr.getPlayerNum());
     		curr.setCurrentRoom(Board.getRoomNode("trailer"));
     		Board.getRoomNode("trailer").addPlayer(curr.getPlayerNum());
 	    }
-	    roomsRemaining = Board.getRoomMap().size();
-	    currDay++;
+	    Game.roomsRemaining = Board.getRoomMap().size();
+	    Game.currDay++;
 	}
     }
     
     /** scoring
      *  sets total amount of money, credits and fame to each player in the game
      */
-    public void scoring() {
-        if(players != null & !players.isEmpty()){
-            for (Player player : players){
+    public static void scoring() {
+        if(Game.players != null & !Game.players.isEmpty()){
+            for (Player player : Game.players){
                 player.setTotal(player.getCredits() + player.getMoney() + 5*player.getRank());
                 System.out.println("Player " + player.getPlayerNum() + " has " + player.getTotal());
             }
@@ -105,13 +104,13 @@ public class Game{
      *  		rank : int
      */
     public void startGame(int numberOfPlayers, String boardXml, String cardsXml) {
-    	int maxDays = 4;
+    	Game.maxDay = 4;
         int credits = 0;
         int rank = 1;
 
     //set maxDays and credits
     if(numberOfPlayers >=2 && numberOfPlayers <=3){
-        maxDays = 3;
+        Game.maxDay = 3;
     }
     
     switch (numberOfPlayers){
@@ -125,29 +124,21 @@ public class Game{
         case 8:
             rank = 2;
     }
-    	turn= 1;
-    	currentPlayerNum = 0;
+    	Game.turn= 1;
+    	Game.currentPlayerNum = 0;
     
-        board = Board.getInstance(boardXml, cardsXml);
-        board.populateRooms();
-        List<Player> players = new ArrayList<Player>();
-        setPlayers(players);
+        Game.board = Board.getInstance(boardXml, cardsXml);
+        Game.board.populateRooms();
+        Game.players = new ArrayList<Player>();
         
         for (int i = 0; i < numberOfPlayers; i++){
             Player player = new Player(rank,i,0,credits,Board.getRoomNode("trailer"));
-            players.add(player);
+            Game.players.add(player);
             Board.getRoomNode(Constants.TRAILER).addPlayer(i);
         }
  
         //set Current day to 1
-        currDay = 1;
-        
-        //set Max Day
-        if(numberOfPlayers <= 3){
-        	maxDay = 3;
-        }else{
-        	maxDay = 4;
-        }
+        Game.currDay = 1;
         
         //set roomsRemaining with number of rooms
         Game.roomsRemaining = Board.getRoomMap().size();
@@ -159,8 +150,8 @@ public class Game{
      * endGame
      * ends the game (== scoring)
      */
-    public void endGame() {
-        scoring();
+    public static void endGame() {
+        Game.scoring();
     }
     
     /**
@@ -311,21 +302,21 @@ public class Game{
 //    }
 
 
-    public void endTurn(){
-	if (getPlayers().get(currentPlayerNum).getCurrentRole() != null){
-	    getPlayers().get(currentPlayerNum).getCurrentRole().setWorkable(true);
-	    getPlayers().get(currentPlayerNum).setCanMove(false);
+    public static void endTurn(){
+	if (Game.players.get(currentPlayerNum).getCurrentRole() != null){
+	    Game.players.get(currentPlayerNum).getCurrentRole().setWorkable(true);
+	    Game.players.get(currentPlayerNum).setCanMove(false);
 	} else {
-	    getPlayers().get(currentPlayerNum).setCanMove(true);
+	    Game.players.get(currentPlayerNum).setCanMove(true);
 	}
-	if (currentPlayerNum == getPlayers().size()-1){
-	    currentPlayerNum = 0;
+	if (Game.currentPlayerNum == Game.players.size()-1){
+	    Game.currentPlayerNum = 0;
 	} else {
-	    currentPlayerNum++;
+	    Game.currentPlayerNum++;
 	}
-	turn++;
+	Game.turn++;
 	if (Game.roomsRemaining <= 1){
-	    nextDay();
+	    Game.nextDay();
 	}
 	// updateView?
     }
@@ -342,8 +333,13 @@ public class Game{
 	 * params:  action: String
 	 * 			parameters: Array String
 	 */
-
-	Player currentPlayer = players.get(currentPlayerNum);
-	currentPlayer.handleAction(action, params);
+	if(Constants.END_TURN.equals(action)){
+	    Game.endTurn();
+	} else {
+	    Player currentPlayer = players.get(currentPlayerNum);
+	    currentPlayer.handleAction(action, params);
+	}
+	System.out.println("turn: "+turn);
+	System.out.println("player: "+currentPlayerNum);
     }
 }
