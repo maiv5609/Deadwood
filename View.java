@@ -33,6 +33,8 @@ public class View extends JFrame{
 
 		c.weightx = 0.5;
 		
+		
+		
 		toolkit = getToolkit();
 		
 		//JFrame frame = new JFrame("Deadwood");
@@ -141,6 +143,62 @@ public class View extends JFrame{
 //		add(new JButton(Constants.END_TURN), c);
 //		
 		
+		add(workBtn);
+		workBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		workBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(upgradeBtn);
+		upgradeBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		upgradeBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(rehearseBtn);
+		rehearseBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		rehearseBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(actBtn);
+		actBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		actBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(whoBtn);
+		whoBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+		whoBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(whereBtn);
+		whereBtn.add(Box.createRigidArea(new Dimension(15, 0)));
+		whereBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+		
+		add(endBtn);
+		endBtn.add(Box.createRigidArea(new Dimension(15, 0)));
+		endBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
+
 		
 		
 		//Creating Scoreboard
