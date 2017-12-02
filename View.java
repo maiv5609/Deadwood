@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//This is mostly an example class
 
 public class View extends JFrame{
 	private Toolkit toolkit;
@@ -96,109 +95,77 @@ public class View extends JFrame{
 		c.gridx = 0;
 		c.gridy = 1;
 		
-		controls.add(new JButton(Constants.MOVE));
-		controls.add(new JButton(Constants.UPGRADE));
-		controls.add(new JButton(Constants.REHEARSE));
-		controls.add(new JButton(Constants.ACT));
-		controls.add(new JButton(Constants.WHO));
-		controls.add(new JButton(Constants.WHERE));
-		controls.add(new JButton(Constants.END_TURN));
+		JButton moveBtn = new JButton(Constants.MOVE);
+		JButton workBtn = new JButton(Constants.WORK);
+		JButton upgradeBtn = new JButton(Constants.UPGRADE);
+		JButton rehearseBtn = new JButton(Constants.REHEARSE);
+		JButton actBtn = new JButton(Constants.ACT);
+		JButton whoBtn = new JButton(Constants.WHO);
+		JButton whereBtn = new JButton(Constants.WHERE);
+		JButton endBtn = new JButton(Constants.END_TURN);
 		
-		add(controls,c);
-//		
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.gridwidth = 1;
-//		c.gridx = 1;
-//		c.gridy = 1;
-//		add(new JButton(Constants.UPGRADE), c);
-//		
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.gridwidth = 1;
-//		c.gridx = 2;
-//		c.gridy = 1;
-//		add(new JButton(Constants.REHEARSE), c);
-//		
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.gridwidth = 1;
-//		c.gridx = 3;
-//		c.gridy = 1;
-//		add(new JButton(Constants.ACT), c);
-//
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.gridwidth = 1;
-//		c.gridx = 4;
-//		c.gridy = 1;
-//		add(new JButton(Constants.WHO), c);
-//
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.gridwidth = 1;
-//		c.gridx = 5;
-//		c.gridy = 1;
-//		add(new JButton(Constants.WHERE), c);
-//		
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.gridwidth = 1;
-//		c.gridx = 6;
-//		c.gridy = 1;
-//		add(new JButton(Constants.END_TURN), c);
-//		
+		moveBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent(e.getActionCommand(), new ArrayList<String>());
+			}
+		});
 		
-		add(workBtn);
-		workBtn.add(Box.createRigidArea(new Dimension(5, 0)));
 		workBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 		
-		add(upgradeBtn);
-		upgradeBtn.add(Box.createRigidArea(new Dimension(5, 0)));
 		upgradeBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
-		
-		add(rehearseBtn);
-		rehearseBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+	
 		rehearseBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
-		
-		add(actBtn);
-		actBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+
 		actBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
-		
-		add(whoBtn);
-		whoBtn.add(Box.createRigidArea(new Dimension(5, 0)));
+
 		whoBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
-		
-		add(whereBtn);
-		whereBtn.add(Box.createRigidArea(new Dimension(15, 0)));
+
 		whereBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 		
-		add(endBtn);
-		endBtn.add(Box.createRigidArea(new Dimension(15, 0)));
 		endBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
 
+		
+		controls.add(moveBtn);
+		controls.add(workBtn);
+		controls.add(upgradeBtn);
+		controls.add(rehearseBtn);
+		controls.add(actBtn);
+		controls.add(whoBtn);
+		controls.add(whereBtn);
+		controls.add(endBtn);
+		
+		add(controls,c);
+
+
+		
 		
 		
 		//Creating Scoreboard
@@ -276,6 +243,7 @@ public class View extends JFrame{
 		MyEvent myEvent = new MyEvent();
 		myEvent.setActionName(action);
 		myEvent.setParameters(params);
+		System.out.println(action);
 		Game.addToBuffer(myEvent);
 	}
 	
