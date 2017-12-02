@@ -222,7 +222,7 @@ public class View extends JFrame{
 		
 		
 	}
-	public int getPlayers(){
+	public static int getPlayers(){
 		Dialog dialog = new Dialog();
 		dialog.setVisible(true);
 		List<Object> options = new ArrayList<Object>();
