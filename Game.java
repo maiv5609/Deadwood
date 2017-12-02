@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -14,7 +15,7 @@ public class Game{
     static int currentPlayerNum = 0;
     static boolean isEndTurn = false;
     int numberOfPlayers = 0;
-    List<MyEvent> inputBuffer;
+    static LinkedList<MyEvent> inputBuffer = new LinkedList<MyEvent>();
     
     public int getTurn() {
         return turn;
@@ -55,17 +56,6 @@ public class Game{
     public void setRoomsRemaining(int roomsRemaining) {
         Game.roomsRemaining = roomsRemaining;
     }
-    
-    
-    public void addToBuffer(MyEvent input){
-    	this.inputBuffer.add(input);
-    }
-    
-//    public Game() {
-//    	
-//    	//Property Listener
-//        pcs.addPropertyChangeListener(this);
-//    }
 
     
     
@@ -128,7 +118,7 @@ public class Game{
             rank = 2;
     }
     	this.turn= 1;
-    	this.currentPlayerNum = 0;
+    	currentPlayerNum = 0;
     
         board = Board.getInstance(boardXml, cardsXml);
         board.populateRooms();
@@ -153,7 +143,6 @@ public class Game{
         
         //set roomsRemaining with number of rooms
         Game.roomsRemaining = Board.getRoomMap().size();
-
     }
     
 
@@ -165,26 +154,6 @@ public class Game{
         this.scoring();
     }
     
-    /**
-     * handleUserInput
-     * handles user's input (gets the name of the action from the input and
-     * specific parameters, needed for this action)
-     * params:  action: String
-     * 			parameters: Array String
-     */
-//    public void handleUserInput(ActionEvent e) {
-//    	String action = e.getActionCommand();
-//    	if(!action.equals(Constants.END_TURN)){
-//    		Player currentPlayer = players.get(currentPlayerNum);
-//    		String[] parameters = {"par_A", "par_B"};
-//            currentPlayer.handleAction(action, parameters);
-//            isEndTurn = false;
-//    	}
-//    	else{
-//    		isEndTurn = true;
-//    	}
-//    }
-    
     
     // to be implemented
     public void updateView(){
@@ -194,124 +163,59 @@ public class Game{
     
     /**
      * Controller for the "Deadwood" game
+     * @return 
      */
-//    public static void main(String[] args) {
-//        int playersNum = 0;
-//        int maxDays = 4;
-//        int credits = 0;
-//        int rank = 1;
-//        
-//       // Utility utility = new Utility();
-//        
-//        while(true){
-//	        
-//	        
-////	        String regex = "[2-8]";
-////	        String playersNumStr = "3";
-////	        if (playersNumStr.matches(regex)){
-////	        	playersNum = Integer.parseInt(playersNumStr);
-////	        	break;
-////	        }
-////        }
-////
-////        //set maxDays and credits
-////        if(playersNum >=2 && playersNum <=3){
-////            maxDays = 3;
-////        }
-////        
-////        switch (playersNum){
-////            case 5:
-////                credits = 2;
-////                break;
-////            case 6:
-////                credits = 4;
-////                break;
-////            case 7:
-////            case 8:
-////                rank = 2;
-////        }
-//        
-//        //start game with initial params
-//        Game game = new Game();
-//
-//        
-//        
-//       // create View
-//        View view = new View();
-//        view.setVisible(true);
-//        
-//        
-//        
-//        String boardXml = Constants.BOARD_XML;
-//        String cardsXml = Constants.CARDS_XML;
-//        
-//        game.startGame(1, 1, 4, playersNum, maxDays, credits, rank, boardXml,cardsXml);
-//        
-//        
-//        
-//        
-//        //print players
-//        System.out.println("The game has just started!!");
-//        System.out.println("Players:");
-//        for(int i = 0; i < playersNum; i++){
-//            System.out.println("Player "+ (game.getPlayers().get(i).getPlayerNum() + 1));
-//        }      
-//        System.out.println();
-//        /** Parse params (action name + additional parameters for action)
-//         *   from user input and pass it to Player to handle
-//         */
-//        int turn = 1;
-//        game.currentPlayerNum = 0;
-//        
-//        System.out.println("Please type your next action");
-//        System.out.println("Player: " + (game.currentPlayerNum+1));
-//        System.out.println("Turn: " + game.getTurn());
-//        
-//        //General Game Loop
-//        while(game.currDay <= game.maxDay){
-//        	//Day Loop 
-//            while(roomsRemaining != 1){
-//            System.out.println("Rooms left: " + roomsRemaining);
-//    	    if(game.getPlayers().get(game.currentPlayerNum).getCurrentRole() != null){
-//    	    	game.getPlayers().get(game.currentPlayerNum).getCurrentRole().setWorkable(true);
-//    	    	game.getPlayers().get(game.currentPlayerNum).setCanMove(false);
-//    	    } else{
-//    	    	game.getPlayers().get(game.currentPlayerNum).setCanMove(true);
-//    	    }
-//    	    	//Turn loop
-//              //  while(!input.equals(Constants.END_TURN)){
-//    	    while(!isEndTurn){
-    			
-//    	       view.waitForEvent()
-    //        recieveEvent
-////                    input = utility.inputReader();
-////                    String[] parameters = utility.parseParams(input);
-////                    String action = parameters[0];
-////                    game.handleUserInput(action, parameters, player);
-////                    
-////                    System.out.println(input);
-////                    System.out.print("Next command: ");
-////                    //update view
-//               }
-// 
-//                if(game.currentPlayerNum == game.getPlayers().size()-1){
-//                	game.currentPlayerNum = 0;
-//                } else {
-//                	game.currentPlayerNum++;
-//                }
-//                turn++;
-//                game.setTurn(turn);
-//                System.out.println("Please type your next action");
-//                System.out.println("Player: " + (game.currentPlayerNum+1));
-//                System.out.println("Turn: " + game.getTurn());
-//            }
-//            game.nextDay();
-//        }
-//        //Last day has ended, start scoring
-//        game.endGame();
-//       }
-//    }
+    public void runGame(){
+        
+        //General Game Loop
+        while(currDay <= maxDay){
+        	//Day Loop 
+            while(roomsRemaining != 1){
+            System.out.println("Rooms left: " + roomsRemaining);
+    	    if(this.getPlayers().get(currentPlayerNum).getCurrentRole() != null){
+    	    	this.getPlayers().get(currentPlayerNum).getCurrentRole().setWorkable(true);
+    	    	this.getPlayers().get(currentPlayerNum).setCanMove(false);
+    	    } else{
+    	    	this.getPlayers().get(currentPlayerNum).setCanMove(true);
+    	    }
 
+    	       while(!isEndTurn){
+    	    	if(inputBuffer != null && !inputBuffer.isEmpty()){
+    	    		    MyEvent event = inputBuffer.pop();
+    	    		    if(!event.getActionName().equals(Constants.SET_NUMBER_OF_PLAYERS) && !event.getActionName().equals(Constants.END_TURN)){
+    	    		    	String actionName = event.getActionName();
+            	    		List<String> params = event.getParameters();
+            	    		String [] parameters = new String[params.size()];
+            	    		int i = 0;
+            	    		for(String param : params){
+            	    			parameters[i] = param;
+            	    			i++;
+            	    		}
+            	    		Player player = players.get(currentPlayerNum);
+            	    		player.handleAction(actionName, parameters);
+    	    		    } else if(event.getActionName().equals(Constants.END_TURN)){
+    	    		    	isEndTurn = true;   	
+    	    		    }
+    	    	    }
+    	       }
+
+               if(currentPlayerNum == this.getPlayers().size()-1){
+                		currentPlayerNum = 0;
+                } else {
+                	currentPlayerNum++;
+                }
+                turn++;
+                this.setTurn(turn);
+                System.out.println("Please type your next action");
+                System.out.println("Player: " + (currentPlayerNum+1));
+                System.out.println("Turn: " + this.getTurn());
+                isEndTurn = false;
+    	     }
+    	    nextDay();
+        }
+            //Last day has ended, start scoring
+            endGame();
+        }
 	
 	
 	/* Event listener for game, will get events fired from View
@@ -336,4 +240,9 @@ public class Game{
 			}
             currentPlayer.handleAction(myEvent.getActionName(), parameters);
 		}
+    
+    
+    public static void addToBuffer(MyEvent event){
+    	inputBuffer.add(event);
+    }
 }

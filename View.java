@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -42,9 +43,18 @@ public class View extends JFrame{
 			}
 		});
 		
+		JButton end = new JButton("End");
+		end.setBounds(0, 60, 80, 30);
+		end.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sendEvent("end",new ArrayList<String>());
+			}
+		});
+		
 		//adding buttons
 		panel.add(who);
 		panel.add(close);
+		panel.add(end);
 		
 
 		FrameBorder frameBorder = new FrameBorder();
@@ -63,6 +73,11 @@ public class View extends JFrame{
 		}
 		String message =  "Please, select the number of employees between 2 and 8:\n";
 		String dialogName = "Game setup";
+		// fill an inputbuffer with an event 
+		MyEvent myEvent = new MyEvent();
+		myEvent.setActionName(Constants.SET_NUMBER_OF_PLAYERS);
+		Game.addToBuffer(myEvent);
+		
 		return (Integer)dialog.getResult(options, message, dialogName);
 	}
 	

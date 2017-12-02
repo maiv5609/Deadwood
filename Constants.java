@@ -5,7 +5,7 @@ public class Constants {
 	
     public static final String DEADWOOD = "Deadwood";
     
-    
+    // --------------------------------------------- action names
     public static final String SET_NUMBER_OF_PLAYERS = "set_number_of_players";
     public static final String ACT = "act";
     public static final String MOVE = "move";
@@ -20,6 +20,7 @@ public class Constants {
     public static final String CARDS_XML = "cards.xml";
     public static final String CASTING_OFFICE = "office";
     public static final String TRAILER = "trailer";
+    //----------------------------- end-------------------->
     
     // --------------------------------------------- colors
     public static final String RED_COLOR = "red";
@@ -30,4 +31,5 @@ public class Constants {
     public static final String GREEN_COLOR = "green";
     public static final String BLUE_COLOR = "blue";
     public static final String PEACH_COLOR = "peach";
+    //------------------------------------ end------------->
 }
