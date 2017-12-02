@@ -1,16 +1,11 @@
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -18,6 +13,11 @@ import javax.swing.JOptionPane;
 public class Dialog extends JFrame{
 
 	public Dialog(){
+		
+	}
+	
+	public Object getResult(List<Object> options, String message, String dialogTitle){
+		Object result = 0;
 		Image image = null;
 		try {
 			image = ImageIO.read(new File("shot.png"));
@@ -29,21 +29,25 @@ public class Dialog extends JFrame{
 		Icon icon = new ImageIcon(image);
 		
 		JOptionPane optionPane = new JOptionPane();
+		 Object[] possibilities = new Object[options.size()];
+		 int i = 0;
+		 for(Object obj : options){
+			 possibilities[i] = obj;
+			 i++;
+		 }
 		 
-		  Object[] possibilities = {2, 3, 4 , 5, 6, 7, 8};
-		  Integer numberOfPlayers = (Integer)optionPane.showInputDialog(
+		   result = optionPane.showInputDialog(
 		                    null,
-		                    "Please, select the number of employees between 2 and 8:\n",
-		                    "Game setup",
+		                    message,
+		                    dialogTitle,
 		                    JOptionPane.PLAIN_MESSAGE,
 		                    icon,
 		                    possibilities,
 		                    "2");
-			MyEvent myEvent = new MyEvent();
-			myEvent.setActionName(Constants.SET_NUMBER_OF_PLAYERS);
-			List<String> params = new ArrayList<String>();
-			params.set(0, numberOfPlayers.toString());
-			Game.receiveEvent(myEvent);
+
+			return result;
 	}
+	
+	
 	
 }

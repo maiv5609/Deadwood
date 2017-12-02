@@ -1,17 +1,13 @@
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EventListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 //This is mostly an example class
 
@@ -21,12 +17,7 @@ public class View extends JFrame{
 	public View() {
 		setSize(300, 200);
 		setTitle("Deadwood");
-		
-		toolkit = getToolkit();
-		
-		// Select the number of players
-		Dialog dialog = new Dialog();
-		dialog.setVisible(true);
+		toolkit = getToolkit();		
 
 		//Sets size to the size of screen and opens in center of screen
 		Dimension size = toolkit.getScreenSize();
@@ -35,20 +26,11 @@ public class View extends JFrame{
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		panel.setLayout(null);
-		//TextArea test = new TextArea();
-		//Closure that performs an action, can probably use this to call our other commands
 		JButton who = new JButton("Who");
-		//Setting size of button
 		who.setBounds(150, 60, 80, 30);
 		who.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event){
-				//who.addPropertyChangeListener(new );
-				//who.firePropertyChange("who", false, true);
-				System.out.println("who fired");
-				MyEvent myEvent = new MyEvent();
-				myEvent.setActionName(Constants.SET_NUMBER_OF_PLAYERS);
-				
-				Game.receiveEvent(myEvent);
+				sendEvent("who",new ArrayList<String>());
 			}
 		});
 		
@@ -72,7 +54,24 @@ public class View extends JFrame{
 		//Closes window when user presses exit
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-
+	public int getPlayers(){
+		Dialog dialog = new Dialog();
+		dialog.setVisible(true);
+		List<Object> options = new ArrayList<Object>();
+		for (int i = 2; i < 9; i++){
+			options.add(i);
+		}
+		String message =  "Please, select the number of employees between 2 and 8:\n";
+		String dialogName = "Game setup";
+		return (Integer)dialog.getResult(options, message, dialogName);
+	}
+	
+	public void sendEvent(String action, List<String> params ){
+		MyEvent myEvent = new MyEvent();
+		myEvent.setActionName(action);
+		myEvent.setParameters(params);
+		Game.addToBuffer(myEvent);
+	}
 	
 }
 
