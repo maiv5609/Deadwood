@@ -307,7 +307,7 @@ public class Game{
 	    Game.players.get(currentPlayerNum).getCurrentRole().setWorkable(true);
 	    Game.players.get(currentPlayerNum).setCanMove(false);
 	} else {
-	    Game.players.get(currentPlayerNum).setCanMove(true);
+	    Game.players.get(Game.currentPlayerNum).setCanMove(true);
 	}
 	if (Game.currentPlayerNum == Game.players.size()-1){
 	    Game.currentPlayerNum = 0;
@@ -335,15 +335,31 @@ public class Game{
 	 */
 	if(Constants.END_TURN.equals(action)){
 	    Game.endTurn();
-	} else {
+	}else {
 	    String[] parameters = new String[params.size()];
 	    for (int i = 0; i < params.size(); i++){
 		parameters[i] = params.get(i);
 		i++;
 	    }
-	    
-	    Player currentPlayer = players.get(currentPlayerNum);
-	    currentPlayer.handleAction(action, parameters);
+
+	    if(Constants.MOVE.equals(action)){
+		List<Object> options = new ArrayList<Object>();
+		List<String> rooms = players.get(currentPlayerNum).getCurrentRoom().getConnectedRooms();
+		for (String room: rooms){
+		    options.add((Object)room);
+		}
+		String Destination = (String)View.getDialogResult("Which room?","Please choose one of the following connected rooms to move to\n",options);
+		if (Destination != null){
+		    parameters = Destination.toLowerCase().split(" ");
+		} else {
+		    parameters = null;
+		}
+	    }
+
+	    if(parameters != null){
+		Player currentPlayer = players.get(currentPlayerNum);
+		currentPlayer.handleAction(action, parameters);
+	    }
 	}
 	System.out.println("turn: "+turn);
 	System.out.println("player: "+currentPlayerNum);

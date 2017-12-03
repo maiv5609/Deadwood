@@ -344,13 +344,21 @@ public class Player {
      */
     public void handleAction(String action, String[] parameters) {
         if(Constants.MOVE.equals(action)){
-        	if(parameters.length == 1){
+        	if(parameters.length == 0){
         		System.out.println("Please also input the room you would like to move to.");
         	}else{
+		    String direction = "";
+		    for(String par: parameters){
+			direction += " "+par;
+		    }
+		    direction = direction.trim();
+		    System.out.println(direction);
+		        /*
         		String direction = parameters[1];
-                if(parameters.length > 2){
-                	direction  = direction + " " + parameters[2];
-                } 
+			if(parameters.length > 2){
+			    direction  = direction + " " + parameters[2];
+			}
+			*/
                // direction.replace(direction.substring(direction.length()-1), "");
                 
                 if ((!this.move(direction)) && canMove) {
