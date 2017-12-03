@@ -4,6 +4,7 @@ public class Scene {
 
     String name;
     String description;
+    String img;
     int budget;
     List<Role> role;
     Boolean isClosed;
@@ -58,11 +59,19 @@ public class Scene {
 	this.isOccupied = isOccupied;
     }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+	return description;
+    }
+    
+    public void setDescription(String description) {
+	this.description = description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}    
+    public String getImg() {
+	return img;
+    }
+
+    public void setImg(String img){
+	this.img = img;
+    }
 }
