@@ -383,9 +383,11 @@ public class Player {
         	}
            
         } else if(Constants.UPGRADE.equals(action)){
-            int rank = Integer.parseInt(parameters[2]);
-            String currency = parameters[1];
-            this.upgradeRank(rank, currency);
+	    if(parameters.length == 2){
+		int rank = Integer.parseInt(parameters[1]);
+		String currency = parameters[0];
+		this.upgradeRank(rank, currency);
+	    }
         } else if(Constants.REHEARSE.equals(action)){
             this.rehearse();  
         } else if(Constants.ACT.equals(action)){

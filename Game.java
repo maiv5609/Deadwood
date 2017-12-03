@@ -344,7 +344,7 @@ public class Game{
 
 	    if(Constants.MOVE.equals(action)){
 		List<Object> options = new ArrayList<Object>();
-		List<String> rooms = players.get(currentPlayerNum).getCurrentRoom().getConnectedRooms();
+		List<String> rooms = Game.players.get(Game.currentPlayerNum).getCurrentRoom().getConnectedRooms();
 		for (String room: rooms){
 		    options.add((Object)room);
 		}
@@ -353,6 +353,34 @@ public class Game{
 		    parameters = Destination.toLowerCase().split(" ");
 		} else {
 		    parameters = null;
+		}
+	    } else if (Constants.UPGRADE.equals(action)) {
+		List<Object> options = new ArrayList<Object>();
+		List<Object> options2 = new ArrayList<Object>();
+		Integer current = Game.players.get(Game.currentPlayerNum).getRank();
+		for(Integer i = current+1; i <= 6; i++){
+		    options.add((Object)i);
+		}
+		options2.add((Object)"Dollars");
+		options2.add((Object)"Credits");
+		String desiredCurrency = null;
+		Integer desiredRank = null;
+		if (current < 6){
+		    desiredRank = (Integer)View.getDialogResult("What rank?","Please choose a rank to upgrade to\n",options);
+		    if (desiredRank != null){
+			desiredCurrency = (String)View.getDialogResult("What currency?","Please choose a currency to use\n",options2);
+		    }
+		}
+		if ((desiredRank == null) || (desiredCurrency == null) || (current == 6)){
+		    parameters = null;
+		} else {
+		    parameters = new String[2];
+		    parameters[1] = desiredRank.toString();
+		    if (desiredCurrency.equals("Dollars")){
+			parameters[0] = "$";
+		    } else if (desiredCurrency.equals("Credits")) {
+			parameters[0] = "cr";
+		    }
 		}
 	    }
 
