@@ -380,19 +380,19 @@ public class Player {
                 }
         	}
         } else if(Constants.WORK.equals(action)){
-        	if(parameters.length < 2){
-        		System.out.println("Please, specify the role");
-        	}else{
-        		 String roleName = parameters[1];
-                 if(parameters.length > 2){
-                 	for(int i = 2; i < parameters.length;i++){
-                 		roleName += " " + parameters[i];
-                 	}
-                 }
-                 if(this.work(roleName) == false){
-                	 System.out.println("Unable to work role");
-                 }
-        	}
+	    if(parameters.length < 1){
+		System.out.println("Please, specify the role");
+	    }else{
+		String roleName = "";
+		for (String par: parameters){
+		    roleName += " "+par;
+		}
+		roleName = roleName.trim();
+                 
+		if(this.work(roleName) == false){
+		    System.out.println("Unable to work role");
+		}
+	    }
            
         } else if(Constants.UPGRADE.equals(action)){
 	    if(parameters.length == 2){

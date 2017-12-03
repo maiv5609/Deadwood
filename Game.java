@@ -238,6 +238,22 @@ public class Game{
 			parameters[0] = "cr";
 		    }
 		}
+	    }  else if (Constants.WORK.equals(action)) {
+		String roomName = Game.players.get(Game.currentPlayerNum).getCurrentRoom().getName();
+		String name = null;
+		if (!roomName.equals(Constants.TRAILER) && !roomName.equals(Constants.CASTING_OFFICE)){
+		    List<Role> roles = Game.players.get(Game.currentPlayerNum).getCurrentRoom().getRoles();
+		    List<Object> options = new ArrayList<Object>();
+		    for (Role role: roles){
+			options.add((Object)role.getName());
+		    }
+		    name = (String)View.getDialogResult("What role?", "Please choose a role to work\n",options);
+		}
+		if (name == null){
+		    parameters = null;
+		} else {
+		    parameters = new String[]{name};
+		}
 	    }
 
 	    if(parameters != null){
