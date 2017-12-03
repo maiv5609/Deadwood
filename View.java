@@ -1,21 +1,15 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 //This is mostly an example class
@@ -56,18 +50,18 @@ public class View extends JFrame{
 		
 	
 		// Add a scene card to this room
-//		Map<Room> scenes = Board.getRoomMap();
-//		for(Scene scene: scenes) {
-//			String cardPath = scene.getImg();
-//		    cardlabel = new JLabel();
-//		    ImageIcon cIcon =  new ImageIcon(cardPath);
-//		    cardlabel.setIcon(cIcon); 
-//		    cardlabel.setBounds(card.x,card.y,cIcon.getIconWidth(),cIcon.getIconHeight());
-//		    cardlabel.setOpaque(true);
-//		    // Add the card to the lower layer
-//		    boardPane.add(cardlabel, new Integer(1));
-//		}
-//		
+		Map<Room> scenes = Board.getRoomMap();
+		for(Scene scene: scenes) {
+			String cardPath = scene.getImg();
+		    cardlabel = new JLabel();
+		    ImageIcon cIcon =  new ImageIcon(cardPath);
+		    cardlabel.setIcon(cIcon); 
+		    cardlabel.setBounds(card.x,card.y,cIcon.getIconWidth(),cIcon.getIconHeight());
+		    cardlabel.setOpaque(true);
+		    // Add the card to the lower layer
+		    boardPane.add(cardlabel, new Integer(1));
+		}
+		
 		
 		//ScoreBoard
 		JTextArea scoreboard = new JTextArea("Scoreboard");
@@ -80,24 +74,13 @@ public class View extends JFrame{
 		// Add a dice to represent a player.
 		// Role for Crusty the prospector. The x and y co-ordiantes are 
 		//taken from Board.xml file
-//		List<String> colors = new ArrayList<>();
-//		colors.add("b");
-//		colors.add("c");
-//		colors.add("g");
-//		colors.add("o");
-//		colors.add("p");
-//		colors.add("r");
-//		colors.add("v");
-//		colors.add("y");
 		
 		List<Player> players = Game.players;
 		for(int i = 0; i < players.size();i++) {
 		 JLabel playerlabel = new JLabel();
 		 Player player = players.get(i);
-		 ImageIcon pIcon = new ImageIcon();
-		 player.setIcon(pIcon);
-		 updatePlayersDice( pIcon, player);
-		 playerlabel.setIcon(pIcon);
+		 updatePlayersDice(player);
+		 playerlabel.setIcon(player.getIcon());
 		 playerlabel.setBounds(114,227,46,46);
 		 boardlabel.add(playerlabel,new Integer(3));
 		}
@@ -297,11 +280,9 @@ public class View extends JFrame{
 //		return playersStatus;
 //	}
 	
-	public void updatePlayersDice(ImageIcon icon, Player player){
-		ImageIcon pIcon = new ImageIcon("/dice" + player.getDiceColor() + player.getRank() + ".png");
+	public void updatePlayersDice(Player player){
+		ImageIcon pIcon = new ImageIcon(getClass().getResource("/dice/" + player.getDiceColor() + player.getRank() + ".png"));
 		player.setIcon(pIcon);
-
-		
 	}
 //	String playersStatus ="Scoreboard\n\n";
 //	List<Player> players = Game.players;
