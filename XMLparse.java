@@ -115,6 +115,13 @@ public class XMLparse {
 		curr.setCurrentShots(curr.getMaxShots());
 		name = room.getAttribute("name");
 		curr.setName(name);
+		Element area = (Element) room.getElementsByTagName("area").item(0);
+		Integer areaX = Integer.parseInt(area.getAttribute("x"));
+		Integer areaY = Integer.parseInt(area.getAttribute("y"));
+		Integer areaH = Integer.parseInt(area.getAttribute("h"));
+		Integer areaW = Integer.parseInt(area.getAttribute("w"));
+		curr.setAreaXY(new Integer[]{areaX,areaY});
+		curr.setAreaHW(new Integer[]{areaH,areaW});
 		// get and set neighboring rooms
 		List<String> connectedRooms = new ArrayList<String>();
 		NodeList neighbors = ((Element) room.getElementsByTagName("neighbors").item(0)).getElementsByTagName("neighbor");

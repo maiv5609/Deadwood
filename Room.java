@@ -10,6 +10,8 @@ public class Room {
     private List<Role> roles;
     private Scene scene;
     private List<String> connectedRooms;
+    private Integer[] areaXY;
+    private Integer[] areaHW;
 
     public Room(){
     	name = null;
@@ -75,6 +77,23 @@ public class Room {
     public void setConnectedRooms(List<String> connectedRooms) {
         this.connectedRooms = connectedRooms;
     }
+
+    public Integer[] getAreaXY(){
+	return areaXY;
+    }
+
+    public void setAreaXY(Integer[] areaXY){
+	this.areaXY = areaXY;
+    }
+
+    public Integer[] getAreaHW(){
+	return areaHW;
+    }
+
+    public void setAreaHW(Integer[] areaHW){
+	this.areaHW = areaHW;
+    }
+    
     
     
     /* addPlayer
