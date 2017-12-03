@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
 public class Player {
     private int rank;
     private int playerNum;
@@ -12,8 +14,10 @@ public class Player {
     private Role currentRole;
 	private boolean canMove;
 	private String diceColor;
+	private ImageIcon icon;
 
 
+	
 	/*
      * Constructors
      */
@@ -27,7 +31,7 @@ public class Player {
         this.canMove = true;
         this.currentRoom = currentRoom;
         this.currentRole = null;
-        this.diceColor = new Utility().getColorArray().get(playerNumber);
+        this.diceColor = new Utility().getColors().get(playerNumber);
     }
     
     public int getRank() {
@@ -111,6 +115,14 @@ public class Player {
 	public void setDiceColor(String diceColor) {
 		this.diceColor = diceColor;
 	}
+	public ImageIcon getIcon() {
+		return icon;
+	}
+
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
+	}
+
     
     
     /*
