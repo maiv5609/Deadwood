@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,28 +53,32 @@ public class View extends JFrame{
 		setSize(boardImage.getIconWidth()+200,boardImage.getIconHeight());
 		
 	
-		// Add a scene card to this room
-		//HashMap<String,Room> scenes = Board.getRoomMap();
-		
-//		for(Scene scene: scenes) {
-//			String cardPath = scene.getImg();
-//		    cardlabel = new JLabel();
-//		    ImageIcon cIcon =  new ImageIcon(cardPath);
-//		    cardlabel.setIcon(cIcon); 
-//		    cardlabel.setBounds(,card.y,cIcon.getIconWidth(),cIcon.getIconHeight());
-//		    cardlabel.setOpaque(true);
-//		    // Add the card to the lower layer
-//		    boardPane.add(cardlabel, new Integer(1));
-//		}
-		
-		
-		//ScoreBoard
-		JTextArea scoreboard = new JTextArea("Scoreboard");
-		scoreboard.setLineWrap(true);
-		scoreboard.setEditable(false);
-		scoreboard.setMinimumSize(new Dimension(300, 600));
-		scoreboard.setAlignmentX(CENTER_ALIGNMENT);
-		
+	// Add a scene card to this room
+	   Map<String,Room> rooms = Board.getRoomMap();
+	   Iterator it = rooms.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        Room room = ((Room)pair.getValue());
+	        if(!room.getName().equals(Constants.CASTING_OFFICE) && !room.getName().equals(Constants.TRAILER)){
+	        	Scene scene = room.getScene();
+	 	        String cardPath = scene.getImg();
+	 	        JLabel cardlabel = new JLabel();
+	 	        ImageIcon cIcon =  new ImageIcon(getClass().getResource("/cards/" + cardPath));
+	 		    cardlabel.setIcon(cIcon); 
+	 		    cardlabel.setBounds(room.getAreaXY()[0],room.getAreaXY()[1],cIcon.getIconWidth(),cIcon.getIconHeight());
+	 		    cardlabel.setOpaque(true);
+	 		    boardPane.add(cardlabel, new Integer(1));
+	        }
+	    }
+
+	    JTextArea area = new JTextArea();
+	    area.setEditable(false);
+	    area.setLineWrap(true);
+	    area.append(updateScoreboard());
+	    area.setVisible(true);
+	    area.setBounds(boardImage.getIconWidth(),300,200,180);
+	    boardPane.add(area, new Integer(3));
+	
 		
 		// Add a dice to represent a player.
 		// Role for Crusty the prospector. The x and y co-ordiantes are 
@@ -85,27 +90,23 @@ public class View extends JFrame{
 		 Player player = players.get(i);
 		 updatePlayersDice(player);
 		 playerlabel.setIcon(player.getIcon());
-		 playerlabel.setBounds(114,227,46,46);
+		 playerlabel.setBounds(114,227,player.getIcon().getIconWidth(),player.getIcon().getIconHeight());
 		 boardlabel.add(playerlabel,new Integer(3));
 		}
-//		
-//		//Button Panel
-//		JPanel controls = new JPanel();
-//		
-//		
-//		
-//		// Console
-//		JTextArea console = new JTextArea("Console");
-//		console.setEditable(false);
-//
-//		add(console, c);
 
 		// Create the Menu for action buttons
 		JLabel mLabel = new JLabel("MENU");
 		mLabel.setBounds(boardImage.getIconWidth()+40,0,100,20);
 		boardPane.add(mLabel,new Integer(2));
-
 		
+
+		// Create Scoreboard for action buttons
+		JLabel scoreLabel = new JLabel("SCOREBOARD");
+		scoreLabel.setBounds(boardImage.getIconWidth()+20,270,100,20);
+		boardPane.add(scoreLabel,new Integer(2));
+
+
+		// Create Buttons for actions
 		JButton moveBtn = new JButton(Constants.MOVE);
 		moveBtn.setBackground(Color.white);
 		moveBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
@@ -138,7 +139,7 @@ public class View extends JFrame{
 		endBtn.setBackground(Color.white);
 		endBtn.setBounds(boardImage.getIconWidth()+10, 240,100, 20);
 		
-		
+		// Add buttons to the board
 		boardPane.add(moveBtn, new Integer(2));
 		boardPane.add(workBtn, new Integer(2));
 		boardPane.add(upgradeBtn, new Integer(2));
@@ -148,6 +149,7 @@ public class View extends JFrame{
 		boardPane.add(whereBtn, new Integer(2));
 		boardPane.add(endBtn, new Integer(2));
 		
+		//Event listeners for buttons
 		moveBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
@@ -197,79 +199,7 @@ public class View extends JFrame{
 		});
 
 		
-//		controls.add(moveBtn);
-//		controls.add(workBtn);
-//		controls.add(upgradeBtn);
-//		controls.add(rehearseBtn);
-//		controls.add(actBtn);
-//		controls.add(whoBtn);
-//		controls.add(whereBtn);
-//		controls.add(endBtn);
-//		
-//		add(controls,c);
-
-//		// Add a scene card to this room
-//		JLabel cardlabel = new JLabel();
-//		ImageIcon cIcon =  new ImageIcon("01.png");
-//		cardlabel.setIcon(cIcon);
-//		cardlabel.setBounds(20,60,cIcon.getIconWidth(),cIcon.getIconHeight(
-//		));
-//		cardlabel.setOpaque(true);
-//		// Add the card to the lower layer
-//		add(cardlabel, new Integer(1));
-		
-		
-		
-		//Creating Scoreboard
-		//Placeholder
-//		Scoreboard.add(new JLabel("Scoreboard"));
-		
-		//Populating console initally
-//		console.setText("Console");
-		
-		//Setting sizes
-//		mainPanel.setPreferredSize(new Dimension(500, 400));
-//		Scoreboard.setPreferredSize(new Dimension(200, 400));
-		//controls.setPreferredSize(new Dimension((int)(buttonSize.getWidth() * 5)+20, (int)(buttonSize.getHeight() * 3.5)+20 * 2));
-		
-		
-		//Adding panels to frame
-//		add(mainPanel);
-//		add(Scoreboard);
-//		add(controls);
-//		add(console);
-		
 		setVisible(true);
-		
-//		TextArea test = new TextArea();
-//		//Closure that performs an action, can probably use this to call our other commands
-//		JButton who = new JButton("Who");
-//		//Setting size of button
-//		who.setBounds(150, 60, 80, 30);
-//		who.addActionListener(new ActionListener(){
-//			public void actionPerformed(ActionEvent event){
-//				//who.addPropertyChangeListener(new );
-//				//who.firePropertyChange("who", false, true);
-//				System.out.println("who fired");
-//				Game.receiveEvent("who");
-//			}
-//		});
-//		
-//		JButton close = new JButton("Close");
-//		close.setBoundsplayer.getDiceColor()(50, 60, 80, 30);
-//		close.addActionListener(new ActionListener(){
-//			public void actionPerformed(ActionEvent event){
-//				System.exit(0);
-//			}
-//		});
-//		
-		//adding buttons
-//		panel.add(who);
-//		panel.add(close);
-
-
-//		FrameBorder frameBorder = new FrameBorder();
-//		frameBorder.setVisible(true);
 	}
     public static Object getDialogResult(String dialogName, String message, List<Object> options){
 		Dialog dialog = new Dialog();
@@ -284,33 +214,24 @@ public class View extends JFrame{
 	}
 	
 	
-//	public static String updateScoreboard(){
-//		String playersStatus ="Scoreboard\n\n";
-//		List<Player> players = Game.players;
-//		for(int i = 0 ; i < players.size(); i++) {
-//			String playerStatus = "Player " + (i + 1) + ": "
-//								   +"Rank:" + players.get(i).getRank() + ", "
-//								   +"Money:" + players.get(i).getMoney() + ", "
-//								   +"Credits:" + players.get(i).getCredits() + "\n";	
-//			playersStatus+=playerStatus + "\n";
-//		}
-//		return playersStatus;
-//	}
+	public static String updateScoreboard(){
+		String playersStatus ="";
+		List<Player> players = Game.players;
+		for(int i = 0 ; i < players.size(); i++) {
+			String playerStatus = "Player " + (i + 1) + ": "
+								   +"Rank:" + players.get(i).getRank() + ", "
+								   +"Money:" + players.get(i).getMoney() + ", "
+								   +"Credits:" + players.get(i).getCredits() + "\n";	
+			playersStatus+=playerStatus + "\n";
+		}
+		return playersStatus;
+	}
 	
 	public void updatePlayersDice(Player player){
 		ImageIcon pIcon = new ImageIcon(getClass().getResource("/dice/" + player.getDiceColor() + player.getRank() + ".png"));
 		player.setIcon(pIcon);
 	}
-//	String playersStatus ="Scoreboard\n\n";
-//	List<Player> players = Game.players;
-//	for(int i = 0 ; i < players.size(); i++) {
-//		String playerStatus = "Player " + (i + 1) + ": "
-//							   +"Rank:" + players.get(i).getRank() + ", "
-//							   +"Money:" + players.get(i).getMoney() + ", "
-//							   +"Credits:" + players.get(i).getCredits() + "\n";	
-//		playersStatus+=playerStatus + "\n";
-//	}
-//	return playersStatus;
+
 
 }
 
