@@ -7,15 +7,17 @@ public class Role {
     int rank;
     Boolean onCard;
     Player heldBy;
+    Integer[] areaXY;
+    Integer[] areaHW;
 
    
-	public Role(){
+    public Role(){
     	name = null;
     	line = null;
     	workable = false;
     	rank = 0;
-		onCard = false;
-		heldBy = null;
+	onCard = false;
+	heldBy = null;
     }
     
     public String getName() {
@@ -58,14 +60,28 @@ public class Role {
         this.onCard = onCard;
     }
     public Player getHeldBy() {
-		return heldBy;
-	}
+	return heldBy;
+    }
 
-	public void setHeldBy(Player heldBy) {
-		this.heldBy = heldBy;
-	}
+    public void setHeldBy(Player heldBy) {
+	this.heldBy = heldBy;
+    }
 
-    
+    public Integer[] getAreaXY(){
+	return areaXY;
+    }
+
+    public void setAreaXY(Integer[] areaXY){
+	this.areaXY = areaXY;
+    }
+
+     public Integer[] getAreaHW(){
+	return areaHW;
+    }
+
+    public void setAreaHW(Integer[] areaHW){
+	this.areaHW = areaHW;
+    }
     
     /* PayOut
      * params : currentPlayer : Player

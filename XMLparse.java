@@ -79,6 +79,13 @@ public class XMLparse {
 			Element rElement = (Element) rNode;
 			rank = Integer.parseInt(rElement.getAttribute("level"));
 			// Grabs and sets relevant role data
+			Element area = (Element) rElement.getElementsByTagName("area").item(0);
+			Integer areaX = Integer.parseInt(area.getAttribute("x"));
+			Integer areaY = Integer.parseInt(area.getAttribute("y"));
+			Integer areaH = Integer.parseInt(area.getAttribute("h"));
+			Integer areaW = Integer.parseInt(area.getAttribute("w"));
+			currRole.setAreaXY(new Integer[]{areaX,areaY});
+			currRole.setAreaHW(new Integer[]{areaH,areaW});
 			currRole.setName(rElement.getAttribute("name"));
 			currRole.setRank(rank);
 			currRole.setLine(rElement.getElementsByTagName("line").item(0).getTextContent());
@@ -145,7 +152,13 @@ public class XMLparse {
 		    if (partNode.getNodeType() == Node.ELEMENT_NODE){
 			Element pElement = (Element) partNode;
 			rank = Integer.parseInt(pElement.getAttribute("level"));
-			
+			Element rArea = (Element) room.getElementsByTagName("area").item(0);
+			Integer rAreaX = Integer.parseInt(area.getAttribute("x"));
+			Integer rAreaY = Integer.parseInt(area.getAttribute("y"));
+			Integer rAreaH = Integer.parseInt(area.getAttribute("h"));
+			Integer rAreaW = Integer.parseInt(area.getAttribute("w"));
+			newRole.setAreaXY(new Integer[]{rAreaX,rAreaY});
+			newRole.setAreaHW(new Integer[]{rAreaH,rAreaW});
 			newRole.setName(pElement.getAttribute("name"));
 			newRole.setRank(rank);
 			newRole.setLine(pElement.getElementsByTagName("line").item(0).getTextContent());
