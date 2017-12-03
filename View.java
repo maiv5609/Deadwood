@@ -4,7 +4,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,17 +53,18 @@ public class View extends JFrame{
 		
 	
 		// Add a scene card to this room
-		Map<Room> scenes = Board.getRoomMap();
-		for(Scene scene: scenes) {
-			String cardPath = scene.getImg();
-		    cardlabel = new JLabel();
-		    ImageIcon cIcon =  new ImageIcon(cardPath);
-		    cardlabel.setIcon(cIcon); 
-		    cardlabel.setBounds(card.x,card.y,cIcon.getIconWidth(),cIcon.getIconHeight());
-		    cardlabel.setOpaque(true);
-		    // Add the card to the lower layer
-		    boardPane.add(cardlabel, new Integer(1));
-		}
+		//HashMap<String,Room> scenes = Board.getRoomMap();
+		
+//		for(Scene scene: scenes) {
+//			String cardPath = scene.getImg();
+//		    cardlabel = new JLabel();
+//		    ImageIcon cIcon =  new ImageIcon(cardPath);
+//		    cardlabel.setIcon(cIcon); 
+//		    cardlabel.setBounds(,card.y,cIcon.getIconWidth(),cIcon.getIconHeight());
+//		    cardlabel.setOpaque(true);
+//		    // Add the card to the lower layer
+//		    boardPane.add(cardlabel, new Integer(1));
+//		}
 		
 		
 		//ScoreBoard
@@ -96,6 +100,10 @@ public class View extends JFrame{
 //
 //		add(console, c);
 
+		// Create the Menu for action buttons
+		JLabel mLabel = new JLabel("MENU");
+		mLabel.setBounds(boardImage.getIconWidth()+40,0,100,20);
+		boardPane.add(mLabel,new Integer(2));
 
 		
 		JButton moveBtn = new JButton(Constants.MOVE);
@@ -104,32 +112,41 @@ public class View extends JFrame{
 		
 		JButton workBtn = new JButton(Constants.WORK);
 		workBtn.setBackground(Color.white);
-		workBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		workBtn.setBounds(boardImage.getIconWidth()+10, 60,100, 20);
 		
 		JButton upgradeBtn = new JButton(Constants.UPGRADE);
 		upgradeBtn.setBackground(Color.white);
-		upgradeBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		upgradeBtn.setBounds(boardImage.getIconWidth()+10, 90,100, 20);
 		
 		JButton rehearseBtn = new JButton(Constants.REHEARSE);
 		rehearseBtn.setBackground(Color.white);
-		rehearseBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		rehearseBtn.setBounds(boardImage.getIconWidth()+10, 120,100, 20);
 		
 		JButton actBtn = new JButton(Constants.ACT);
 		actBtn.setBackground(Color.white);
-		actBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		actBtn.setBounds(boardImage.getIconWidth()+10, 150,100, 20);
 		
 		JButton whoBtn = new JButton(Constants.WHO);
 		whoBtn.setBackground(Color.white);
-		whoBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		whoBtn.setBounds(boardImage.getIconWidth()+10, 180,100, 20);
 		
 		JButton whereBtn = new JButton(Constants.WHERE);
 		whereBtn.setBackground(Color.white);
-		whereBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		whereBtn.setBounds(boardImage.getIconWidth()+10, 210,100, 20);
 		
 		JButton endBtn = new JButton(Constants.END_TURN);
 		endBtn.setBackground(Color.white);
-		endBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		endBtn.setBounds(boardImage.getIconWidth()+10, 240,100, 20);
 		
+		
+		boardPane.add(moveBtn, new Integer(2));
+		boardPane.add(workBtn, new Integer(2));
+		boardPane.add(upgradeBtn, new Integer(2));
+		boardPane.add(rehearseBtn, new Integer(2));
+		boardPane.add(actBtn, new Integer(2));
+		boardPane.add(whoBtn, new Integer(2));
+		boardPane.add(whereBtn, new Integer(2));
+		boardPane.add(endBtn, new Integer(2));
 		
 		moveBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
