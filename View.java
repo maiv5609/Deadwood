@@ -72,6 +72,7 @@ public class View extends JFrame{
 	        }
 	    }
 
+	    //add scoreboard with players current status
 	    JTextArea area = new JTextArea();
 	    area.setEditable(false);
 	    area.setLineWrap(true);
@@ -212,8 +213,6 @@ public class View extends JFrame{
 				sendEvent(e.getActionCommand(), new ArrayList<String>());
 			}
 		});
-
-		
 		setVisible(true);
 	}
     public static Object getDialogResult(String dialogName, String message, List<Object> options){
