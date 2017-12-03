@@ -157,25 +157,24 @@ public class Game{
     public void updateView(){
         
     }
-    
-    public static void endTurn(){
-		if (Game.players.get(currentPlayerNum).getCurrentRole() != null) {
-			Game.players.get(currentPlayerNum).getCurrentRole().setWorkable(true);
-			Game.players.get(currentPlayerNum).setCanMove(false);
-		} else {
-			Game.players.get(currentPlayerNum).setCanMove(true);
-		}
-		if (Game.currentPlayerNum == Game.players.size() - 1) {
-			Game.currentPlayerNum = 0;
-		} else {
-			Game.currentPlayerNum++;
-		}
-		Game.turn++;
-		if (Game.roomsRemaining <= 1) {
-			Game.nextDay();
-		}
 
-	//	View.updateScoreboard();
+    public static void endTurn(){
+	if (Game.players.get(currentPlayerNum).getCurrentRole() != null){
+	    Game.players.get(currentPlayerNum).getCurrentRole().setWorkable(true);
+	    Game.players.get(currentPlayerNum).setCanMove(false);
+	} else {
+	    Game.players.get(Game.currentPlayerNum).setCanMove(true);
+	}
+	if (Game.currentPlayerNum == Game.players.size()-1){
+	    Game.currentPlayerNum = 0;
+	} else {
+	    Game.currentPlayerNum++;
+	}
+	Game.turn++;
+	if (Game.roomsRemaining <= 1){
+	    Game.nextDay();
+	}
+	// updateView?
     }
 	
 	
@@ -198,9 +197,53 @@ public class Game{
 		parameters[i] = params.get(i);
 		i++;
 	    }
-	    
-	    Player currentPlayer = players.get(currentPlayerNum);
-	    currentPlayer.handleAction(action, parameters);
+
+	    if(Constants.MOVE.equals(action)){
+		List<Object> options = new ArrayList<Object>();
+		List<String> rooms = Game.players.get(Game.currentPlayerNum).getCurrentRoom().getConnectedRooms();
+		for (String room: rooms){
+		    options.add((Object)room);
+		}
+		String Destination = (String)View.getDialogResult("Which room?","Please choose one of the following connected rooms to move to\n",options);
+		if (Destination != null){
+		    parameters = Destination.toLowerCase().split(" ");
+		} else {
+		    parameters = null;
+		}
+	    } else if (Constants.UPGRADE.equals(action)) {
+		List<Object> options = new ArrayList<Object>();
+		List<Object> options2 = new ArrayList<Object>();
+		Integer current = Game.players.get(Game.currentPlayerNum).getRank();
+		for(Integer i = current+1; i <= 6; i++){
+		    options.add((Object)i);
+		}
+		options2.add((Object)"Dollars");
+		options2.add((Object)"Credits");
+		String desiredCurrency = null;
+		Integer desiredRank = null;
+		if (current < 6){
+		    desiredRank = (Integer)View.getDialogResult("What rank?","Please choose a rank to upgrade to\n",options);
+		    if (desiredRank != null){
+			desiredCurrency = (String)View.getDialogResult("What currency?","Please choose a currency to use\n",options2);
+		    }
+		}
+		if ((desiredRank == null) || (desiredCurrency == null) || (current == 6)){
+		    parameters = null;
+		} else {
+		    parameters = new String[2];
+		    parameters[1] = desiredRank.toString();
+		    if (desiredCurrency.equals("Dollars")){
+			parameters[0] = "$";
+		    } else if (desiredCurrency.equals("Credits")) {
+			parameters[0] = "cr";
+		    }
+		}
+	    }
+
+	    if(parameters != null){
+		Player currentPlayer = players.get(currentPlayerNum);
+		currentPlayer.handleAction(action, parameters);
+	    }
 	}
 	System.out.println("turn: "+turn);
 	System.out.println("player: "+currentPlayerNum);

@@ -356,13 +356,21 @@ public class Player {
      */
     public void handleAction(String action, String[] parameters) {
         if(Constants.MOVE.equals(action)){
-        	if(parameters.length == 1){
+        	if(parameters.length == 0){
         		System.out.println("Please also input the room you would like to move to.");
         	}else{
+		    String direction = "";
+		    for(String par: parameters){
+			direction += " "+par;
+		    }
+		    direction = direction.trim();
+		    System.out.println(direction);
+		        /*
         		String direction = parameters[1];
-                if(parameters.length > 2){
-                	direction  = direction + " " + parameters[2];
-                } 
+			if(parameters.length > 2){
+			    direction  = direction + " " + parameters[2];
+			}
+			*/
                // direction.replace(direction.substring(direction.length()-1), "");
                 
                 if ((!this.move(direction)) && canMove) {
@@ -387,9 +395,11 @@ public class Player {
         	}
            
         } else if(Constants.UPGRADE.equals(action)){
-            int rank = Integer.parseInt(parameters[2]);
-            String currency = parameters[1];
-            this.upgradeRank(rank, currency);
+	    if(parameters.length == 2){
+		int rank = Integer.parseInt(parameters[1]);
+		String currency = parameters[0];
+		this.upgradeRank(rank, currency);
+	    }
         } else if(Constants.REHEARSE.equals(action)){
             this.rehearse();  
         } else if(Constants.ACT.equals(action)){

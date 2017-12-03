@@ -61,6 +61,9 @@ public class XMLparse {
 		budget = Integer.parseInt( ((Element) nNode).getAttribute("budget"));
 		// Grab and set non-role data
 		curr.setName( ((Element) nNode).getAttribute("name"));
+
+		curr.setImg( ((Element) nNode).getAttribute("img"));
+		
 		curr.setBudget(budget);
 		curr.setDescription(((Element) eElement.getElementsByTagName("scene").item(0)).getTextContent());
 		// Aggregate role data and add it to scene
