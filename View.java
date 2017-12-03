@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -81,17 +82,31 @@ public class View extends JFrame{
 	
 		
 		// Add a dice to represent a player.
-		// Role for Crusty the prospector. The x and y co-ordiantes are 
-		//taken from Board.xml file
-		
 		List<Player> players = Game.players;
 		for(int i = 0; i < players.size();i++) {
 		 JLabel playerlabel = new JLabel();
 		 Player player = players.get(i);
 		 updatePlayersDice(player);
-		 playerlabel.setIcon(player.getIcon());
-		 playerlabel.setBounds(114,227,player.getIcon().getIconWidth(),player.getIcon().getIconHeight());
-		 boardlabel.add(playerlabel,new Integer(3));
+		 Room currRoom = player.getCurrentRoom();
+		 if(!currRoom.getName().equals(Constants.TRAILER) && !currRoom.getName().equals(Constants.CASTING_OFFICE)){
+			 int x = player.getCurrentRole().getAreaXY()[0];
+			 int y = player.getCurrentRole().getAreaXY()[1];
+			 playerlabel.setIcon(player.getIcon());
+			 playerlabel.setBounds(x,y,player.getIcon().getIconWidth(),player.getIcon().getIconHeight());
+			 boardlabel.add(playerlabel,new Integer(3));
+		 }else{
+			 int x = player.getCurrentRoom().getAreaXY()[0];
+			 int y = player.getCurrentRoom().getAreaXY()[1];
+			 playerlabel.setIcon(player.getIcon());
+			 if(i <= 3){
+				 playerlabel.setBounds(x + (i*50),y+80,player.getIcon().getIconWidth(),player.getIcon().getIconHeight());
+			 } else{
+				 int k = i - 4;
+				 playerlabel.setBounds(x + (k*50),y + 130,
+						 player.getIcon().getIconWidth(),player.getIcon().getIconHeight());
+			 }
+			 boardPane.add(playerlabel, new Integer(2));
+		 }
 		}
 
 		// Create the Menu for action buttons

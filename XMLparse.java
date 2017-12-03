@@ -175,6 +175,15 @@ public class XMLparse {
 	if (castingNode.getNodeType() == Node.ELEMENT_NODE) {
 	    Element castingElement = (Element) castingNode;
 	    castingOffice.setName("office");
+	    // get coordinates for office
+		Element area = (Element) castingElement.getElementsByTagName("area").item(0);
+		Integer areaX = Integer.parseInt(area.getAttribute("x"));
+		Integer areaY = Integer.parseInt(area.getAttribute("y"));
+		Integer areaH = Integer.parseInt(area.getAttribute("h"));
+		Integer areaW = Integer.parseInt(area.getAttribute("w"));
+		castingOffice.setAreaXY(new Integer[]{areaX,areaY});
+		castingOffice.setAreaHW(new Integer[]{areaH,areaW});
+		//-------end ---->
 	    List<String> connRooms = new ArrayList<String>();
 	    NodeList neighbors = ((Element) castingElement.getElementsByTagName("neighbors").item(0)).getElementsByTagName("neighbor");
 	    length = neighbors.getLength();
@@ -194,6 +203,16 @@ public class XMLparse {
 	if (trailNode.getNodeType() == Node.ELEMENT_NODE) {
 	    Element trailElement = (Element) trailNode;
 	    trailer.setName("trailer");
+	    // get coordinates for trailer
+			Element area = (Element) trailElement.getElementsByTagName("area").item(0);
+			Integer areaX = Integer.parseInt(area.getAttribute("x"));
+			Integer areaY = Integer.parseInt(area.getAttribute("y"));
+			Integer areaH = Integer.parseInt(area.getAttribute("h"));
+			Integer areaW = Integer.parseInt(area.getAttribute("w"));
+			trailer.setAreaXY(new Integer[]{areaX,areaY});
+			trailer.setAreaHW(new Integer[]{areaH,areaW});
+			//-------end ---->
+			
 	    List<String> connRooms = new ArrayList<String>();
 	    NodeList neighbors = ((Element) trailElement.getElementsByTagName("neighbors").item(0)).getElementsByTagName("neighbor");
 	    length = neighbors.getLength();
