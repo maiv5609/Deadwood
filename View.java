@@ -55,7 +55,7 @@ public class View extends JFrame{
 		//Adding image to background
 		BufferedImage background = null;
 		try {
-			background = ImageIO.read(new File("wood.jpeg"));
+			background = ImageIO.read(new File("src/wood.jpeg"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			System.out.println("Unable to get background image");
