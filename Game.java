@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Game{
 
+    static View Window;
     static int turn;
     static int currDay;
     static int maxDay;
@@ -13,6 +14,14 @@ public class Game{
     static int currentPlayerNum = 0;
     static boolean isEndTurn = false;
     static int numberOfPlayers = 0;
+
+    public View getWindow(){
+	return Game.Window;
+    }
+
+    public void setWindow(View Window){
+	Game.Window = Window;
+    }
     
     public int getTurn() {
         return Game.turn;

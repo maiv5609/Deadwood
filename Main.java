@@ -17,6 +17,7 @@ public class Main {
 	Integer numberOfPlayers = (Integer)View.getDialogResult("Num of Players","Please, select the number of employees between 2 and 8:\n", options);
 	 game.startGame(numberOfPlayers,Constants.BOARD_XML,Constants.CARDS_XML);    
 	View view = new View();
+	game.setWindow(view);
         view.setVisible(true);
        
     }
