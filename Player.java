@@ -12,13 +12,14 @@ public class Player {
     private int total;
     private Room currentRoom;
     private Role currentRole;
-	private boolean canMove;
-	private String diceColor;
-	private ImageIcon icon;
+    private boolean canMove;
+    private String diceColor;
+    private ImageIcon icon;
+    private Integer[] playerXY;
 
 
 	
-	/*
+    /*
      * Constructors
      */
     public Player(int rank, int playerNumber, int money, int credits, Room currentRoom){
@@ -101,42 +102,50 @@ public class Player {
         this.currentRole = currentRole;
     }
     public boolean isCanMove() {
-		return canMove;
-	}
+	return canMove;
+    }
 
-	public void setCanMove(boolean canMove) {
-		this.canMove = canMove;
-	}
+    public void setCanMove(boolean canMove) {
+	this.canMove = canMove;
+    }
     
     public String getDiceColor() {
-		return diceColor;
-	}
+	return diceColor;
+    }
 
-	public void setDiceColor(String diceColor) {
-		this.diceColor = diceColor;
-	}
-	public ImageIcon getIcon() {
-		return icon;
-	}
+    public void setDiceColor(String diceColor) {
+	this.diceColor = diceColor;
+    }
+    public ImageIcon getIcon() {
+	return icon;
+    }
 
-	public void setIcon(ImageIcon icon) {
-		this.icon = icon;
-	}
+    public void setIcon(ImageIcon icon) {
+	this.icon = icon;
+    }
+
+    public Integer[] getPlayerXY(){
+	return playerXY;
+    }
+
+    public void setPlayerXY(Integer[] playerXY){
+	this.playerXY = playerXY;
+    }
 
     
     
     /*
-     ** Upgrades rank of the player
-     *	params: rank : int
-     *			currency : String
-     */
+    ** Upgrades rank of the player
+    *	params: rank : int
+    *			currency : String
+    */
     private void upgradeRank(int rank, String currency) {
         this.rank = rank;
         currency = currency.toUpperCase();
         if(currentRoom.getName().toLowerCase().equals(Constants.CASTING_OFFICE)){
-        	int moneyCost = 0;
-        	int creditCost = 0;
-        	switch(rank){
+	    int moneyCost = 0;
+	    int creditCost = 0;
+	    switch(rank){
             case 2:
             	creditCost = 5;
             	moneyCost = 5;
@@ -157,16 +166,16 @@ public class Player {
             	creditCost = 25;
             	moneyCost = 40;
             	break;
-        	}
-        	if(currency.equals("$") && (this.money >= moneyCost)){
-        		this.money-=moneyCost;
-        	} else if(currency.equals("CR") && (this.credits >= creditCost)){
-        		this.credits-=creditCost;
-        	} else{
-        		System.out.println("You do not have enough credits or money.");
-        	}
+	    }
+	    if(currency.equals("$") && (this.money >= moneyCost)){
+		this.money-=moneyCost;
+	    } else if(currency.equals("CR") && (this.credits >= creditCost)){
+		this.credits-=creditCost;
+	    } else{
+		System.out.println("You do not have enough credits or money.");
+	    }
         } else{
-        	System.out.println("You are not in the casting office. Move to the casting office first.");
+	    System.out.println("You are not in the casting office. Move to the casting office first.");
         }
         
     }
@@ -179,20 +188,20 @@ public class Player {
      */
     private boolean move(String roomName) {
         if(canMove == false){
-        	System.out.println("You are unable to move at this time");
-        	return false;
+	    System.out.println("You are unable to move at this time");
+	    return false;
         }else{
-        	 List<String> connectedRooms = currentRoom.getConnectedRooms();
-             for(String connectedRoomName : connectedRooms){
-                 if(connectedRoomName.toLowerCase().equals(roomName)){
-                     Room connectedRoom = Board.getRoomNode(connectedRoomName);
-                     currentRoom.removePlayer(playerNum);
-                     this.currentRoom = connectedRoom;
-                     currentRoom.addPlayer(playerNum);
-                     System.out.println("The player is in the " + roomName + " room");
-                     return true;
-                 }
-             }
+	    List<String> connectedRooms = currentRoom.getConnectedRooms();
+	    for(String connectedRoomName : connectedRooms){
+		if(connectedRoomName.toLowerCase().equals(roomName)){
+		    Room connectedRoom = Board.getRoomNode(connectedRoomName);
+		    currentRoom.removePlayer(playerNum);
+		    this.currentRoom = connectedRoom;
+		    currentRoom.addPlayer(playerNum);
+		    System.out.println("The player is in the " + roomName + " room");
+		    return true;
+		}
+	    }
         }
         return false;
     }
@@ -207,19 +216,19 @@ public class Player {
     private boolean work(String roleName) {
         List<Role> roomRoles = this.currentRoom.getRoles();
         if(currentRoom.getScene() == null){
-        	return false;
+	    return false;
         }
         for(Role element : roomRoles){
             if ((element.getName().toLowerCase()).equals(roleName.toLowerCase()) && (element.getRank() <= this.rank)){
             	if(element.heldBy != null || this.currentRole != null){
-            		System.out.println("You failed taking the role " + roleName);
-                	return false;
+		    System.out.println("You failed taking the role " + roleName);
+		    return false;
                 }else {
-                	 element.setHeldBy(this);
-                	 this.setCurrentRole(element);
-                	 element.setWorkable(false);
-                	 System.out.println("You have taken the role " + roleName);
-                     return true;
+		    element.setHeldBy(this);
+		    this.setCurrentRole(element);
+		    element.setWorkable(false);
+		    System.out.println("You have taken the role " + roleName);
+		    return true;
                 }
   
             }
@@ -234,34 +243,34 @@ public class Player {
      */
     private boolean rehearse() {
     	if (currentRole != null){
-    		int budget = this.currentRoom.getScene().getBudget();
-    		if (!currentRole.getWorkable()){
-    			System.out.println("Unable to rehearse");
-    			return false;
-    		}
-	        int currentRehearsalNum;
-	        
-	        currentRehearsalNum = this.getRehearsalNum();
-	        //Lowest roll is 1 + rehearsalNum
-	        currentRehearsalNum++;
-	        
-	        if (currentRehearsalNum == budget){
-	            //Working roll is already 100% of success
-	            System.out.println("Rehearsal failed, already 100% success rate");
-	            return false;
-	        }else if(currentRehearsalNum < budget){
-	            //Successful rehearsal
-	            this.setRehearsalNum(currentRehearsalNum);
-	            System.out.println("Budget for role: " + budget);
-	            System.out.println("Rehearsal count increased by 1");
-	            System.out.println("Total Number of Rehearsals: " + currentRehearsalNum);
-	            currentRole.setWorkable(false);
-	            return true;
-	        }else{
-	            //Error budget is less then rehearsal
-	            return false;
-	        }
+	    int budget = this.currentRoom.getScene().getBudget();
+	    if (!currentRole.getWorkable()){
+		System.out.println("Unable to rehearse");
+		return false;
 	    }
+	    int currentRehearsalNum;
+	        
+	    currentRehearsalNum = this.getRehearsalNum();
+	    //Lowest roll is 1 + rehearsalNum
+	    currentRehearsalNum++;
+	        
+	    if (currentRehearsalNum == budget){
+		//Working roll is already 100% of success
+		System.out.println("Rehearsal failed, already 100% success rate");
+		return false;
+	    }else if(currentRehearsalNum < budget){
+		//Successful rehearsal
+		this.setRehearsalNum(currentRehearsalNum);
+		System.out.println("Budget for role: " + budget);
+		System.out.println("Rehearsal count increased by 1");
+		System.out.println("Total Number of Rehearsals: " + currentRehearsalNum);
+		currentRole.setWorkable(false);
+		return true;
+	    }else{
+		//Error budget is less then rehearsal
+		return false;
+	    }
+	}
     	System.out.println("Rehearsal Failed");
     	return false;
     }
@@ -275,13 +284,13 @@ public class Player {
     private boolean act(Room currentRoom, Scene currentScene, Role currentRole) { 
     	
     	if(currentRole == null){
-    		System.out.println("The player does not have a role");
-    		return false;
+	    System.out.println("The player does not have a role");
+	    return false;
     	} else{
-    		if (!currentRole.getWorkable()){
-    			System.out.println("Unable to act");
-    			return false;
-    		}
+	    if (!currentRole.getWorkable()){
+		System.out.println("Unable to act");
+		return false;
+	    }
             int diceRoll, currentShots, budget, money, credits = 0;
             boolean onCard = false;
             
@@ -322,12 +331,12 @@ public class Player {
                 
              	//Check if scene is finished
                 if(currentShots == 0){
-                	/* WORK NOTE: might need to change how payout works 
-                	 * 
-                	 */
-                	//Start payouts
-                	currentRoom.closeScene();
-                	Game.roomsRemaining--;
+		    /* WORK NOTE: might need to change how payout works 
+		     * 
+		     */
+		    //Start payouts
+		    currentRoom.closeScene();
+		    Game.roomsRemaining--;
                 }
                 return true;
             }else{
@@ -357,29 +366,29 @@ public class Player {
     public void handleAction(String action, String[] parameters) {
     	String consoleOutput = null;
         if(Constants.MOVE.equals(action)){
-        	if(parameters.length == 0){
-        		System.out.println("Please also input the room you would like to move to.");
-        	}else{
-		    String direction = "";
-		    for(String par: parameters){
-			direction += " "+par;
-		    }
-		    direction = direction.trim();
-		    System.out.println(direction);
-		        /*
-        		String direction = parameters[1];
-			if(parameters.length > 2){
-			    direction  = direction + " " + parameters[2];
-			}
-			*/
-               // direction.replace(direction.substring(direction.length()-1), "");
+	    if(parameters.length == 0){
+		System.out.println("Please also input the room you would like to move to.");
+	    }else{
+		String direction = "";
+		for(String par: parameters){
+		    direction += " "+par;
+		}
+		direction = direction.trim();
+		System.out.println(direction);
+		/*
+		  String direction = parameters[1];
+		  if(parameters.length > 2){
+		  direction  = direction + " " + parameters[2];
+		  }
+		*/
+		// direction.replace(direction.substring(direction.length()-1), "");
                 
                 if ((!this.move(direction)) && canMove) {
-                	System.out.println("Please select a valid room to move to.");
+		    System.out.println("Please select a valid room to move to.");
                 } else {
-                   canMove = false;
+		    canMove = false;
                 }
-        	}
+	    }
         } else if(Constants.WORK.equals(action)){
 	    if(parameters.length < 1){
 		System.out.println("Please, specify the role");
@@ -406,11 +415,11 @@ public class Player {
         } else if(Constants.ACT.equals(action)){
             this.act(currentRoom, currentRoom.getScene(), currentRole);
         } else if(Constants.WHO.equals(action)){
-        	//WORKNOTE
-        	consoleOutput = "Current player is player #" + (this.playerNum + 1) + "\n" +
-        					"Current player has dice color: " + (this.diceColor) + "\n" +
-        					"Current number of rehearsals: " + (this.rehearsalNum) + "\n";
-        	View.updateConsole(consoleOutput);
+	    //WORKNOTE
+	    consoleOutput = "Current player is player #" + (this.playerNum + 1) + "\n" +
+		"Current player has dice color: " + (this.diceColor) + "\n" +
+		"Current number of rehearsals: " + (this.rehearsalNum) + "\n";
+	    View.updateConsole(consoleOutput);
         	
             System.out.println("Current player is player #" + (this.playerNum + 1));
             System.out.println("Current player has dice color: " + (this.diceColor));
@@ -430,7 +439,7 @@ public class Player {
             int i = 0;
             for (String rName: currentRoom.getConnectedRooms()){
             	if (i > 0) {
-            		adjacentRooms += ", ";
+		    adjacentRooms += ", ";
             	}
             	adjacentRooms += rName;
             	i++;
@@ -438,25 +447,25 @@ public class Player {
             System.out.println("Adjacent rooms are " + adjacentRooms);
            
             if(currentRoom.getScene() != null){
-            	 System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
-                 		+ ". It has a budget of " + currentRoom.getScene().getBudget() + ".");
-            	 String rolesOnCard = "";
-            	 String roles = " ";
-                 List<Role> allRoles = currentRoom.getRoles();
-                 for (Role role: allRoles){
-                 	if (role.onCard){
-                 		System.out.println(role.getName());
-                 		rolesOnCard+=role.getName() + " [rank:" + role.getRank() + "], ";
-                 	}
-                 	roles +=role.getName() +  " [rank:" + role.getRank() + "], ";                 	
-                 }
-                 System.out.println("All roles:" + roles);
-                 if(!rolesOnCard.equals("")){
-                	 System.out.println("On card roles: " + rolesOnCard); 
-                 }     
+		System.out.println("The Scene for this room is " + currentRoom.getScene().getName() 
+				   + ". It has a budget of " + currentRoom.getScene().getBudget() + ".");
+		String rolesOnCard = "";
+		String roles = " ";
+		List<Role> allRoles = currentRoom.getRoles();
+		for (Role role: allRoles){
+		    if (role.onCard){
+			System.out.println(role.getName());
+			rolesOnCard+=role.getName() + " [rank:" + role.getRank() + "], ";
+		    }
+		    roles +=role.getName() +  " [rank:" + role.getRank() + "], ";                 	
+		}
+		System.out.println("All roles:" + roles);
+		if(!rolesOnCard.equals("")){
+		    System.out.println("On card roles: " + rolesOnCard); 
+		}     
             }
         }else{
-        	System.out.println("Command not found please reinput");
+	    System.out.println("Command not found please reinput");
         }
         
     }
