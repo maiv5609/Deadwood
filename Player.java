@@ -355,6 +355,7 @@ public class Player {
      *  		parameters: String[]
      */
     public void handleAction(String action, String[] parameters) {
+    	String consoleOutput = null;
         if(Constants.MOVE.equals(action)){
         	if(parameters.length == 0){
         		System.out.println("Please also input the room you would like to move to.");
@@ -405,6 +406,12 @@ public class Player {
         } else if(Constants.ACT.equals(action)){
             this.act(currentRoom, currentRoom.getScene(), currentRole);
         } else if(Constants.WHO.equals(action)){
+        	//WORKNOTE
+        	consoleOutput = "Current player is player #" + (this.playerNum + 1) + "\n" +
+        					"Current player has dice color: " + (this.diceColor) + "\n" +
+        					"Current number of rehearsals: " + (this.rehearsalNum) + "\n";
+        	View.updateConsole(consoleOutput);
+        	
             System.out.println("Current player is player #" + (this.playerNum + 1));
             System.out.println("Current player has dice color: " + (this.diceColor));
             System.out.println("Current number of rehearsals: " + (this.rehearsalNum));

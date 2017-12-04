@@ -1,24 +1,35 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
-//This is mostly an example class
-
+//WORKNOTE: 
+//Should we be using Dialog or TextArea? They both seem to do the same thing
+//Error when canceling number of players
+//I have console updating working for the who command
 public class View extends JFrame{
 	private Toolkit toolkit;
 	  // JLayered Pane
@@ -27,24 +38,34 @@ public class View extends JFrame{
 	  // JLabels
 	  JLabel boardlabel;
 	  JLabel cardlabel;
-
-	
+	  static JTextArea console = new JTextArea();
+	  
 	public View() {
 
 		super("Deadwood");
-		 boardPane = getLayeredPane();
+		boardPane = getLayeredPane();
 		//Closes window when user presses exit
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		toolkit = getToolkit();
 		
-		//Sets size to the size of screen and opens in center of screen
-		Dimension size = toolkit.getScreenSize();
-		setLocation((size.width - getWidth())/2, (size.height - getHeight())/2);
-	
+		//Make frame fullscreen
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		//Adding image to background
+		BufferedImage background = null;
+		try {
+			background = ImageIO.read(new File("wood.jpeg"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Unable to get background image");
+		}
+		JLabel backgroundLabel = new JLabel(new ImageIcon(background));
+		add(backgroundLabel);
+		
 		//Image of board
 		ImageIcon boardImage = new ImageIcon("board.jpg");
-	    boardlabel = new JLabel();//("", boardImage, JLabel.CENTER);
+	    boardlabel = new JLabel();
 		boardlabel.setIcon(boardImage);
 		boardlabel.setBounds(0,0, boardImage.getIconWidth(),boardImage.getIconHeight());
 		
@@ -72,16 +93,38 @@ public class View extends JFrame{
 	        }
 	    }
 
+	    JLabel scoreLabel = new JLabel("Scoreboard", SwingConstants.CENTER);
+	    scoreLabel.setBounds(boardImage.getIconWidth()+ 50,300,220, 45);
+	    scoreLabel.setOpaque(true);
+	    scoreLabel.setBackground(Color.white);
+	    scoreLabel.setVisible(true);
+	    boardPane.add(scoreLabel, new Integer(3));
+	    
 	    //add scoreboard with players current status
-	    JTextArea area = new JTextArea();
-	    area.setEditable(false);
-	    area.setLineWrap(true);
-	    area.append(updateScoreboard());
-	    area.setVisible(true);
-	    area.setBounds(boardImage.getIconWidth(),300,200,180);
-	    boardPane.add(area, new Integer(3));
+	    JTextArea scoreboard = new JTextArea();
+	    scoreboard.setEditable(false);
+	    scoreboard.setLineWrap(true);
+	    scoreboard.append(updateScoreboard());
+	    scoreboard.setVisible(true);
+	    scoreboard.setMargin(new Insets(10, 10, 10, 10));
+	    scoreboard.setBounds(boardImage.getIconWidth()+ 50,350,220,190);
+	    boardPane.add(scoreboard, new Integer(3));
 	
-		
+	    JLabel consoleLabel = new JLabel("Console", SwingConstants.CENTER);
+	    consoleLabel.setBounds(boardImage.getIconWidth()+ 50,550,220,45);
+	    consoleLabel.setOpaque(true);
+	    consoleLabel.setBackground(Color.white);
+	    consoleLabel.setVisible(true);
+	    boardPane.add(consoleLabel, new Integer(3));
+	    
+		//add console to display feedback
+	    console.setEditable(false);
+	    console.setLineWrap(true);
+	    console.setVisible(true);
+	    console.setMargin(new Insets(10, 10, 10, 10));
+	    console.setBounds(boardImage.getIconWidth()+ 50,600,220,300);
+	    boardPane.add(console, new Integer(3));
+	    
 		// Add a dice to represent a player.
 		List<Player> players = Game.players;
 		for(int i = 0; i < players.size();i++) {
@@ -115,45 +158,46 @@ public class View extends JFrame{
 		mLabel.setBounds(boardImage.getIconWidth()+40,0,100,20);
 		boardPane.add(mLabel,new Integer(2));
 		
-
+		//WORKNOTE: when this is commented out nothing is missing from the view, does this do anything?
+		//The scoreboard was already made above
 		// Create Scoreboard for action buttons
-		JLabel scoreLabel = new JLabel("SCOREBOARD");
-		scoreLabel.setBounds(boardImage.getIconWidth()+20,270,100,20);
-		boardPane.add(scoreLabel,new Integer(2));
-
+//		JLabel scoreLabel = new JLabel("SCOREBOARD");
+//		scoreLabel.setBounds(boardImage.getIconWidth()+20,270,100,20);
+//		boardPane.add(scoreLabel,new Integer(2));
 
 		// Create Buttons for actions
+		
 		JButton moveBtn = new JButton(Constants.MOVE);
 		moveBtn.setBackground(Color.white);
-		moveBtn.setBounds(boardImage.getIconWidth()+10, 30,100, 20);
+		moveBtn.setBounds(boardImage.getIconWidth()+110, 30,100, 20);
 		
 		JButton workBtn = new JButton(Constants.WORK);
 		workBtn.setBackground(Color.white);
-		workBtn.setBounds(boardImage.getIconWidth()+10, 60,100, 20);
+		workBtn.setBounds(boardImage.getIconWidth()+110, 60,100, 20);
 		
 		JButton upgradeBtn = new JButton(Constants.UPGRADE);
 		upgradeBtn.setBackground(Color.white);
-		upgradeBtn.setBounds(boardImage.getIconWidth()+10, 90,100, 20);
+		upgradeBtn.setBounds(boardImage.getIconWidth()+110, 90,100, 20);
 		
 		JButton rehearseBtn = new JButton(Constants.REHEARSE);
 		rehearseBtn.setBackground(Color.white);
-		rehearseBtn.setBounds(boardImage.getIconWidth()+10, 120,100, 20);
+		rehearseBtn.setBounds(boardImage.getIconWidth()+110, 120,100, 20);
 		
 		JButton actBtn = new JButton(Constants.ACT);
 		actBtn.setBackground(Color.white);
-		actBtn.setBounds(boardImage.getIconWidth()+10, 150,100, 20);
+		actBtn.setBounds(boardImage.getIconWidth()+110, 150,100, 20);
 		
 		JButton whoBtn = new JButton(Constants.WHO);
 		whoBtn.setBackground(Color.white);
-		whoBtn.setBounds(boardImage.getIconWidth()+10, 180,100, 20);
+		whoBtn.setBounds(boardImage.getIconWidth()+110, 180,100, 20);
 		
 		JButton whereBtn = new JButton(Constants.WHERE);
 		whereBtn.setBackground(Color.white);
-		whereBtn.setBounds(boardImage.getIconWidth()+10, 210,100, 20);
+		whereBtn.setBounds(boardImage.getIconWidth()+110, 210,100, 20);
 		
 		JButton endBtn = new JButton(Constants.END_TURN);
 		endBtn.setBackground(Color.white);
-		endBtn.setBounds(boardImage.getIconWidth()+10, 240,100, 20);
+		endBtn.setBounds(boardImage.getIconWidth()+110, 240,100, 20);
 		
 		// Add buttons to the board
 		boardPane.add(moveBtn, new Integer(2));
@@ -246,6 +290,7 @@ public class View extends JFrame{
 		player.setIcon(pIcon);
 	}
 
-
+	public static void updateConsole(String newText){
+		console.setText(newText);
+	}
 }
-
