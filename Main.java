@@ -18,7 +18,7 @@ public class Main {
 	 game.startGame(numberOfPlayers,Constants.BOARD_XML,Constants.CARDS_XML);    
 	View view = new View();
 	game.setWindow(view);
-        view.setVisible(true);
+    view.setVisible(true);
        
     }
 }

@@ -20,16 +20,5 @@ public class Constants {
     public static final String CARDS_XML = "cards.xml";
     public static final String CASTING_OFFICE = "office";
     public static final String TRAILER = "trailer";
-    
-//    // --------------------------------------------- colors
-//    public static final String YELLOW_COLOR = "y";
-//    public static final String BLUE_COLOR = "b";
-//    public static final String VIOLET_COLOR = "red";
-//    public static final String WHITE_COLOR = "white";
-//    public static final String BLACK_COLOR = "black";
-//   
-//    public static final String ORANGE_COLOR = "orange";
-//    public static final String GREEN_COLOR = "green";
-//   
-//    public static final String PEACH_COLOR = "peach";
+
 }

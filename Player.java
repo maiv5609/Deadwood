@@ -363,7 +363,7 @@ public class Player {
      *  params: action : String
      *  		parameters: String[]
      */
-    public void handleAction(String action, String[] parameters) {
+    public Player handleAction(String action, String[] parameters) {
     	String consoleOutput = null;
         if(Constants.MOVE.equals(action)){
 	    if(parameters.length == 0){
@@ -420,6 +420,7 @@ public class Player {
 		"Current player has dice color: " + (this.diceColor) + "\n" +
 		"Current number of rehearsals: " + (this.rehearsalNum) + "\n";
 	    View.updateConsole(consoleOutput);
+	    
         	
             System.out.println("Current player is player #" + (this.playerNum + 1));
             System.out.println("Current player has dice color: " + (this.diceColor));
@@ -467,7 +468,7 @@ public class Player {
         }else{
 	    System.out.println("Command not found please reinput");
         }
-        
+        return this;
     }
     
     

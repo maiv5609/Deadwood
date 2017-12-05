@@ -33,11 +33,11 @@ import javax.swing.SwingConstants;
 public class View extends JFrame{
 	private Toolkit toolkit;
 	  // JLayered Pane
-	  JLayeredPane boardPane;
-	  
+	  JLayeredPane boardPane;  
 	  // JLabels
 	  JLabel boardlabel;
 	  JLabel cardlabel;
+	  List<JLabel> playerLabels;
 	  static JTextArea console = new JTextArea();
 	  
 	public View() {
@@ -127,6 +127,7 @@ public class View extends JFrame{
 	    
 		// Add a dice to represent a player.
 		List<Player> players = Game.players;
+		playerLabels = new ArrayList<JLabel>();
 		for(int i = 0; i < players.size();i++) {
 		 JLabel playerlabel = new JLabel();
 		 Player player = players.get(i);
@@ -149,6 +150,7 @@ public class View extends JFrame{
 				 playerlabel.setBounds(x + (k*50),y + 130,
 						 player.getIcon().getIconWidth(),player.getIcon().getIconHeight());
 			 }
+			 playerLabels.add(playerlabel);
 			 boardPane.add(playerlabel, new Integer(2));
 		 }
 		}
@@ -293,4 +295,40 @@ public class View extends JFrame{
 	public static void updateConsole(String newText){
 		console.setText(newText);
 	}
+	
+	
+	public  void update(Player oldPlayer, Player newPlayer){
+		
+		//find label from the list of all labels and remove it from the board, than chamge the position
+		if (newPlayer != null){
+		 for(JLabel playerLabel : playerLabels){	 
+			 if(playerLabel.getIcon().equals(oldPlayer.getIcon())){
+				 //boardPane.remove(playerLabel);
+				 int x = 0;
+				 int y = 0;
+				 if(!newPlayer.getCurrentRoom().equals(Constants.CASTING_OFFICE) 
+						 && !newPlayer.getCurrentRoom().equals(Constants.TRAILER)){
+					
+					 // if player has taken a role, place him on the card
+					 if(newPlayer.getCurrentRole() != null
+						 && oldPlayer.getCurrentRole() != null
+						 && !newPlayer.getCurrentRole().equals(oldPlayer.getCurrentRole())){
+						 x = newPlayer.getCurrentRole().getAreaXY()[0];
+						 y = newPlayer.getCurrentRole().getAreaXY()[1]; 
+					 }else{
+						 x = newPlayer.getCurrentRoom().getAreaXY()[0];
+						 y = newPlayer.getCurrentRoom().getAreaXY()[1];  
+					 }
+				 } else{
+					 x = newPlayer.getCurrentRoom().getAreaXY()[0];
+					 y = newPlayer.getCurrentRoom().getAreaXY()[1]; 
+				 }
+				 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
+				 boardPane.add(playerLabel, new Integer(2));
+			 }
+		   }
+		}
+	}
+	
+	
 }
