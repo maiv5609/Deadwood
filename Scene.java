@@ -1,5 +1,7 @@
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 public class Scene {
 
     String name;
@@ -9,8 +11,10 @@ public class Scene {
     List<Role> role;
     Boolean isClosed;
     Boolean isOccupied;
+    private ImageIcon icon;
 
-    public Scene(){
+
+	public Scene(){
 	name = null;
 	description = null;
 	budget = 0;
@@ -74,4 +78,12 @@ public class Scene {
     public void setImg(String img){
 	this.img = img;
     }
+
+    public ImageIcon getIcon() {
+		return icon;
+	}
+
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
+	}
 }
