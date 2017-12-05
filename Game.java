@@ -273,7 +273,7 @@ public class Game{
 	    	Player currentPlayer = players.get(currentPlayerNum);
 	    	Player newPlayer = currentPlayer.handleAction(action, parameters);
 	    	if(newPlayer != null){
-	    		Window.update(currentPlayer,newPlayer);
+	    		Window.updateDicePosition(currentPlayer,newPlayer, action);
 	    	}  
 	    }
 	}

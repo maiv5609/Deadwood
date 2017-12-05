@@ -38,6 +38,7 @@ public class View extends JFrame{
 	  JLabel boardlabel;
 	  JLabel cardlabel;
 	  List<JLabel> playerLabels;
+	  List<JLabel> cardLabels;
 	  static JTextArea console = new JTextArea();
 	  
 	public View() {
@@ -76,6 +77,7 @@ public class View extends JFrame{
 		
 	
 	// Add a scene card to this room
+	   cardLabels = new ArrayList<JLabel>();
 	   Map<String,Room> rooms = Board.getRoomMap();
 	   Iterator it = rooms.entrySet().iterator();
 	    while (it.hasNext()) {
@@ -86,9 +88,11 @@ public class View extends JFrame{
 	 	        String cardPath = scene.getImg();
 	 	        JLabel cardlabel = new JLabel();
 	 	        ImageIcon cIcon =  new ImageIcon(getClass().getResource("/cards/" + cardPath));
+	 	        scene.setIcon(cIcon);
 	 		    cardlabel.setIcon(cIcon); 
 	 		    cardlabel.setBounds(room.getAreaXY()[0],room.getAreaXY()[1],cIcon.getIconWidth(),cIcon.getIconHeight());
 	 		    cardlabel.setOpaque(true);
+	 		    cardLabels.add(cardlabel);
 	 		    boardPane.add(cardlabel, new Integer(1));
 	        }
 	    }
@@ -296,38 +300,54 @@ public class View extends JFrame{
 		console.setText(newText);
 	}
 	
-	
-	public  void update(Player oldPlayer, Player newPlayer){
+	//oldPlayer is a player before action was sent to model
+	// newPlayer is a player after action was sent to model
+	public void updateDicePosition(Player oldPlayer, Player newPlayer, String action){
 		
-		//find label from the list of all labels and remove it from the board, than chamge the position
+		//find label from the list of all labels and remove it from the board, than change the position
 		if (newPlayer != null){
 		 for(JLabel playerLabel : playerLabels){	 
 			 if(playerLabel.getIcon().equals(oldPlayer.getIcon())){
-				 //boardPane.remove(playerLabel);
+				 
 				 int x = 0;
 				 int y = 0;
-				 if(!newPlayer.getCurrentRoom().equals(Constants.CASTING_OFFICE) 
-						 && !newPlayer.getCurrentRoom().equals(Constants.TRAILER)){
+				 Room currRoom = newPlayer.getCurrentRoom();
+				 // get coordinates
+				 if(!currRoom.equals(Constants.CASTING_OFFICE) 
+						 && !currRoom.equals(Constants.TRAILER)){
 					
 					 // if player has taken a role, place him on the card
-					 if(newPlayer.getCurrentRole() != null
-						 && oldPlayer.getCurrentRole() != null
-						 && !newPlayer.getCurrentRole().equals(oldPlayer.getCurrentRole())){
+					 if(Constants.WORK.equals(action)){	 
 						 x = newPlayer.getCurrentRole().getAreaXY()[0];
 						 y = newPlayer.getCurrentRole().getAreaXY()[1]; 
+						 if(newPlayer.getCurrentRoom().getScene().getIsClosed()){
+//							 int card_x = newPlayer.getCurrentRoom().getAreaXY()[0];
+//							 int card_y = newPlayer.getCurrentRoom().getAreaXY()[0];
+							 for(JLabel cardLabel : cardLabels){
+								 if(cardLabel.getIcon().equals(newPlayer.getCurrentRoom().getScene().getIcon())){
+									 //close scene (set background black or set "CLOSED")
+									 cardLabel.setText("CLOSED");
+								 }
+							 }
+						 }
 					 }else{
-						 x = newPlayer.getCurrentRoom().getAreaXY()[0];
-						 y = newPlayer.getCurrentRoom().getAreaXY()[1];  
+						 x = currRoom.getAreaXY()[0];
+						 y = currRoom.getAreaXY()[1];  
 					 }
 				 } else{
-					 x = newPlayer.getCurrentRoom().getAreaXY()[0];
-					 y = newPlayer.getCurrentRoom().getAreaXY()[1]; 
+					 x = currRoom.getAreaXY()[0] + 50;
+					 y = currRoom.getAreaXY()[1] + 80;
 				 }
 				 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
 				 boardPane.add(playerLabel, new Integer(2));
 			 }
 		   }
 		}
+	}
+	
+	
+	public void updateCardPosition(){
+		
 	}
 	
 	
