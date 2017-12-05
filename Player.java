@@ -172,10 +172,12 @@ public class Player {
 	    } else if(currency.equals("CR") && (this.credits >= creditCost)){
 		this.credits-=creditCost;
 	    } else{
-		System.out.println("You do not have enough credits or money.");
+	    	View.updateConsole("You do not have enough credits or money.");
+	    	//System.out.println("You do not have enough credits or money.");
 	    }
         } else{
-	    System.out.println("You are not in the casting office. Move to the casting office first.");
+        	View.updateConsole("You are not in the casting office. Move to the casting office first.");
+        	//System.out.println("You are not in the casting office. Move to the casting office first.");
         }
         
     }
@@ -188,7 +190,8 @@ public class Player {
      */
     private boolean move(String roomName) {
         if(canMove == false){
-	    System.out.println("You are unable to move at this time");
+	    //System.out.println("You are unable to move at this time");
+        	View.updateConsole("You are unable to move at this time");
 	    return false;
         }else{
 	    List<String> connectedRooms = currentRoom.getConnectedRooms();
@@ -198,7 +201,8 @@ public class Player {
 		    currentRoom.removePlayer(playerNum);
 		    this.currentRoom = connectedRoom;
 		    currentRoom.addPlayer(playerNum);
-		    System.out.println("The player is in the " + roomName + " room");
+		    View.updateConsole("Successful move.");
+		    //System.out.println("The player is in the " + roomName + " room");
 		    return true;
 		}
 	    }
@@ -221,19 +225,22 @@ public class Player {
         for(Role element : roomRoles){
             if ((element.getName().toLowerCase()).equals(roleName.toLowerCase()) && (element.getRank() <= this.rank)){
             	if(element.heldBy != null || this.currentRole != null){
-		    System.out.println("You failed taking the role " + roleName);
+            		View.updateConsole("You failed taking the role " + roleName);
+            		//System.out.println("You failed taking the role " + roleName);
 		    return false;
                 }else {
 		    element.setHeldBy(this);
 		    this.setCurrentRole(element);
 		    element.setWorkable(false);
-		    System.out.println("You have taken the role " + roleName);
+		    View.updateConsole("You have taken the role " + roleName);
+		    //System.out.println("You have taken the role " + roleName);
 		    return true;
                 }
   
             }
         }
-        System.out.println("Unable to take role");
+        View.updateConsole("Unable to take role");
+        //System.out.println("Unable to take role");
         return false;
     }
     
@@ -245,7 +252,8 @@ public class Player {
     	if (currentRole != null){
 	    int budget = this.currentRoom.getScene().getBudget();
 	    if (!currentRole.getWorkable()){
-		System.out.println("Unable to rehearse");
+	    	View.updateConsole("Unable to rehearse.");
+	    	//System.out.println("Unable to rehearse");
 		return false;
 	    }
 	    int currentRehearsalNum;
@@ -255,15 +263,19 @@ public class Player {
 	    currentRehearsalNum++;
 	        
 	    if (currentRehearsalNum == budget){
-		//Working roll is already 100% of success
-		System.out.println("Rehearsal failed, already 100% success rate");
-		return false;
+	    	//Working roll is already 100% of success
+	    	View.updateConsole("Rehearsal failed, already at 100% success rate.");
+	    	//System.out.println("Rehearsal failed, already 100% success rate");
+	    	return false;
 	    }else if(currentRehearsalNum < budget){
 		//Successful rehearsal
 		this.setRehearsalNum(currentRehearsalNum);
-		System.out.println("Budget for role: " + budget);
-		System.out.println("Rehearsal count increased by 1");
-		System.out.println("Total Number of Rehearsals: " + currentRehearsalNum);
+		View.updateConsole("Budget for role: " + budget + "\n" +
+						   "Rehearsal count increased by 1" + "\n" +
+						   "Total Number of Rehearsals: " + currentRehearsalNum);
+		//System.out.println("Budget for role: " + budget);
+		//System.out.println("Rehearsal count increased by 1");
+		//System.out.println("Total Number of Rehearsals: " + currentRehearsalNum);
 		currentRole.setWorkable(false);
 		return true;
 	    }else{
@@ -271,7 +283,8 @@ public class Player {
 		return false;
 	    }
 	}
-    	System.out.println("Rehearsal Failed");
+    	View.updateConsole("Rehearsal Failed");
+    	//System.out.println("Rehearsal Failed");
     	return false;
     }
     

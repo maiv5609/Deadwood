@@ -29,7 +29,8 @@ import javax.swing.SwingConstants;
 //WORKNOTE: 
 //Should we be using Dialog or TextArea? They both seem to do the same thing
 //Error when canceling number of players
-//I have console updating working for the who command
+//If you move to a room, try to move to another room, and then try to take a role, you are unable to take the role even though you should be able
+
 public class View extends JFrame{
 	private Toolkit toolkit;
 	  // JLayered Pane
