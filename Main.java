@@ -14,11 +14,13 @@ public class Main {
 	    options.add((Object)i);
 	}
 	// create View and get the number of players from the view
-	Integer numberOfPlayers = (Integer)View.getDialogResult("Num of Players","Please, select the number of employees between 2 and 8:\n", options);
-	 game.startGame(numberOfPlayers,Constants.BOARD_XML,Constants.CARDS_XML);    
-	View view = new View();
-	game.setWindow(view);
-    view.setVisible(true);
-       
+	Integer numberOfPlayers = null;
+    numberOfPlayers = (Integer)View.getDialogResult("Num of Players","Please, select the number of employees between 2 and 8:\n", options);
+    if (numberOfPlayers != null) {
+    	game.startGame(numberOfPlayers,Constants.BOARD_XML,Constants.CARDS_XML);    
+		View view = new View();
+		game.setWindow(view);
+    	view.setVisible(true);
+    }
     }
 }

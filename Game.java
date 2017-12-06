@@ -200,6 +200,7 @@ public class Game{
 	 * 			parameters: Array String
 	 */
 	if(Constants.END_TURN.equals(action)){
+		View.updateConsole("Turn ended");
 	    Game.endTurn();
 	} else {
 	    String[] parameters = new String[params.size()];
@@ -277,8 +278,8 @@ public class Game{
 	    	}  
 	    }
 	}
-		System.out.println("turn: "+turn);
-		System.out.println("player: "+currentPlayerNum);
+		//View.updateConsole("turn: "+turn);
+		//View.updateConsole("player: "+currentPlayerNum);
 	
 	
     }

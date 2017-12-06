@@ -22,14 +22,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
+import javax.swing.JLayeredPane; 
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 //WORKNOTE: 
 //Should we be using Dialog or TextArea? They both seem to do the same thing
 //Error when canceling number of players
-//If you move to a room, try to move to another room, and then try to take a role, you are unable to take the role even though you should be able
 
 public class View extends JFrame{
 	private Toolkit toolkit;
@@ -70,7 +69,6 @@ public class View extends JFrame{
 	    boardlabel = new JLabel();
 		boardlabel.setIcon(boardImage);
 		boardlabel.setBounds(0,0, boardImage.getIconWidth(),boardImage.getIconHeight());
-		
 		boardPane.add(boardlabel, new Integer(0));
 		
 		//Set size of GUI
@@ -165,13 +163,6 @@ public class View extends JFrame{
 		mLabel.setBounds(boardImage.getIconWidth()+40,0,100,20);
 		boardPane.add(mLabel,new Integer(2));
 		
-		//WORKNOTE: when this is commented out nothing is missing from the view, does this do anything?
-		//The scoreboard was already made above
-		// Create Scoreboard for action buttons
-//		JLabel scoreLabel = new JLabel("SCOREBOARD");
-//		scoreLabel.setBounds(boardImage.getIconWidth()+20,270,100,20);
-//		boardPane.add(scoreLabel,new Integer(2));
-
 		// Create Buttons for actions
 		
 		JButton moveBtn = new JButton(Constants.MOVE);
