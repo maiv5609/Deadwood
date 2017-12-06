@@ -27,8 +27,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 //WORKNOTE: 
-//Should we be using Dialog or TextArea? They both seem to do the same thing
-//Error when canceling number of players
+//Error moving to saloon and trying to take Town drunk role
 
 public class View extends JFrame{
 	private Toolkit toolkit;
@@ -293,16 +292,24 @@ public class View extends JFrame{
 	}
 	
 	//oldPlayer is a player before action was sent to model
-	// newPlayer is a player after action was sent to model
+	//newPlayer is a player after action was sent to model
+	
+	//WORKNOTE:
+	//The reason there is no movement is because there is an error in XML parse.
+	//All roles in the room are given the room's cord that they are located in
+		//This has been fixed, Jason copy and pasted and forgot to change variable names LUL
+	//Also when you try to take a role on the card after just moving to the room, the role at this point is NULL
+		//This has been fixed
+	//Unfixed error, When you try to take any role that is not the first one listed on the role list you get a NULL list.
+	//I looked through XML parse and the roles are being parsed correctly so it must be when we actually pass the role
+	
 	public void updateDicePosition(Player oldPlayer, Player newPlayer, String action){
-		
+		int x = 0;
+		int y = 0;
 		//find label from the list of all labels and remove it from the board, than change the position
 		if (newPlayer != null){
 		 for(JLabel playerLabel : playerLabels){	 
 			 if(playerLabel.getIcon().equals(oldPlayer.getIcon())){
-				 
-				 int x = 0;
-				 int y = 0;
 				 Room currRoom = newPlayer.getCurrentRoom();
 				 // get coordinates
 				 if(!currRoom.equals(Constants.CASTING_OFFICE) 
@@ -310,6 +317,7 @@ public class View extends JFrame{
 					
 					 // if player has taken a role, place him on the card
 					 if(Constants.WORK.equals(action)){	 
+						 Role currentRole = newPlayer.getCurrentRole();
 						 x = newPlayer.getCurrentRole().getAreaXY()[0];
 						 y = newPlayer.getCurrentRole().getAreaXY()[1]; 
 						 if(newPlayer.getCurrentRoom().getScene().getIsClosed()){
@@ -330,6 +338,7 @@ public class View extends JFrame{
 					 x = currRoom.getAreaXY()[0] + 50;
 					 y = currRoom.getAreaXY()[1] + 80;
 				 }
+
 				 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
 				 boardPane.add(playerLabel, new Integer(2));
 			 }

@@ -122,6 +122,7 @@ public class XMLparse {
 		curr.setCurrentShots(curr.getMaxShots());
 		name = room.getAttribute("name");
 		curr.setName(name);
+		//Get room's area
 		Element area = (Element) room.getElementsByTagName("area").item(0);
 		Integer areaX = Integer.parseInt(area.getAttribute("x"));
 		Integer areaY = Integer.parseInt(area.getAttribute("y"));
@@ -150,18 +151,18 @@ public class XMLparse {
 		    Role newRole = new Role();
 		    Node partNode = parts.item(j);
 		    if (partNode.getNodeType() == Node.ELEMENT_NODE){
-			Element pElement = (Element) partNode;
-			rank = Integer.parseInt(pElement.getAttribute("level"));
-			Element rArea = (Element) room.getElementsByTagName("area").item(0);
-			Integer rAreaX = Integer.parseInt(area.getAttribute("x"));
-			Integer rAreaY = Integer.parseInt(area.getAttribute("y"));
-			Integer rAreaH = Integer.parseInt(area.getAttribute("h"));
-			Integer rAreaW = Integer.parseInt(area.getAttribute("w"));
-			newRole.setAreaXY(new Integer[]{rAreaX,rAreaY});
-			newRole.setAreaHW(new Integer[]{rAreaH,rAreaW});
-			newRole.setName(pElement.getAttribute("name"));
-			newRole.setRank(rank);
-			newRole.setLine(pElement.getElementsByTagName("line").item(0).getTextContent());
+				Element pElement = (Element) partNode;
+				rank = Integer.parseInt(pElement.getAttribute("level"));
+				Element rArea = (Element) pElement.getElementsByTagName("area").item(0);
+				Integer rAreaX = Integer.parseInt(rArea.getAttribute("x"));
+				Integer rAreaY = Integer.parseInt(rArea.getAttribute("y"));
+				Integer rAreaH = Integer.parseInt(rArea.getAttribute("h"));
+				Integer rAreaW = Integer.parseInt(rArea.getAttribute("w"));
+				newRole.setAreaXY(new Integer[]{rAreaX,rAreaY});
+				newRole.setAreaHW(new Integer[]{rAreaH,rAreaW});
+				newRole.setName(pElement.getAttribute("name"));
+				newRole.setRank(rank);
+				newRole.setLine(pElement.getElementsByTagName("line").item(0).getTextContent());
 		    }
 		    roles.add(newRole);
 		}
