@@ -41,6 +41,7 @@ public class View extends JFrame{
 	  List<JLabel> playerLabels;
 	  List<JLabel> cardLabels;
 	  List<JLabel> shotLabels;
+	  ImageIcon boardImage;
 	  final static ImageIcon imageIcon = new ImageIcon("src/stickynote.png");
 	  static JTextArea console = new JTextArea() {
 	    	Image background = imageIcon.getImage();
@@ -78,7 +79,7 @@ public class View extends JFrame{
 		add(backgroundLabel);
 		
 		//Image of board
-		ImageIcon boardImage = new ImageIcon("board.jpg");
+		boardImage = new ImageIcon("board.jpg");
 	    boardlabel = new JLabel();
 		boardlabel.setIcon(boardImage);
 		boardlabel.setBounds(0,0, boardImage.getIconWidth(),boardImage.getIconHeight());
@@ -406,13 +407,14 @@ public class View extends JFrame{
 
 				 
 				 boardPane.add(playerLabel, new Integer(2));
+				 updateDiceTurn(newPlayer);
 			 }
 		   }
 		}
 	}
 	
 	public void declareWinner(String winner) {
-		JLabel winnerLabel = new JLabel(winner);
+		//JLabel winnerLabel = new JLabel(winner);
 		ImageIcon winnerImage = new ImageIcon("src/youwin.jpg");
 		//JOptionPane.showMessageDialog(getParent(), winner + " has won!", winnerImage);
 		JOptionPane.showMessageDialog(
@@ -425,6 +427,14 @@ public class View extends JFrame{
 	
 	public void updateCardPosition(){
 		
+	}
+	public void updateDiceTurn(Player newPlayer){
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dice/" + newPlayer.getDiceColor() + newPlayer.getRank() + ".png"));
+		JLabel label = new JLabel(imageIcon);
+		label.setIcon(imageIcon);
+		label.setBounds(boardImage.getIconWidth()+ 20,30, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
+		
+		boardPane.add(label, new Integer(3));
 	}
 	
 	
