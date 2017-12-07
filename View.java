@@ -318,8 +318,8 @@ public class View extends JFrame{
 					 // if player has taken a role, place him on the card
 					 if(Constants.WORK.equals(action)){	 
 						 Role currentRole = newPlayer.getCurrentRole();
-						 x = newPlayer.getCurrentRole().getAreaXY()[0];
-						 y = newPlayer.getCurrentRole().getAreaXY()[1]; 
+						 x = currentRole.getAreaXY()[0];
+						 y = currentRole.getAreaXY()[1]; 
 						 if(newPlayer.getCurrentRoom().getScene().getIsClosed()){
 //							 int card_x = newPlayer.getCurrentRoom().getAreaXY()[0];
 //							 int card_y = newPlayer.getCurrentRoom().getAreaXY()[0];
