@@ -17,12 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane; 
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
@@ -39,7 +41,18 @@ public class View extends JFrame{
 	  List<JLabel> playerLabels;
 	  List<JLabel> cardLabels;
 	  List<JLabel> shotLabels;
-	  static JTextArea console = new JTextArea();
+	  final static ImageIcon imageIcon = new ImageIcon("src/stickynote.png");
+	  static JTextArea console = new JTextArea() {
+	    	Image background = imageIcon.getImage();
+	    	{
+	    		setOpaque(false);
+	    	}
+	    	public void paint(Graphics g) {
+	    		g.drawImage(background, 0, 0, this);
+	    		super.paint(g);
+	    	}
+	    	
+	    };
 	  
 	public View() {
 
@@ -109,35 +122,47 @@ public class View extends JFrame{
 	    }
 
 	    JLabel scoreLabel = new JLabel("Scoreboard", SwingConstants.CENTER);
-	    scoreLabel.setBounds(boardImage.getIconWidth()+ 50,300,220, 45);
-	    scoreLabel.setOpaque(true);
-	    scoreLabel.setBackground(Color.white);
+	    scoreLabel.setBounds(boardImage.getIconWidth()+ 45, 310, 300, 45);
+	    scoreLabel.setOpaque(false);
 	    scoreLabel.setVisible(true);
 	    boardPane.add(scoreLabel, new Integer(3));
 	    
 	    //add scoreboard with players current status
-	    JTextArea scoreboard = new JTextArea();
+	    
+	    //Adding stickynote background to text area
+	    JTextArea scoreboard = new JTextArea() {
+	    	Image background = imageIcon.getImage();
+	    	{
+	    		setOpaque(false);
+	    	}
+	    	public void paint(Graphics g) {
+	    		g.drawImage(background, 0, 0, this);
+	    		super.paint(g);
+	    	}
+	    	
+	    };
 	    scoreboard.setEditable(false);
 	    scoreboard.setLineWrap(true);
+	    scoreboard.setFont(scoreboard.getFont().deriveFont(Font.BOLD));
 	    scoreboard.append(updateScoreboard());
 	    scoreboard.setVisible(true);
-	    scoreboard.setMargin(new Insets(10, 10, 10, 10));
-	    scoreboard.setBounds(boardImage.getIconWidth()+ 50,350,220,190);
+	    scoreboard.setMargin(new Insets(100, 45, 10, 10));
+	    scoreboard.setBounds(boardImage.getIconWidth()+ 20, 250, 400, 300);
 	    boardPane.add(scoreboard, new Integer(3));
 	
 	    JLabel consoleLabel = new JLabel("Console", SwingConstants.CENTER);
-	    consoleLabel.setBounds(boardImage.getIconWidth()+ 50,550,220,45);
-	    consoleLabel.setOpaque(true);
-	    consoleLabel.setBackground(Color.white);
+	    consoleLabel.setBounds(boardImage.getIconWidth()+ 75,615,220,45);
+	    consoleLabel.setOpaque(false);
 	    consoleLabel.setVisible(true);
 	    boardPane.add(consoleLabel, new Integer(3));
 	    
 		//add console to display feedback
 	    console.setEditable(false);
 	    console.setLineWrap(true);
+	    console.setFont(console.getFont().deriveFont(Font.BOLD));
 	    console.setVisible(true);
-	    console.setMargin(new Insets(10, 10, 10, 10));
-	    console.setBounds(boardImage.getIconWidth()+ 50,600,220,300);
+	    console.setMargin(new Insets(105, 60, 10, 10));
+	    console.setBounds(boardImage.getIconWidth()+ 20,550,400, 350);
 	    boardPane.add(console, new Integer(3));
 	    
 		// Add a dice to represent a player.
@@ -173,7 +198,6 @@ public class View extends JFrame{
 		
 		
 		
-		
 
 		// Create the Menu for action buttons
 		JLabel mLabel = new JLabel("MENU");
@@ -181,38 +205,51 @@ public class View extends JFrame{
 		boardPane.add(mLabel,new Integer(2));
 		
 		// Create Buttons for actions
-		
-		JButton moveBtn = new JButton(Constants.MOVE);
+		final ImageIcon woodButton= new ImageIcon("src/woodbutton.png");
+		JButton moveBtn = new JButton(Constants.MOVE) {
+	    	Image background = woodButton.getImage();
+	    	{
+	    		setOpaque(false);
+	    	}
+	    	public void paint(Graphics g) {
+	    		g.drawImage(background, 0, 0, this);
+	    		super.paint(g);
+	    	}
+	    	
+	    };
+	    moveBtn.setBorderPainted(false);
+	    moveBtn.setFocusPainted(false);
 		moveBtn.setBackground(Color.white);
-		moveBtn.setBounds(boardImage.getIconWidth()+110, 30,100, 20);
+		moveBtn.setForeground(Color.white);
+		moveBtn.setBounds(boardImage.getIconWidth()+110, 15, 100, 37);
 		
 		JButton workBtn = new JButton(Constants.WORK);
 		workBtn.setBackground(Color.white);
-		workBtn.setBounds(boardImage.getIconWidth()+110, 60,100, 20);
+		workBtn.setBounds(boardImage.getIconWidth()+110, 45, 100, 20);
 		
 		JButton upgradeBtn = new JButton(Constants.UPGRADE);
 		upgradeBtn.setBackground(Color.white);
-		upgradeBtn.setBounds(boardImage.getIconWidth()+110, 90,100, 20);
+		upgradeBtn.setBounds(boardImage.getIconWidth()+110, 75, 100, 20);
 		
 		JButton rehearseBtn = new JButton(Constants.REHEARSE);
 		rehearseBtn.setBackground(Color.white);
-		rehearseBtn.setBounds(boardImage.getIconWidth()+110, 120,100, 20);
+		rehearseBtn.setBounds(boardImage.getIconWidth()+110, 105, 100, 20);
 		
 		JButton actBtn = new JButton(Constants.ACT);
 		actBtn.setBackground(Color.white);
-		actBtn.setBounds(boardImage.getIconWidth()+110, 150,100, 20);
+		actBtn.setBounds(boardImage.getIconWidth()+110, 135 ,100, 20);
 		
 		JButton whoBtn = new JButton(Constants.WHO);
 		whoBtn.setBackground(Color.white);
-		whoBtn.setBounds(boardImage.getIconWidth()+110, 180,100, 20);
+		whoBtn.setBounds(boardImage.getIconWidth()+110, 165, 100, 20);
 		
 		JButton whereBtn = new JButton(Constants.WHERE);
 		whereBtn.setBackground(Color.white);
-		whereBtn.setBounds(boardImage.getIconWidth()+110, 210,100, 20);
+		whereBtn.setBounds(boardImage.getIconWidth()+110, 195, 100, 20);
 		
 		JButton endBtn = new JButton(Constants.END_TURN);
 		endBtn.setBackground(Color.white);
-		endBtn.setBounds(boardImage.getIconWidth()+110, 240,100, 20);
+		endBtn.setBounds(boardImage.getIconWidth()+110, 225, 100, 20);
 		
 		// Add buttons to the board
 		boardPane.add(moveBtn, new Integer(2));
@@ -374,6 +411,17 @@ public class View extends JFrame{
 		}
 	}
 	
+	public void declareWinner(String winner) {
+		JLabel winnerLabel = new JLabel(winner);
+		ImageIcon winnerImage = new ImageIcon("src/youwin.jpg");
+		//JOptionPane.showMessageDialog(getParent(), winner + " has won!", winnerImage);
+		JOptionPane.showMessageDialog(
+                null,
+                winner + " has won!",
+                "Congratulations", JOptionPane.INFORMATION_MESSAGE,
+                winnerImage);
+		
+	}
 	
 	public void updateCardPosition(){
 		

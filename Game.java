@@ -93,12 +93,19 @@ public class Game{
      *  sets total amount of money, credits and fame to each player in the game
      */
     public static void scoring() {
+    	String winner = null;
+    	int highest = 0;
         if(Game.players != null & !Game.players.isEmpty()){
             for (Player player : Game.players){
                 player.setTotal(player.getCredits() + player.getMoney() + 5*player.getRank());
+                if (player.getTotal() > highest) {
+                	winner = "Player " + player.getPlayerNum()+1;
+                	highest = player.getTotal();
+                }
                 System.out.println("Player " + player.getPlayerNum() + " has " + player.getTotal());
             }
         }
+       Window.declareWinner(winner);
     }
     
     /** startGame
@@ -115,7 +122,7 @@ public class Game{
     	Game.maxDay = 4;
         int credits = 0;
         int rank = 1;
-
+        
     //set maxDays and credits
     if(numberOfPlayers >=2 && numberOfPlayers <=3){
         Game.maxDay = 3;
@@ -168,6 +175,8 @@ public class Game{
 //    }
 
     public static void endTurn(){
+    	//WORKNOTE: remove this
+        scoring();
 	if (Game.players.get(currentPlayerNum).getCurrentRole() != null){
 	    Game.players.get(currentPlayerNum).getCurrentRole().setWorkable(true);
 	    Game.players.get(currentPlayerNum).setCanMove(false);

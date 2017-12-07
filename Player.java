@@ -269,6 +269,7 @@ public class Player {
 	private boolean act(Room currentRoom, Scene currentScene, Role currentRole) {
 		if (currentRole == null) {
 			View.updateConsole("The player does not have a role");
+			
 			return false;
 		} else {
 			if (!currentRole.getWorkable()) {
@@ -292,7 +293,7 @@ public class Player {
 				currentShots = currentRoom.getCurrentShots();
 				currentShots--;
 				currentRoom.setCurrentShots(currentShots);
-
+				
 				View.updateConsole("Shots for scene to close: " + currentRoom.getMaxShots());
 				View.updateConsole("Current shots: " + currentShots);
 
