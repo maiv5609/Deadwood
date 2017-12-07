@@ -38,6 +38,7 @@ public class View extends JFrame{
 	  JLabel cardlabel;
 	  List<JLabel> playerLabels;
 	  List<JLabel> cardLabels;
+	  List<JLabel> shotLabels;
 	  static JTextArea console = new JTextArea();
 	  
 	public View() {
@@ -49,7 +50,7 @@ public class View extends JFrame{
 		
 		toolkit = getToolkit();
 		
-		//Make frame fullscreen
+		//Make frame fullscreenint x = shotsXY[i][0];
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		//Adding image to background
@@ -76,12 +77,24 @@ public class View extends JFrame{
 	
 	// Add a scene card to this room
 	   cardLabels = new ArrayList<JLabel>();
+	   shotLabels = new ArrayList<JLabel>();
 	   Map<String,Room> rooms = Board.getRoomMap();
 	   Iterator it = rooms.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry pair = (Map.Entry)it.next();
 	        Room room = ((Room)pair.getValue());
 	        if(!room.getName().equals(Constants.CASTING_OFFICE) && !room.getName().equals(Constants.TRAILER)){
+	        	Integer[][] shotsXY = room.getShotXY();
+	        	for(int i = 0; i < room.getMaxShots();i++) {
+	        		int x = shotsXY[i][0];
+	        		int y = shotsXY[i][1];
+	        		JLabel shotLabel = new JLabel();
+	        		 ImageIcon cIcon =  new ImageIcon(getClass().getResource("shot.png"));
+	        		 shotLabel.setIcon(cIcon);
+	        		 shotLabel.setBounds(x,y,cIcon.getIconWidth(),cIcon.getIconHeight());
+	        		 shotLabels.add(shotLabel);
+	        		 boardPane.add(shotLabel, new Integer(1));
+	        	}
 	        	Scene scene = room.getScene();
 	 	        String cardPath = scene.getImg();
 	 	        JLabel cardlabel = new JLabel();
@@ -156,6 +169,11 @@ public class View extends JFrame{
 			 boardPane.add(playerlabel, new Integer(2));
 		 }
 		}
+		
+		
+		
+		
+		
 
 		// Create the Menu for action buttons
 		JLabel mLabel = new JLabel("MENU");
@@ -318,28 +336,38 @@ public class View extends JFrame{
 					 // if player has taken a role, place him on the card
 					 if(Constants.WORK.equals(action)){	 
 						 Role currentRole = newPlayer.getCurrentRole();
-						 x = currentRole.getAreaXY()[0];
-						 y = currentRole.getAreaXY()[1]; 
-						 if(newPlayer.getCurrentRoom().getScene().getIsClosed()){
-//							 int card_x = newPlayer.getCurrentRoom().getAreaXY()[0];
-//							 int card_y = newPlayer.getCurrentRoom().getAreaXY()[0];
-							 for(JLabel cardLabel : cardLabels){
-								 if(cardLabel.getIcon().equals(newPlayer.getCurrentRoom().getScene().getIcon())){
-									 //close scene (set background black or set "CLOSED")
-									 cardLabel.setText("CLOSED");
+						 if(currentRole != null) {
+							 if(currentRole.onCard) {
+								 x = currentRole.getAreaXY()[0] + currRoom.getAreaXY()[0];
+								 y = currentRole.getAreaXY()[1] + currRoom.getAreaXY()[1];
+							 }else {
+								 x = currentRole.getAreaXY()[0];
+								 y = currentRole.getAreaXY()[1]; 
+							 }
+							 if(newPlayer.getCurrentRoom().getScene().getIsClosed()){
+//								 int card_x = newPlayer.getCurrentRoom().getAreaXY()[0];
+//								 int card_y = newPlayer.getCurrentRoom().getAreaXY()[0];
+								 for(JLabel cardLabel : cardLabels){
+									 if(cardLabel.getIcon().equals(newPlayer.getCurrentRoom().getScene().getIcon())){
+										 //close scene (set background black or set "CLOSED")
+										 cardLabel.setText("CLOSED");
+									 }
 								 }
 							 }
+							 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
 						 }
 					 }else{
 						 x = currRoom.getAreaXY()[0];
 						 y = currRoom.getAreaXY()[1];  
+						 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
 					 }
 				 } else{
 					 x = currRoom.getAreaXY()[0] + 50;
 					 y = currRoom.getAreaXY()[1] + 80;
+					 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
 				 }
 
-				 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
+				 
 				 boardPane.add(playerLabel, new Integer(2));
 			 }
 		   }

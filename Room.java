@@ -12,6 +12,7 @@ public class Room {
     private List<String> connectedRooms;
     private Integer[] areaXY;
     private Integer[] areaHW;
+    private Integer[][] shotXY = new Integer[maxShots][2];
 
     public Room(){
     	name = null;
@@ -78,22 +79,22 @@ public class Room {
         this.connectedRooms = connectedRooms;
     }
 
-    public Integer[] getAreaXY(){
-	return areaXY;
-    }
-
-    public void setAreaXY(Integer[] areaXY){
-	this.areaXY = areaXY;
-    }
-
     public Integer[] getAreaHW(){
 	return areaHW;
     }
+    
 
-    public void setAreaHW(Integer[] areaHW){
+	public void setAreaHW(Integer[] areaHW){
 	this.areaHW = areaHW;
     }
     
+	public Integer[][] getShotXY() {
+		return shotXY;
+	}
+
+	public void setShotXY(Integer[][] shotXY) {
+		this.shotXY = shotXY;
+	}
     
     
     /* addPlayer
@@ -170,6 +171,14 @@ public class Room {
 	// remove scene from room
 	scene = null;
     }
+
+	public Integer[] getAreaXY() {
+		return areaXY;
+	}
+
+	public void setAreaXY(Integer[] areaXY) {
+		this.areaXY = areaXY;
+	}
     
     
 }

@@ -118,6 +118,15 @@ public class XMLparse {
 		Element room = (Element) roomNode;
 		// get and set shots and name
 		maxShots = Integer.parseInt( ((Element) ((Element) room.getElementsByTagName("takes").item(0)).getElementsByTagName("take").item(0)).getAttribute("number"));
+		//Gets cord. for each shot counter
+		Integer[][] shotsXY = new Integer[maxShots][2];
+		for(int j = 0; j < maxShots; j++) {
+			int x = Integer.parseInt( ((Element) ((Element) room.getElementsByTagName("takes").item(0)).getElementsByTagName("area").item(j)).getAttribute("x"));
+			int y = Integer.parseInt( ((Element) ((Element) room.getElementsByTagName("takes").item(0)).getElementsByTagName("area").item(j)).getAttribute("y"));
+			shotsXY[j][0] = x;
+			shotsXY[j][1] = y;
+		}
+		curr.setShotXY(shotsXY);
 		curr.setMaxShots(maxShots);
 		curr.setCurrentShots(curr.getMaxShots());
 		name = room.getAttribute("name");
@@ -168,6 +177,7 @@ public class XMLparse {
 		}
 		curr.setRoles(roles);
 	    }
+
 	    rooms.put(name,curr);
 	}
 	// read and get the casting office
@@ -184,7 +194,7 @@ public class XMLparse {
 		Integer areaW = Integer.parseInt(area.getAttribute("w"));
 		castingOffice.setAreaXY(new Integer[]{areaX,areaY});
 		castingOffice.setAreaHW(new Integer[]{areaH,areaW});
-		//-------end ---->
+		//-------end ---->O
 	    List<String> connRooms = new ArrayList<String>();
 	    NodeList neighbors = ((Element) castingElement.getElementsByTagName("neighbors").item(0)).getElementsByTagName("neighbor");
 	    length = neighbors.getLength();
