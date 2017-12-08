@@ -459,39 +459,43 @@ public class View extends JFrame{
 		    if(!currRoom.equals(Constants.CASTING_OFFICE) 
 		       && !currRoom.equals(Constants.TRAILER)){
 					
-			// if player has taken a role, place him on the card
-			if(Constants.WORK.equals(action)){	 
-			    Role currentRole = newPlayer.getCurrentRole();
-			    if(currentRole != null) {
-				if(currentRole.onCard) {
-				    x = currentRole.getAreaXY()[0] + currRoom.getAreaXY()[0];
-				    y = currentRole.getAreaXY()[1] + currRoom.getAreaXY()[1];
-				}else {
-				    x = currentRole.getAreaXY()[0];
-				    y = currentRole.getAreaXY()[1]; 
-				}
-				if(newPlayer.getCurrentRoom().getScene().getIsClosed()){
-				    //								 int card_x = newPlayer.getCurrentRoom().getAreaXY()[0];
-				    //								 int card_y = newPlayer.getCurrentRoom().getAreaXY()[0];
-				    for(JLabel cardLabel : cardLabels){
-					if(cardLabel.getIcon().equals(newPlayer.getCurrentRoom().getScene().getIcon())){
-					    //close scene (set background black or set "CLOSED")
-					    cardLabel.setText("CLOSED");
-					}
-				    }
-				}
-				playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
-			    }
-			}else{
-			    x = currRoom.getAreaXY()[0];
-			    y = currRoom.getAreaXY()[1];  
-			    playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
-			}
-		    } else{
-			x = currRoom.getAreaXY()[0] + 50;
-			y = currRoom.getAreaXY()[1] + 80;
-			playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
-		    }
+					 // if player has taken a role, place him on the card
+					 if(Constants.WORK.equals(action) | 
+							 Constants.ACT.equals(action) | 
+							 Constants.REHEARSE.equals(action) | 
+							 Constants.WHO.equals(action) | 
+							 Constants.WHERE.equals(action)){	 
+						 Role currentRole = newPlayer.getCurrentRole();
+						 if(currentRole != null) {
+							 if(currentRole.onCard) {
+								 x = currentRole.getAreaXY()[0] + currRoom.getAreaXY()[0];
+								 y = currentRole.getAreaXY()[1] + currRoom.getAreaXY()[1];
+							 }else {
+								 x = currentRole.getAreaXY()[0];
+								 y = currentRole.getAreaXY()[1]; 
+							 }
+							 if(newPlayer.getCurrentRoom().getScene().getIsClosed()){
+//								 int card_x = newPlayer.getCurrentRoom().getAreaXY()[0];
+//								 int card_y = newPlayer.getCurrentRoom().getAreaXY()[0];
+								 for(JLabel cardLabel : cardLabels){
+									 if(cardLabel.getIcon().equals(newPlayer.getCurrentRoom().getScene().getIcon())){
+										 //close scene (set background black or set "CLOSED")
+										 cardLabel.setText("CLOSED");
+									 }
+								 }
+							 }
+							 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
+						 }
+					 }else{
+						 x = currRoom.getAreaXY()[0];
+						 y = currRoom.getAreaXY()[1];  
+						 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
+					 }
+				 } else{
+					 x = currRoom.getAreaXY()[0] + 50;
+					 y = currRoom.getAreaXY()[1] + 80;
+					 playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
+				 }
 
 				 
 		    boardPane.add(playerLabel, new Integer(2));
@@ -515,15 +519,31 @@ public class View extends JFrame{
 	
     public void updateCardPosition(){
 		
-    }
-    public void updateDiceTurn(Player newPlayer){
-	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dice/" + newPlayer.getDiceColor() + newPlayer.getRank() + ".png"));
-	JLabel label = new JLabel(imageIcon);
-	label.setIcon(imageIcon);
-	label.setBounds(boardImage.getIconWidth()+ 20,30, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
+	}
+	
+	public void updateDiceTurn(Player newPlayer){
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dice/" + newPlayer.getDiceColor() + newPlayer.getRank() + ".png"));
+		JLabel label = new JLabel(imageIcon);
+		label.setIcon(imageIcon);
+		label.setBounds(boardImage.getIconWidth()+ 20,30, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
 		
-	boardPane.add(label, new Integer(3));
-    }
+		boardPane.add(label, new Integer(3));
+	}
+	
+	public void removeShot(Room currentRoom){
+		Integer[][] shotsXY = currentRoom.getShotXY();
+		if(currentRoom.getCurrentShots() != 0){
+			int x = shotsXY[currentRoom.getCurrentShots() - 1][0];
+			int y = shotsXY[currentRoom.getCurrentShots() - 1][1];
+			for(JLabel shotLabel : shotLabels){
+				if((shotLabel.getBounds().x == x)
+				    && (shotLabel.getBounds().y == y)){
+					// shotLabels.remove(shotLabel);
+					 boardPane.remove(shotLabel);
+				}
+			}
+		}
+	}
 	
 	
 }

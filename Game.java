@@ -178,7 +178,7 @@ public class Game{
 
     public static void endTurn(){
     	//WORKNOTE: remove this
-        scoring();
+        //scoring();
 	if (Game.players.get(currentPlayerNum).getCurrentRole() != null){
 	    Game.players.get(currentPlayerNum).getCurrentRole().setWorkable(true);
 	    Game.players.get(currentPlayerNum).setCanMove(false);
@@ -281,7 +281,7 @@ public class Game{
 				}
 	    }
 
-	    if(parameters != null){
+	    if(parameters != null | Constants.REHEARSE.equals(action) | Constants.ACT.equals(action)){
 	    	Player currentPlayer = players.get(currentPlayerNum);
 	    	Player newPlayer = currentPlayer.handleAction(action, parameters);
 	    	if(newPlayer != null){
@@ -291,7 +291,9 @@ public class Game{
 	}
 		//View.updateConsole("turn: "+turn);
 		//View.updateConsole("player: "+currentPlayerNum);
-	
-	
+    }
+    
+    public static void removeShot(Room currentRoom){
+    	Window.removeShot(currentRoom);
     }
 }
