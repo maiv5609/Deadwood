@@ -23,6 +23,7 @@ public class Game{
 
     public void setWindow(View Window){
     	Game.Window = Window;
+    	Window.updateDiceTurn(Game.players.get(Game.players.size()-1), Window.playerDice);
     }
     
     public int getTurn() {
@@ -153,7 +154,6 @@ public class Game{
             Game.players.add(player);
             Board.getRoomNode(Constants.TRAILER).addPlayer(i);
         }
- 
         //set Current day to 1
         Game.currDay = 1;
         
@@ -211,6 +211,10 @@ public class Game{
 	 * 			parameters: Array String
 	 */
 	if(Constants.END_TURN.equals(action)){
+		//Player newPlayer = currPlayer.handleAction(action, parameters);
+    	//if(newPlayer != null){
+    	Window.updateDiceTurn(currPlayer, Window.playerDice);
+    	//}  
 		View.updateConsole("Turn ended");
 	    Game.endTurn();
 	} else {

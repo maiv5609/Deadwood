@@ -38,6 +38,7 @@ public class View extends JFrame{
     // JLabels
     JLabel boardlabel;
     JLabel cardlabel;
+    JLabel playerDice = new JLabel();
     List<JLabel> playerLabels;
     List<JLabel> cardLabels;
     List<JLabel> shotLabels;
@@ -499,7 +500,6 @@ public class View extends JFrame{
 
 				 
 		    boardPane.add(playerLabel, new Integer(2));
-		    updateDiceTurn(newPlayer);
 		}
 	    }
 	}
@@ -521,13 +521,17 @@ public class View extends JFrame{
 		
 	}
 	
-	public void updateDiceTurn(Player newPlayer){
-		ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dice/" + newPlayer.getDiceColor() + newPlayer.getRank() + ".png"));
-		JLabel label = new JLabel(imageIcon);
+	public void updateDiceTurn(Player newPlayer, JLabel label){
+		Player nextPlayer = null; 
+	     if((newPlayer.getPlayerNum() +1) > (Game.players.size() - 1)) {
+	    	 nextPlayer = Game.players.get(0);
+	     } else {
+	    	 nextPlayer = Game.players.get(newPlayer.getPlayerNum() +1);
+	     }
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dice/" + nextPlayer.getDiceColor() + nextPlayer.getRank() + ".png"));
 		label.setIcon(imageIcon);
-		label.setBounds(boardImage.getIconWidth()+ 20,30, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
-		
-		boardPane.add(label, new Integer(3));
+		label.setBounds(boardImage.getIconWidth()+ 20,30, nextPlayer.getIcon().getIconWidth(),nextPlayer.getIcon().getIconHeight());
+		boardPane.add(playerDice, new Integer(3)); 
 	}
 	
 	public void removeShot(Room currentRoom){
