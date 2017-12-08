@@ -391,17 +391,17 @@ public class Player {
 			this.act(currentRoom, currentRoom.getScene(), currentRole);
 		} else if (Constants.WHO.equals(action)) {
 			consoleOutput = "Current player is player #" + (this.playerNum + 1) + "\n"
-					+ "Current player has dice color: " + (this.diceColor) + "\n" + "Current number of rehearsals: "
+					+ "Player "+(this.playerNum+1)+" has dice color: " + (this.diceColor) + "\n" + "Current number of rehearsals: "
 					+ (this.rehearsalNum) + "\n";
 			
 			if (this.currentRole != null) {
-				consoleOutput = consoleOutput + "Current player is working this role: " + (this.currentRole.getName() + "\n");
+				consoleOutput = consoleOutput + "Player "+(this.playerNum+1)+" is working the role: " + (this.currentRole.getName() + "\n");
 			} else {
-				consoleOutput = consoleOutput + "Player does not have a role yet" + "\n";
+				consoleOutput = consoleOutput + "Player "+(this.playerNum+1)+" does not have a role yet" + "\n";
 			}
 			View.updateConsole(consoleOutput);
 		} else if (Constants.WHERE.equals(action)) {
-			consoleOutput = "Current player is in the room: " + this.currentRoom.getName() + "\n";
+		    consoleOutput = "Player "+(this.playerNum+1)+" is in: " + this.currentRoom.getName() + "\n";
 			String adjacentRooms = "";
 			int i = 0;
 			for (String rName : currentRoom.getConnectedRooms()) {
@@ -416,20 +416,6 @@ public class Player {
 			if (currentRoom.getScene() != null) {
 				consoleOutput = consoleOutput + "The Scene for this room is " + currentRoom.getScene().getName()
 						+ ". It has a budget of " + currentRoom.getScene().getBudget() + "." + "\n";
-				String rolesOnCard = "";
-				String roles = " ";
-				List<Role> allRoles = currentRoom.getRoles();
-				for (Role role : allRoles) {
-					if (role.onCard) {
-						System.out.println(role.getName());
-						rolesOnCard += role.getName() + " [rank:" + role.getRank() + "], ";
-					}
-					roles += role.getName() + " [rank:" + role.getRank() + "], ";
-				}
-				consoleOutput = consoleOutput + "All roles:" + roles + "\n";
-				if (!rolesOnCard.equals("")) {
-					consoleOutput = consoleOutput + "On card roles: " + rolesOnCard;
-				}
 			}
 			View.updateConsole(consoleOutput);
 		} else {
