@@ -292,6 +292,7 @@ public class Player {
 				// Success, update shots
 				currentShots = currentRoom.getCurrentShots();
 				currentShots--;
+				Game.removeShot(currentRoom);
 				currentRoom.setCurrentShots(currentShots);
 				
 				View.updateConsole("Shots for scene to close: " + currentRoom.getMaxShots());

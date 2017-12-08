@@ -372,7 +372,11 @@ public class View extends JFrame{
 						 && !currRoom.equals(Constants.TRAILER)){
 					
 					 // if player has taken a role, place him on the card
-					 if(Constants.WORK.equals(action)){	 
+					 if(Constants.WORK.equals(action) | 
+							 Constants.ACT.equals(action) | 
+							 Constants.REHEARSE.equals(action) | 
+							 Constants.WHO.equals(action) | 
+							 Constants.WHERE.equals(action)){	 
 						 Role currentRole = newPlayer.getCurrentRole();
 						 if(currentRole != null) {
 							 if(currentRole.onCard) {
@@ -428,6 +432,7 @@ public class View extends JFrame{
 	public void updateCardPosition(){
 		
 	}
+	
 	public void updateDiceTurn(Player newPlayer){
 		ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dice/" + newPlayer.getDiceColor() + newPlayer.getRank() + ".png"));
 		JLabel label = new JLabel(imageIcon);
@@ -435,6 +440,21 @@ public class View extends JFrame{
 		label.setBounds(boardImage.getIconWidth()+ 20,30, newPlayer.getIcon().getIconWidth(),newPlayer.getIcon().getIconHeight());
 		
 		boardPane.add(label, new Integer(3));
+	}
+	
+	public void removeShot(Room currentRoom){
+		Integer[][] shotsXY = currentRoom.getShotXY();
+		if(currentRoom.getCurrentShots() != 0){
+			int x = shotsXY[currentRoom.getCurrentShots() - 1][0];
+			int y = shotsXY[currentRoom.getCurrentShots() - 1][1];
+			for(JLabel shotLabel : shotLabels){
+				if((shotLabel.getBounds().x == x)
+				    && (shotLabel.getBounds().y == y)){
+					// shotLabels.remove(shotLabel);
+					 boardPane.remove(shotLabel);
+				}
+			}
+		}
 	}
 	
 	
