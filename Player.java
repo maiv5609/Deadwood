@@ -162,8 +162,12 @@ public class Player {
 			}
 			if (currency.equals("$") && (this.money >= moneyCost)) {
 				this.money -= moneyCost;
+				Game.Window.updateScoreboard();
+				View.updateConsole("Successful upgrade");
 			} else if (currency.equals("CR") && (this.credits >= creditCost)) {
 				this.credits -= creditCost;
+				Game.Window.updateScoreboard();
+				View.updateConsole("Successful upgrade");
 			} else {
 				View.updateConsole("You do not have enough credits or money.");
 			}
@@ -302,6 +306,7 @@ public class Player {
 					credits = this.getCredits();
 					credits = credits + 2;
 					this.setCredits(credits);
+					Game.Window.updateScoreboard();
 					View.updateConsole("You have succeded in the role. You've gained two credits!");
 				} else {
 					credits = this.getCredits();
@@ -310,6 +315,7 @@ public class Player {
 					money++;
 					this.setCredits(credits);
 					this.setMoney(money);
+					Game.Window.updateScoreboard();
 					View.updateConsole("You have succeded in the role. You've gained one credit and one dollar!");
 				}
 

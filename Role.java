@@ -94,5 +94,6 @@ public class Role {
         int currCredit = heldBy.getCredits();
         heldBy.setMoney(currMoney + money);
         heldBy.setCredits(currCredit + credits);
+        Game.Window.updateScoreboard();
     }
 }

@@ -298,4 +298,8 @@ public class Game{
     public static void removeShot(Room currentRoom){
     	Window.removeShot(currentRoom);
     }
+    
+    public static void closeScene(Room currentRoom){
+    	Window.closeScene(currentRoom);
+    }
 }
