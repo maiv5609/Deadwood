@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,16 +10,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -480,14 +476,14 @@ public class View extends JFrame {
 									x = currentRole.getAreaXY()[0];
 									y = currentRole.getAreaXY()[1];
 								}
+								
+								//close the scene
 								if (newPlayer.getCurrentRoom().getScene().getIsClosed()) {
-									// int card_x = newPlayer.getCurrentRoom().getAreaXY()[0];
-									// int card_y = newPlayer.getCurrentRoom().getAreaXY()[0];
 									for (JLabel cardLabel : cardLabels) {
 										if (cardLabel.getIcon()
 												.equals(newPlayer.getCurrentRoom().getScene().getIcon())) {
 											// close scene (set background black or set "CLOSED")
-											cardLabel.setText("CLOSED");
+											cardLabel.setVisible(false);
 										}
 									}
 								}
@@ -495,14 +491,14 @@ public class View extends JFrame {
 										newPlayer.getIcon().getIconHeight());
 							}
 						} else {
-							x = currRoom.getAreaXY()[0];
-							y = currRoom.getAreaXY()[1];
+							x = currRoom.getAreaXY()[0] + getOffset(currRoom,newPlayer)[0];
+							y = currRoom.getAreaXY()[1] + getOffset(currRoom,newPlayer)[1];
 							playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),
 									newPlayer.getIcon().getIconHeight());
 						}
-					} else {
-						x = currRoom.getAreaXY()[0] + 50;
-						y = currRoom.getAreaXY()[1] + 80;
+					} else {//coord for trailer and casting office
+						x = currRoom.getAreaXY()[0] + getOffset(currRoom,newPlayer)[0];
+						y = currRoom.getAreaXY()[1] + getOffset(currRoom,newPlayer)[1];
 						playerLabel.setBounds(x, y, newPlayer.getIcon().getIconWidth(),
 								newPlayer.getIcon().getIconHeight());
 					}
@@ -511,6 +507,30 @@ public class View extends JFrame {
 				}
 			}
 		}
+	}
+	
+	public int[] getOffset(Room currentRoom, Player player){
+		int [] offset = new int[2];
+		int x = 0;
+		int y = 0;
+		int offset_x = 22;
+		int playersNum = currentRoom.getPlayersInTheRoom().size();
+		if(!currentRoom.getName().equals(Constants.TRAILER)
+				&& !currentRoom.getName().equals(Constants.CASTING_OFFICE)){
+			x = playersNum * offset_x;
+		} else{
+			if(player.getPlayerNum() <= 3){
+				x = player.getPlayerNum() * 50;
+				y = 80;
+			} else{
+				int k = player.getPlayerNum() - 4;
+				x = k * 50;
+				y = 130;
+			}
+		}
+		offset[0] = x;
+		offset[1] = y;
+		return offset;
 	}
 
 	public void declareWinner(String winner) {
