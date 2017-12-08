@@ -293,8 +293,6 @@ public class Game{
 	    	}  
 	    }
 	}
-		//View.updateConsole("turn: "+turn);
-		//View.updateConsole("player: "+currentPlayerNum);
     }
     
     public static void removeShot(Room currentRoom){

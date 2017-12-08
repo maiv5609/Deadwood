@@ -542,8 +542,7 @@ public class View extends JFrame{
 			for(JLabel shotLabel : shotLabels){
 				if((shotLabel.getBounds().x == x)
 				    && (shotLabel.getBounds().y == y)){
-					// shotLabels.remove(shotLabel);
-					 boardPane.remove(shotLabel);
+					shotLabel.setVisible(false);
 				}
 			}
 		}
